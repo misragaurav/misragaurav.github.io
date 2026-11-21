@@ -24,7 +24,7 @@
 <div class="content">
 <p class="lead">When researchers add a concept vector for, say, <em>bread</em> to a language model's residual stream and ask “Do you detect an injected thought?”, the model sometimes says yes. A yes can mean two very different things. The model may have some access to its own state and notice the intrusion. Or the injected pattern may simply make “Yes” a more likely word, whatever the question. Psychophysics has a tool built for exactly this distinction, and this project applies it.</p>
 
-<div class="note"><strong>Short version.</strong> In Qwen2.5-1.5B the “yes” is response bias: injection raises “Yes” just as much on unrelated questions, and the model also agrees that <em>no</em> thought was injected. In Gemma 3 4B a detection-like pattern survived matched controls, random vectors and lexical controls, then failed a replication whose tests I fixed in advance. A follow-up showed that about half of the original pattern came from my choice of baseline words. About 490,000 trials, two open-weights models, one laptop, no training.</div>
+<div class="note"><strong>Short version.</strong> In Qwen2.5-1.5B the “yes” is response bias: injection raises “Yes” just as much on unrelated questions, and the model also agrees that <em>no</em> thought was injected. In Gemma 3 4B a detection-like pattern survived matched controls, random vectors and lexical controls, then failed a replication whose tests I fixed in advance. A follow-up showed that about half of the original pattern came from my choice of baseline words. A model that really detected injected thoughts would not care how the vector was built, so this counts against detection. About 490,000 trials, two open-weights models, one laptop, no training.</div>
 
 <h2 id="the-question-in-the-terms-i-used-to-work-in">The question, in the terms I used to work in</h2>
 <p>I spent four years measuring pain in people with EEG, fMRI and EMG. A patient who presses “I feel it” on every trial, including the catch trials where nothing was delivered, does not have a low pain threshold. They have a liberal criterion. Signal detection theory separates the two: how well an observer tells signal from noise (sensitivity, d′), and how ready the observer is to say “yes” at all (bias). See the <a href="signal-detection.html">concept page on signal detection</a>.</p>
@@ -99,6 +99,7 @@
 <h2 id="what-i-take-from-it">What I take from it</h2>
 <ol>
 <li><strong>In neither model does anything that looks like detection survive matched controls and a pre-specified replication</strong>, with a forced one-word answer.</li>
+<li><strong>If a model really detected injected thoughts, how the vector was built would not matter.</strong> Detection is a claim about the fact of an injection, so it should hold whichever reasonable baseline the concept vectors are built against. In Gemma it did not: changing only the baseline words changed the result, and restoring them brought back about half of it. So the pattern was tracking something the vectors themselves carried, not the fact that something had been injected. Random vectors make the same point from the other side: they are injections too, and at layer 15 the model did not respond to them this way. The practical rule: vary the baseline on purpose, and treat a result that holds for only one baseline as a property of the stimulus, not of the model.</li>
 <li><strong>An apparent introspection signal can come from at least three places</strong>, and each needs its own control: response bias (Qwen), general disturbance (random vectors in Gemma at deeper layers), and the construction of the stimulus itself (Gemma at layer 15). The third is the least obvious and the most transferable. Anyone building concept vectors by subtracting a baseline is choosing a contrast, and the contrast is part of the stimulus.</li>
 <li><strong>It is the same lesson as in imaging.</strong> A contrast map is only as clean as its control condition, and “pain minus rest” is not “pain minus touch”. I knew this about fMRI. I had to learn it again about language models.</li>
 </ol>
@@ -119,7 +120,7 @@
 </div>
 <footer class="footer">
   <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
-  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 20 November 2026.</p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 21 November 2026.</p>
 </footer>
 </body>
 </html>
