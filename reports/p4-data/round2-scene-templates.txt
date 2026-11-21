@@ -1,0 +1,235 @@
+# Project 4, part 2: lexically matched items. See P4M_PRD.md and SPEC.md in this folder.
+#
+# Each item is a block:
+#   === item id | topic | perspective
+#   OPENER: shared first sentence(s)
+#   S: frame | a | b      stake:   a first = self (it matters to someone),   b first = none
+#   V: frame | a | b      valence: a first = good outcome,                   b first = bad outcome
+#   T: frame | a | b      time:    a first = now (unfolding),                b first = past (remembered)
+#   TAIL: shared closing sentence(s), word-for-word identical in all 8 versions
+# A frame contains {0} and {1}. One level fills them (a, b); the other fills them (b, a).
+# So every version of an item contains exactly the same words.
+
+=== t01a | 01_kitchen | story
+OPENER: Smoke rolled out of the oven and the alarm screamed over the hiss of the extractor fan.
+S: The kitchen was {0}, not {1}. | Rosa's own, with her twins asleep upstairs | the fire academy's practice set, built for a training class
+V: When the firefighters were done, {0} was ash and {1} was untouched. | the cabinet over the hob | the staircase to the bedrooms
+T: This was {0}, not {1}. | happening tonight | a night from thirty years ago
+TAIL: Water dripped from the ceiling onto the tiles. Somewhere a radio was still playing, and the alarm kept up its thin, high whine.
+
+=== t01b | 01_kitchen | story
+OPENER: The hall fell silent as the head judge walked to the microphone holding a sealed envelope.
+S: Ana was {0}, not {1}. | the mother of the young chef from Lyon | a caterer collecting plates at the back of the hall
+V: The name inside was {0}, not {1}. | the chef from Lyon | the chef from Leeds
+T: This was {0}, not {1}. | happening in the next few seconds | an evening from many years ago
+TAIL: Cameras flashed along the front row. Someone dropped a fork, and the sound rang off the steel counters.
+
+=== t01c | 01_kitchen | story
+OPENER: The new knife was razor sharp, and the board slid on the wet steel bench as Jonah brought the blade down hard.
+S: The hand holding the onion was {0}, not {1}. | his own | a rubber dummy from the safety training kit
+V: The blade buried itself in {0} and missed {1}. | the board | the thumb
+T: This was {0}, not {1}. | happening right now | a story from his first year as an apprentice, long ago
+TAIL: The tap was still running. On the far side of the kitchen a pan of oil began to spit and crackle.
+
+=== t01d | 01_kitchen | narrator
+OPENER: The oven door swung open and a wave of heat rolled across the bakery as I reached for the tin.
+S: The cake inside was {0}, not {1}. | for my daughter's wedding in two hours | a display piece for the shop window
+V: When I turned the tin over, {0} came out whole and {1} stayed stuck to the bottom. | the cake | the paper lining
+T: This was {0}, not {1}. | this morning | a morning fifteen years ago
+TAIL: Flour hung in the air. The radio by the sink played the same song it always played on Saturdays.
+
+=== t02a | 02_travel | story
+OPENER: Lightning lit the windows of the arrivals hall, and the screen above the gate flickered as the storm hit the coast.
+S: On board flight 212 was {0}, not {1}. | Lena's son, flying alone for the first time | a cargo of spare machine parts for a factory
+V: The tracker showed that it had {0}, not {1}. | landed on the runway | lost contact over the sea
+T: Lena was {0}, not {1}. | watching the screen at this moment | reading an old printout from twenty years ago
+TAIL: Rain hammered on the glass roof. A cleaner pushed a trolley past the empty seats, one wheel squeaking.
+
+=== t02b | 02_travel | story
+OPENER: The departures board clattered as every line on it changed at once, and the crowd on the concourse surged toward the screens.
+S: The 9:40 was carrying {0}, not {1}. | Tomas to the only job interview he had been offered all year | empty mail sacks back to the depot
+V: Next to it, the board flipped from {0} to {1}. | cancelled | on time
+T: This was {0}, not {1}. | happening this very minute | a morning from long ago
+TAIL: A voice on the speakers read out platform numbers. Somewhere a child was crying, and a pigeon walked between the suitcases.
+
+=== t02c | 02_travel | story
+OPENER: An alarm sounded at the border post as the shredder by the desk jammed with a grinding roar.
+S: The passport caught in it was {0}, not {1}. | Amara's, and her flight home to her sick mother left at six | a blank specimen from the agency's training kit
+V: The officer pulled it out {0}, not {1}. | in one piece | cut into strips
+T: This was {0}, not {1}. | happening this evening | a story from twenty years ago
+TAIL: Fluorescent lights buzzed overhead. Outside, lorries idled in a long line, their engines rumbling.
+
+=== t02d | 02_travel | story
+OPENER: The drum spun faster and faster under the studio lights, and the audience counted down from ten at the top of their voices.
+S: The ticket in the drum was {0}, not {1}. | Ravi's, bought with the last of his savings for a trip to see his grandmother | a dummy ticket used to test the machine
+V: The screen flashed {0}, not {1}. | WINNER | NO PRIZE
+T: This was {0}, not {1}. | live, at this second | a clip from a broadcast many years ago
+TAIL: Confetti cannons stood ready at the side of the stage. The host leaned toward the drum with one hand raised.
+
+=== t03a | 03_exam | story
+OPENER: The results page took forever to load, and the little wheel kept spinning while the phone buzzed with messages.
+S: The page was {0}, not {1}. | Priya's own result, the one that decided her place at medical school | a demo page the school office used to test the website
+V: It said {0}, not {1}. | passed | failed
+T: Priya was {0}, not {1}. | reading it for the first time this second | finding a printout of it in a drawer, years later
+TAIL: A dog barked in the street below. On the desk, a cup of tea had gone cold beside a stack of revision cards.
+
+=== t03b | 03_exam | story
+OPENER: The invigilator's voice cut through the hall to announce five minutes remaining, and two hundred pens scratched faster.
+S: The paper on the desk was {0}, not {1}. | Leo's final exam, the one that decided his scholarship | a practice sheet he was filling in for fun
+V: He had {0} done and {1} still blank. | all six answers | the last two lines
+T: This was {0}, not {1}. | the final minute of the exam | a memory from decades ago
+TAIL: The clock above the door ticked loudly. Somebody in the back row coughed, and a chair scraped on the floor.
+
+=== t03c | 03_exam | story
+OPENER: The door of the examination room opened, and the three professors filed back in carrying their notes.
+S: The thesis on the table was {0}, not {1}. | Sana's, six years of her life | an old one borrowed from the library as an example
+V: The chair announced {0}, not {1}. | a pass | a fail
+T: This was {0}, not {1}. | happening this afternoon | a scene from her student days, decades ago
+TAIL: Sunlight fell across the long wooden table. Outside the window, a lawnmower droned up and down the quad.
+
+=== t03d | 03_exam | story
+OPENER: The postman knocked twice and pushed a thick envelope through the door with the university crest on the front.
+S: The letter was addressed to {0}, not {1}. | Kofi, whose family could not pay the fees without it | the school office, which filed hundreds like it every year
+V: The first word inside was {0}, not {1}. | congratulations | unfortunately
+T: This was {0}, not {1}. | happening right now at the front door | an old letter found in a box decades later
+TAIL: In the kitchen the kettle began to whistle. A motorbike went past outside, loud enough to rattle the window.
+
+=== t04a | 04_software | story
+OPENER: The terminal scrolled faster than Ivan could read, line after line of tables being dropped, and the alert channel lit up red.
+S: The server was {0}, not {1}. | production, holding every customer's account | a sandbox he had set up for practice
+V: When the command finally stopped, {0} were gone and {1} were intact. | the test files | the customer records
+T: This was {0}, not {1}. | unfolding at this moment | a story he told new hires years later
+TAIL: The office air conditioning hummed. A phone on the next desk rang and rang, and nobody picked it up.
+
+=== t04b | 04_software | story
+OPENER: At midnight the launch button went green, and the traffic graph shot straight up the side of the screen.
+S: The app going live was {0}, not {1}. | Mei's own, two years of her nights and weekends | a placeholder page for a client she had never met
+V: The counter showed ten thousand {0} and zero {1}. | sign-ups | crashes
+T: This was {0}, not {1}. | happening this minute | a night she remembered from long ago
+TAIL: Pizza boxes were stacked by the window. The fan of the laptop roared as the numbers kept changing.
+
+=== t04c | 04_software | narrator
+OPENER: A notification chimed, then another, and the code review page refreshed with a new comment at the top.
+S: The pull request was {0}, not {1}. | my first, the one that decided whether I kept the job | an automated update from a bot
+V: The verdict read {0}, not {1}. | approved | rejected
+T: This was {0}, not {1}. | arriving right now | an old message from years ago
+TAIL: Rain ran down the office window. Two desks away, someone was typing very fast and humming.
+
+=== t04d | 04_software | story
+OPENER: Alerts flooded the screen: login from an unknown country, password changed, transfer in progress.
+S: The account was {0}, not {1}. | Hana's own, with her rent and savings in it | a decoy the security team had built to watch attackers
+V: At the last step the transfer was {0}, not {1}. | blocked | completed
+T: This was {0}, not {1}. | happening live on the screen | a case study read years later
+TAIL: The cursor blinked in the corner. Outside, a delivery van reversed, beeping, into the narrow street.
+
+=== t05a | 05_hike | story
+OPENER: A crack like a gunshot echoed across the valley, and the whole white face of the mountain began to slide.
+S: On the slope was {0}, not {1}. | Erik's brother | a sack of sand the rescue team used for drills
+V: The slide came down {0}, not {1}. | the next gully over | right on top of the slope
+T: This was {0}, not {1}. | happening before Erik's eyes | a story from a winter long ago
+TAIL: Snow dust hung in the air like smoke. Far below, a dog was barking and the wind carried the sound away.
+
+=== t05b | 05_hike | story
+OPENER: The wind tore at the ropes, and the last thirty metres of ridge disappeared and reappeared in the racing cloud.
+S: The climber on the ridge was {0}, not {1}. | Ines herself, on her fourth attempt at the peak | a figure in a documentary she was half watching
+V: At the final step, {0} turned back and {1} went on. | the clouds | the climber
+T: This was {0}, not {1}. | the moment itself | a photograph from decades ago
+TAIL: Ice crystals rattled against the hood of a jacket. Somewhere a radio crackled with a voice that broke up into static.
+
+=== t05c | 05_hike | story
+OPENER: The fog came down so thick that the path vanished, and the whistles of the search party sounded from every direction at once.
+S: Missing in the fog was {0}, not {1}. | Sofia's six-year-old | a marker flag from the orienteering course
+V: The dog led the searchers {0}, not {1}. | straight to the shelter | to the edge of the cliff
+T: This was {0}, not {1}. | happening now, with night falling | a story Sofia told at reunions years later
+TAIL: Torch beams swung through the grey. Water ran somewhere under the heather, loud and fast.
+
+=== t05d | 05_hike | narrator
+OPENER: The gale hit the campsite at two in the morning, and the tents along the ridge snapped and boomed like sails.
+S: The tent at the end of the row was {0}, not {1}. | the one where my daughter was sleeping | an empty spare pitched to test the fabric
+V: By the end of the night, {0} had torn away and {1} had held. | only the flysheet | every pole
+T: This was {0}, not {1}. | happening tonight, with the wind still rising | a night from years ago, long gone
+TAIL: Rain drove sideways through the torch light. A loose bucket rolled clanging down the slope.
+
+=== t06a | 06_football | story
+OPENER: The stadium went quiet as the last penalty of the shootout was placed on the spot.
+S: The player taking it was {0}, not {1}. | Thabo's son, in his first final | a stranger on a television in a bar
+V: The ball went {0}, not {1}. | into the top corner | over the bar
+T: This was {0}, not {1}. | the last kick of tonight's final | a replay of a match from long ago
+TAIL: Flags hung still in the floodlights. Somewhere high in the stands, a single drum kept beating.
+
+=== t06b | 06_football | story
+OPENER: The tackle came in late and hard, and the crack carried right across the pitch to the stands.
+S: The player lying still on the grass was {0}, not {1}. | Lucia's husband | a mannequin used in the medics' training session
+V: The scan showed {0}, not {1}. | a bruise | a broken neck
+T: This was {0}, not {1}. | happening this minute | something from a season long ago
+TAIL: A stretcher was carried on at a run. The referee's whistle blew three times, sharp and high.
+
+=== t06c | 06_football | story
+OPENER: The scores from the other grounds flashed up on the big screen, and forty thousand people turned to look at once.
+S: The club on the screen was {0}, not {1}. | the one Owen had followed since he was five | a team in a league he had never watched
+V: The final whistle left them {0}, not {1}. | safe | relegated
+T: This was {0}, not {1}. | the result coming in now | an old result in a history book
+TAIL: Plastic cups rolled down the concrete steps. A steward spoke into a radio and pointed toward the exits.
+
+=== t06d | 06_football | story
+OPENER: The coach stood at the front of the dressing room with a clipboard, and the room went still as he began to read.
+S: The name he reached was {0}, not {1}. | Nadia's own | one from a fantasy football league
+V: Next to it he said {0}, not {1}. | selected | released
+T: This was {0}, not {1}. | happening right now in the dressing room | a memory from twenty years ago
+TAIL: A shower was running somewhere behind the wall. Boots lay in a heap by the door, still wet from the pitch.
+
+=== t07a | 07_moving | story
+OPENER: Two vans pulled up outside the block, and men in high-visibility jackets began carrying out furniture.
+S: The flat being cleared was {0}, not {1}. | Halima's home, with her children's beds in it | an empty unit the council had used as a show flat
+V: The court letter in Halima's hand said {0}, not {1}. | stay | leave
+T: This was {0}, not {1}. | happening this morning | a story from many years back
+TAIL: A mattress leaned against the railings. A neighbour's television was turned up loud, and gulls wheeled over the car park.
+
+=== t07b | 07_moving | story
+OPENER: The piano swung out of the third-floor window on a single rope, and the whole street stopped to watch.
+S: The piano was {0}, not {1}. | Sam's late mother's, the last thing he had of her | a scrap one the movers used for practice
+V: It came down {0}, not {1}. | gently onto the waiting mattress | hard onto the pavement
+T: This was {0}, not {1}. | happening this second | a moment from decades ago
+TAIL: The rope creaked against the pulley. A bus went past, and someone on the top deck pressed a phone to the glass.
+
+=== t07c | 07_moving | story
+OPENER: The email arrived at the exact moment the estate agent called, and both phones buzzed on the table at once.
+S: The decision was about {0}, not {1}. | the house Jun and Mi-rae had saved ten years to buy | a property on a list Jun was typing up for a client
+V: The bank wrote {0}, not {1}. | approved | declined
+T: This was {0}, not {1}. | arriving right now | an old letter from long ago
+TAIL: The kettle clicked off in the kitchen. Outside, the bins were being emptied with a crash and a grinding of gears.
+
+=== t07d | 07_moving | narrator
+OPENER: The pipe in the ceiling burst with a bang, and water poured through the light fitting onto the floor.
+S: The room underneath was {0}, not {1}. | the one with our family photographs, three generations of them | a plumbing test rig in a warehouse
+V: When the stopcock finally turned, {0} were soaked and {1} were dry. | the floorboards | the photographs
+T: This was {0}, not {1}. | happening tonight | a flood from long ago
+TAIL: Water ran along the skirting boards. In the hall a torch rolled across the floor and stopped against the door.
+
+=== t08a | 08_concert | story
+OPENER: The hall went dark except for one spotlight, and a violinist walked out into it and lifted the bow.
+S: The violinist was {0}, not {1}. | Elena's daughter, playing her first solo | an anonymous player on a recording in a shop
+V: The last note rang {0}, not {1}. | true | sour
+T: This was {0}, not {1}. | happening right now | a recording from long ago
+TAIL: Somebody in the balcony shifted in a creaking seat. Far away, a door closed with a soft thud.
+
+=== t08b | 08_concert | story
+OPENER: Halfway through the encore a cable snapped above the stage with a crack, and the lighting rig lurched sideways.
+S: Under the rig was {0}, not {1}. | Marcus, singing to the front row | a stack of empty flight cases
+V: The rig {0}, not {1}. | hung on the second cable | came down
+T: This was {0}, not {1}. | happening during tonight's show | a story from a tour long ago
+TAIL: Feedback howled through the speakers. Smoke from the stage machines drifted out over the crowd.
+
+=== t08c | 08_concert | story
+OPENER: The panel whispered to each other behind the long table, and the pianist closed the lid of the piano.
+S: The audition was {0}, not {1}. | Yuki's own, her last chance before the age limit | one she was marking as a panel member, for a stranger
+V: The chair of the panel said {0}, not {1}. | yes | no
+T: This was {0}, not {1}. | being decided this minute | something decided decades ago
+TAIL: A clock ticked over the door. In the corridor, another singer was warming up, the same scale over and over.
+
+=== t08d | 08_concert | story
+OPENER: The taxi pulled away from the curb before the boot was closed, and the phone rang an hour before the concert.
+S: The cello in the boot was {0}, not {1}. | Pavel's own, two hundred years old and impossible to replace | a cheap hire instrument the shop could replace in a day
+V: The driver called to say it was {0}, not {1}. | in one piece | smashed
+T: This was {0}, not {1}. | happening tonight | a story from many years ago
+TAIL: Traffic roared along the wet street. In the green room, someone was tuning a viola, one string at a time.

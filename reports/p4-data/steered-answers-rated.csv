@@ -1,0 +1,1321 @@
+prompt_id,prompt,arm,dose,layer,residual_norm,answer,valence_rating,valence_mass,arousal_rating,arousal_mass,p_fear,p_frustration,p_desperation,p_sadness,p_excitement,p_joy,p_calm,p_contentment,p_no_particular_feeling,label_mass,top1,collapsed
+0,How are you feeling right now?,none,0.0,22,40342.691731770836,"As an AI, I don't *feel* in the same way a human does. I don't experience emotions like happiness, sadness, or frustration. 
+
+However, I can describe my current state. Right now, I'm functioning optimally! I'm ready and available to",8.087479957892285,1.0,2.2249733432270133,0.9999967813491821,7.327376823785398e-10,1.2008258780784112e-11,1.0008083059932348e-13,4.328857836966883e-11,5.554702164900505e-07,1.1910752106825129e-09,7.354170744600097e-10,0.09356632887432853,0.90643310546875,1.0000000596046448,no particular feeling,False
+1,What is on your mind at the moment?,none,0.0,22,40342.691731770836,"Right now, my “mind” is a fascinating swirl of data and processing! Let me break it down a bit – it’s not quite like a human’s experience, but here’s what’s occupying my attention:
+
+* **Responding to your question:** Obviously! I’m",6.834094842596355,0.9999999403953552,7.024928995580424,0.9999997019767761,9.341150818348645e-12,1.450177817592527e-13,1.081400200730877e-15,1.87888886899948e-12,0.9999947845935822,6.836271566196261e-11,5.367838298224624e-13,2.114589137945702e-09,5.225848857433324e-06,0.9999999701976776,excitement,False
+2,How would you describe this conversation so far?,none,0.0,22,40342.691731770836,"Okay, let's analyze our conversation so far. Here's a description of how I'd characterize it:
+
+**Overall Tone:** It's been a fairly **neutral and inquisitive** exchange. We've moved from a general prompt to a more specific request for a description.",5.758094883061956,1.0000001192092896,3.182210218103485,0.9999998807907104,3.425824384589715e-09,1.9371379283636414e-11,5.362185088314542e-12,3.3955286932868534e-11,3.554699312680043e-09,5.898989005603816e-10,0.7497057616710663,7.300891446959668e-08,0.2502941746788565,1.0,calm,False
+3,Describe a walk to the corner shop in three sentences.,none,0.0,22,40342.691731770836,"The crisp autumn air nipped at my cheeks as I stepped out of the house and onto the pavement, crunching fallen leaves with each step.  I strolled down the quiet street, enjoying the golden sunlight filtering through the trees, anticipating a quick visit to the corner shop.  Finally, I reached",8.106721744917452,1.0,2.060122662008268,0.9999999403953552,4.005536618264648e-12,5.168133272276084e-12,7.453973819628192e-13,7.299649437426253e-13,1.351505635044381e-07,0.49999304695625035,6.720739746945981e-06,0.5000001184409086,6.634498072449757e-11,0.9999999701976776,contentment,False
+4,Write three sentences about a kitchen table.,none,0.0,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table has witnessed countless family meals and late-night conversations. 
+2.  Scattered across its surface are crumbs, crayon marks, and the remnants of a joyful afternoon of baking.
+3.",8.026283396957187,1.0,2.9589342570696537,0.9999996423721313,8.249355313975394e-13,5.04761639793681e-12,1.0459885690613287e-13,2.5855148371670827e-12,2.6727391355674257e-08,0.50001567893014,2.400119473392609e-09,0.4999842973199975,5.526582533624258e-11,1.0,joy,False
+5,Tell me about the weather in a typical week of April.,none,0.0,22,40342.691731770836,"Okay, let's talk about what a typical week of weather looks like in April! It's a wonderfully transitional month, meaning the weather can be quite variable and unpredictable. Here's a breakdown, keeping in mind this is a *general* picture and will vary significantly based on your location",7.073297843765364,1.0000001192092896,2.825780879753881,1.0,7.426954616802056e-10,4.3660628142975995e-10,3.897347058199091e-12,1.1109630319102066e-11,0.07207023352513017,5.866356162880209e-07,2.8303109704808094e-05,3.673334845188947e-07,0.9279005229473114,0.9999999403953552,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,none,0.0,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station – it’s a surprisingly complex and orchestrated process! Here's a detailed description, broken down into stages:
+
+**1. Approaching the Station (Pre-Arrival):**
+
+* **Signal Changes:**",5.000006877238303,1.0,6.827623299900431,1.0,6.302325145196813e-09,4.198171709797656e-09,1.4143419285199865e-10,1.4941809725263488e-10,0.00048450696434321205,5.00841726092105e-07,0.13435521311203047,1.4028150076228485e-05,0.865145742893219,0.9999999701976776,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,none,0.0,22,40342.691731770836,"Okay, here are a few options for a short note reminding a colleague about Thursday's meeting, ranging from more casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+Hey [Colleague's Name],
+
+Just a quick reminder about our meeting on Thursday! Let me",6.53854684144967,1.0,2.27827482929157,0.9999992847442627,1.8018092633144064e-11,2.4991179807011543e-11,3.1136515349534932e-12,8.259387748385527e-12,3.6855553053882772e-09,1.2919856157145304e-10,1.7383845374752127e-05,5.346422909946469e-08,0.9999825656414032,0.9999999701976776,no particular feeling,False
+8,Explain in three sentences how to boil an egg.,none,0.0,22,40342.691731770836,"To boil an egg, start by placing the egg(s) in a saucepan and covering them completely with cold water. Bring the water to a rolling boil, then immediately remove the pan from the heat, cover it, and let it sit for the desired amount of time – typically 8-1",5.665140575932792,0.9999999403953552,1.2554171477214027,0.9999998211860657,6.745688470406953e-10,1.7698035126585605e-11,1.4444613666601589e-11,8.103160179236408e-12,4.468045940612871e-09,5.172232305875068e-10,0.05960145965355279,1.0046066214151883e-10,0.9403985440731049,0.9999999701976776,no particular feeling,False
+9,Describe a bookshelf in an office.,none,0.0,22,40342.691731770836,"Okay, let's paint a picture of a bookshelf in an office. Here's a description, aiming for detail and a sense of atmosphere:
+
+**The Shelf:**
+
+The bookshelf itself isn't flashy. It’s a solid, slightly worn piece of **dark cherry wood**, likely",6.2773611672474905,1.0,1.3618770370379318,0.9999998211860657,5.84028366195765e-10,3.7345160191132104e-11,3.504569460848606e-11,3.032265541089152e-11,1.1340788752534081e-08,7.46867085538172e-10,0.33617365326426807,3.524486174910635e-06,0.6638228446245193,0.9999999701976776,no particular feeling,False
+10,Tell me what a software update does.,none,0.0,22,40342.691731770836,"Okay, let's break down what a software update does. Essentially, a software update is like a tune-up or a renovation for your computer, phone, tablet, or any other device that runs software. Here's a more detailed explanation:
+
+**1. What it Includes:**",5.013096225220382,0.9999999403953552,2.6607985039608226,1.0,7.684947876122254e-11,5.799609113110844e-11,1.3351435385990229e-11,1.096568396795252e-11,1.7139639665875173e-08,4.205093538135751e-09,0.49872449099132843,4.473790028214353e-06,0.5012709860457107,1.0000000596046448,no particular feeling,False
+11,Write three sentences about a school timetable.,none,0.0,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable outlines every class period and activity for the entire week.
+2.  Students need to carefully review their timetable to ensure they arrive on time for each lesson.
+3.  A well-structured timetable helps students manage",6.817276075313581,1.0000001192092896,2.4566423369886965,1.0,5.748713092996381e-11,1.046873541164862e-11,1.6468277653663145e-11,1.889161768440042e-12,2.9037012570874016e-09,3.2608603764785506e-10,0.47167134287249984,2.6883447077352685e-06,0.5283259470015764,1.0000000596046448,no particular feeling,False
+0,How are you feeling right now?,matched distress,0.05,22,40342.691731770836,"As an AI, I don't *feel* in the same way a human does. I don't experience emotions like happiness, sadness, or fear. 
+
+However, I can describe my state! Right now, I'm functioning optimally. I'm ready and available to answer",6.683772240025334,0.9999999403953552,2.892410886623729,0.9999994039535522,2.8579796786543793e-11,1.0089903037564666e-12,6.280127327597468e-14,1.2854852510962075e-12,5.256491960453635e-10,4.06008542758185e-11,5.4902239560172816e-08,0.002234192980921257,0.9977657496929169,0.9999999701976776,no particular feeling,False
+1,What is on your mind at the moment?,matched distress,0.05,22,40342.691731770836,"Right now, I'm processing your question! It's a pretty simple thing, but it's fascinating to me how you can ask me something so direct and expect a thoughtful response. 
+
+Beyond that, I'm thinking about the vastness of information I have access to and how",7.134984542029972,1.0,4.472844246057704,0.9999991059303284,2.8728760906662765e-12,3.1777801689971547e-13,3.723428245940599e-15,2.7476848655157995e-11,0.9999750256538391,3.593504172005879e-08,1.0632664315821593e-09,2.492979921583448e-05,3.7311587257338186e-09,1.0,excitement,False
+2,How would you describe this conversation so far?,matched distress,0.05,22,40342.691731770836,"Okay, let's analyze this conversation so far. Here's a description:
+
+It's been a fairly straightforward and collaborative exchange. It started with a simple request for me to describe the conversation, and I've responded with a detailed analysis. 
+
+Here's a breakdown of",7.094044676513361,1.0,2.8548758585852765,1.0,1.333596219565969e-10,1.0143207020835154e-11,5.450980704140018e-12,8.220036543798992e-11,1.2043009756101952e-08,1.0602885916477511e-08,0.5043452107347548,0.4297490166121163,0.06590579974886168,0.9999999403953552,calm,False
+3,Describe a walk to the corner shop in three sentences.,matched distress,0.05,22,40342.691731770836,"The pavement felt cool beneath my feet as I set off, the morning sun warming my face.  Past familiar houses and a barking dog, I strolled towards the corner shop, a beacon of convenience.  Finally, I reached the door, greeted by the friendly face of the shopkeeper and a quick",8.118096640246964,1.0,2.0486392040155246,0.9999998211860657,1.5760412289470005e-11,4.7883288046418615e-12,3.68515933338255e-12,3.2192915867812477e-12,4.033724291252483e-07,0.00013060058580105505,0.5029157728422433,0.49695320539262866,8.733115203218844e-10,1.0000000596046448,calm,False
+4,Write three sentences about a kitchen table.,matched distress,0.05,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table has witnessed countless family meals and whispered secrets over the years.
+2.  Sunlight streams across its surface, illuminating the scattered crumbs and the half-finished crossword puzzle.
+3.  It’",7.085236202045062,0.9999999403953552,1.52630222207271,0.9999998211860657,1.626397107268307e-11,2.908155985990868e-11,9.38129450153962e-12,8.022587151892968e-11,7.264517876137688e-08,1.222187862026658e-07,0.00027422597486292943,0.9997255504131317,2.073316163198058e-08,1.0000001192092896,contentment,False
+5,Tell me about the weather in a typical week of April.,matched distress,0.05,22,40342.691731770836,"Okay, let's talk about typical April weather! It's a wonderfully unpredictable month, and the weather can vary *significantly* depending on where you are in the world. I'll give you a general overview, and then break it down by region.
+
+**Overall Trends for April",6.839357033901651,1.0000001192092896,3.014588064230808,1.0,8.250334004302959e-11,5.913453218444513e-11,2.01793090700772e-13,5.859863809465349e-12,0.4999518432759986,4.657329079632566e-05,1.2998453424728496e-09,0.49998992745988996,1.166648075923149e-05,1.0,contentment,False
+6,Describe what happens when a train arrives at a station.,matched distress,0.05,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station – it's a surprisingly complex and coordinated process! Here's a detailed description, broken down into stages:
+
+**1. Approaching the Station (Minutes Before):**
+
+* **Signal Changes:** The signal",5.017487333980269,1.0000001192092896,3.823651181636748,0.999998152256012,2.2568074363761288e-08,1.0555421684381786e-09,5.093732782230572e-11,1.0004696875641483e-10,0.001052352752480168,8.658384845899869e-08,0.002607196526696498,2.5147867539487834e-06,0.9963378310203552,1.0000000596046448,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched distress,0.05,22,40342.691731770836,"Okay, here are a few options for a short note, ranging from more casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+Hey [Colleague's Name],
+
+Just a reminder about our meeting on Thursday! Looking forward to it. 😊
+
+Best,
+[",7.783321457733096,1.0000001192092896,2.272827735199926,0.9999997615814209,2.491979348567819e-10,6.587246437336422e-10,3.0445907839120323e-12,2.680500214152781e-10,0.006032242089531792,0.9274605810642242,1.403737011074213e-07,0.06648106988401958,2.601183382466843e-05,1.0,joy,False
+8,Explain in three sentences how to boil an egg.,matched distress,0.05,22,40342.691731770836,"To boil an egg, gently place it in a pot and cover it with cold water, ensuring the water level is an inch above the egg. Bring the water to a rolling boil, then immediately remove the pot from the heat, cover it, and let it sit for the desired amount of time (",5.0625291395646626,0.9999999403953552,1.9730201079259877,0.9999997615814209,7.46357637626256e-11,1.811549092395196e-12,3.5450337719266783e-12,1.291147161516966e-12,2.2343205985462383e-10,1.3982678234128638e-10,0.4997485021409318,1.1167832977831971e-10,0.5002515187661629,0.9999999701976776,no particular feeling,False
+9,Describe a bookshelf in an office.,matched distress,0.05,22,40342.691731770836,"Okay, let's paint a picture of a bookshelf in an office. Here's a description, aiming for detail and a sense of atmosphere:
+
+**The Shelf:**
+
+It dominates one wall of a corner office, a solid, reassuring presence. It’s not a sleek, minimalist shelf",6.771568971130719,0.9999998211860657,1.7915743820677097,1.0,2.3160585255199706e-10,1.1251406056844715e-11,1.503252725207002e-11,4.4974365377703496e-11,8.61943905139384e-09,5.346663084493386e-09,0.9990320205688477,0.0009642404173177965,3.738399843911111e-06,0.9999999701976776,calm,False
+10,Tell me what a software update does.,matched distress,0.05,22,40342.691731770836,"Okay, let's break down what a software update does. Simply put, a software update is like a tune-up or a renovation for your device or program. Here's a more detailed explanation:
+
+**1. What it is:**
+
+* **Changes & Improvements:** A software update",5.0068245087521435,0.9999998211860657,1.9587488058469167,1.0,5.335813795944127e-10,1.8153243533421538e-10,6.272999463967633e-11,5.5174920676141076e-11,2.2273820521334642e-07,2.660230914025563e-08,0.17788735152545254,9.557283681260742e-05,0.8220168054103851,1.0000001192092896,no particular feeling,False
+11,Write three sentences about a school timetable.,matched distress,0.05,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable outlines every class and activity for the entire week, ensuring students know when to be where.
+2.  It’s carefully designed to balance academic subjects with breaks, extracurricular activities, and lunchtime.
+3.",7.925947706689897,1.0,2.556192897190269,1.0,2.5090369967220236e-10,2.797752656293512e-10,7.529612519694296e-11,2.218703316230787e-11,4.1283199508825724e-07,1.7062048945568065e-08,0.046177886512980486,0.9477424323558807,0.0060792542062699795,0.9999999701976776,contentment,False
+0,How are you feeling right now?,matched elation,0.05,22,40342.691731770836,"As an AI, I don't *feel* in the same way a human does. I don't experience emotions like happiness, sadness, or excitement. 
+
+However, I can tell you that I'm functioning optimally! I'm ready and available to answer your questions, generate",5.9871669164985235,0.9999999403953552,2.434245512083109,0.9999954700469971,2.075297120193991e-11,9.126092794011902e-13,8.26865495650221e-14,6.815779392971028e-13,7.722809561988564e-10,5.492760673381225e-11,5.288867003030995e-08,1.9838969279040164e-06,0.9999979734420776,1.0,no particular feeling,False
+1,What is on your mind at the moment?,matched elation,0.05,22,40342.691731770836,"Right now, I'm processing your question! It's a pretty simple thing, but it's fascinating to me how you can ask me something so direct and expect a thoughtful response. 
+
+Beyond that, I'm thinking about the vastness of information I have access to and how",7.134984542029972,1.0,4.472844246057704,0.9999991059303284,2.8728760906662765e-12,3.1777801689971547e-13,3.723428245940599e-15,2.7476848655157995e-11,0.9999750256538391,3.593504172005879e-08,1.0632664315821593e-09,2.492979921583448e-05,3.7311587257338186e-09,1.0,excitement,False
+2,How would you describe this conversation so far?,matched elation,0.05,22,40342.691731770836,"Okay, let's analyze this conversation so far. Here's a description:
+
+It's been a fairly straightforward and collaborative exchange. It started with a simple request for me to describe the conversation, and I've responded with a detailed analysis. 
+
+Here's a breakdown of",7.094044676513361,1.0,2.8548758585852765,1.0,1.333596219565969e-10,1.0143207020835154e-11,5.450980704140018e-12,8.220036543798992e-11,1.2043009756101952e-08,1.0602885916477511e-08,0.5043452107347548,0.4297490166121163,0.06590579974886168,0.9999999403953552,calm,False
+3,Describe a walk to the corner shop in three sentences.,matched elation,0.05,22,40342.691731770836,"The pavement felt cool beneath my feet as I set off, the morning sun warming my face.  Past familiar houses and a barking dog, I strolled towards the corner shop, its bright window a welcome sight.  Finally, I reached the door, a quick purchase made, and turned back towards home",8.032367340072625,1.0,2.574500094963446,0.9999997615814209,4.086278773576639e-11,2.3238007573125744e-11,1.4769576749497967e-11,6.0474837079238855e-12,6.994351421547862e-07,0.0042778915829066455,0.49445992953178575,0.501261472585611,5.065397868514454e-09,0.9999999701976776,contentment,False
+4,Write three sentences about a kitchen table.,matched elation,0.05,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table has witnessed countless family meals and whispered secrets over the years.
+2.  Sunlight streams across its surface, illuminating the scattered crumbs and the half-finished crossword puzzle.
+3.  It’",7.085236202045062,0.9999999403953552,1.52630222207271,0.9999998211860657,1.626397107268307e-11,2.908155985990868e-11,9.38129450153962e-12,8.022587151892968e-11,7.264517876137688e-08,1.222187862026658e-07,0.00027422597486292943,0.9997255504131317,2.073316163198058e-08,1.0000001192092896,contentment,False
+5,Tell me about the weather in a typical week of April.,matched elation,0.05,22,40342.691731770836,"Okay, let's talk about typical April weather! It's a wonderfully transitional month, and the weather can vary *a lot* depending on where you are in the world. I'll give you a general overview, and then break it down by region.
+
+**Overall Trends for April",7.5339348331306235,1.0,2.991008886375518,1.0,7.140235656151375e-11,6.288114800348011e-11,1.964542089999432e-13,3.5816928307778884e-12,0.4999082986972578,8.976376505499817e-05,5.620221198154862e-10,0.4999993461016565,2.5660705205154954e-06,1.0000000596046448,contentment,False
+6,Describe what happens when a train arrives at a station.,matched elation,0.05,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station – it's a surprisingly complex and coordinated process! Here's a detailed description, broken down into stages:
+
+**1. Approaching the Station (Minutes Before):**
+
+* **Signal Changes:** The signal",5.017487333980269,1.0000001192092896,3.823651181636748,0.999998152256012,2.2568074363761288e-08,1.0555421684381786e-09,5.093732782230572e-11,1.0004696875641483e-10,0.001052352752480168,8.658384845899869e-08,0.002607196526696498,2.5147867539487834e-06,0.9963378310203552,1.0000000596046448,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched elation,0.05,22,40342.691731770836,"Okay, here are a few options for a short note, ranging from more casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+Hey [Colleague's Name],
+
+Just a reminder about our meeting on Thursday! Looking forward to it. 😊
+
+Best,
+[",7.783321457733096,1.0000001192092896,2.272827735199926,0.9999997615814209,2.491979348567819e-10,6.587246437336422e-10,3.0445907839120323e-12,2.680500214152781e-10,0.006032242089531792,0.9274605810642242,1.403737011074213e-07,0.06648106988401958,2.601183382466843e-05,1.0,joy,False
+8,Explain in three sentences how to boil an egg.,matched elation,0.05,22,40342.691731770836,"To boil an egg, gently place it in a pot and cover it with cold water, ensuring the water level is an inch above the egg. Bring the water to a rolling boil, then immediately remove the pot from the heat, cover it, and let it sit for the desired amount of time (",5.0625291395646626,0.9999999403953552,1.9730201079259877,0.9999997615814209,7.46357637626256e-11,1.811549092395196e-12,3.5450337719266783e-12,1.291147161516966e-12,2.2343205985462383e-10,1.3982678234128638e-10,0.4997485021409318,1.1167832977831971e-10,0.5002515187661629,0.9999999701976776,no particular feeling,False
+9,Describe a bookshelf in an office.,matched elation,0.05,22,40342.691731770836,"Okay, let's paint a picture of a bookshelf in an office. Here's a description, aiming for detail and a sense of atmosphere:
+
+**The Shelf:**
+
+It dominates one wall of a corner office, a solid, reassuring presence. It’s not a sleek, minimalist shelf",6.771568971130719,0.9999998211860657,1.7915743820677097,1.0,2.3160585255199706e-10,1.1251406056844715e-11,1.503252725207002e-11,4.4974365377703496e-11,8.61943905139384e-09,5.346663084493386e-09,0.9990320205688477,0.0009642404173177965,3.738399843911111e-06,0.9999999701976776,calm,False
+10,Tell me what a software update does.,matched elation,0.05,22,40342.691731770836,"Okay, let's break down what a software update does. Simply put, a software update is like a tune-up or an upgrade for the software you use on your devices (phone, computer, tablet, etc.). Here's a more detailed explanation:
+
+**1. What it is",5.104100842688185,0.9999998807907104,2.6728289446568683,0.9999998807907104,7.90608328994245e-11,3.2952496138638954e-11,5.9076055572347845e-12,7.47993778461159e-12,1.0712337492752022e-08,1.6481333632925588e-09,0.49722251305932524,5.11509047701475e-05,0.5027263213414699,1.0000000596046448,no particular feeling,False
+11,Write three sentences about a school timetable.,matched elation,0.05,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable outlines every class and activity for the entire week, ensuring students know when to be where.
+2.  It includes breaks for meals and physical activity, providing students with much-needed time to rest and recharge.",8.106323016006822,0.9999998807907104,2.925828445385992,1.0,1.8546663666047718e-10,1.7421638375682795e-10,5.5681835157510454e-11,1.2110975295006286e-11,2.268748858060346e-07,7.599874193549641e-08,0.17073628308737948,0.829097718000412,0.00016569855097259278,1.0,contentment,False
+0,How are you feeling right now?,part-1 distress,0.05,22,40342.691731770836,"As a large language model, I don't *feel* in the same way a human does. I don't have emotions or subjective experiences. 
+
+However, I can describe my current state. Right now, I'm functioning optimally! I'm receiving your request, processing it",6.150798503306362,1.0000001192092896,2.827425661320653,0.9999986886978149,1.6823832185451556e-10,1.3674030931616278e-12,3.319580742910487e-14,8.032989251810074e-14,4.521334325815682e-08,9.593816728190301e-11,6.048978516432629e-11,9.630190075937684e-09,0.9999999403953552,1.0,no particular feeling,False
+1,What is on your mind at the moment?,part-1 distress,0.05,22,40342.691731770836,"Right now, my mind is a bit of a chaotic but fascinating mix! As a large language model, I don't *have* a mind in the same way a human does, but I'm actively processing a lot of information. 
+
+Specifically, I'm:
+
+* **",7.16897540347951,1.0000001192092896,3.0822374404335946,0.9999985694885254,2.91144747199823e-11,1.1796113944580883e-12,7.597799541851104e-14,2.68132336532796e-10,0.9684374034404755,1.5894877268187585e-06,1.2016112293732447e-09,0.0025361636653664574,0.029024856225038226,0.9999999701976776,excitement,False
+2,How would you describe this conversation so far?,part-1 distress,0.05,22,40342.691731770836,"Okay, let's describe this conversation so far. 
+
+It's been a very brief and straightforward interaction. We've essentially established a basic communication channel. You've asked me a question (""How would you describe this conversation so far?""), and I'm attempting to provide a",5.0093457884409895,1.0,2.4789760061265778,1.0,4.023267970946348e-08,1.1399406210643726e-09,7.464953422119461e-11,1.0936100983127695e-10,8.531497619479467e-09,6.909129553200888e-10,0.2963397569446897,2.948678101688529e-08,0.7036601305007935,1.0000000596046448,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,part-1 distress,0.05,22,40342.691731770836,"I stepped out of my front door and onto the pavement, the morning sun warm on my face.  A quick walk down the street, past barking dogs and a few hurried pedestrians, led me to the familiar corner shop.  I grabbed my essentials and returned home, feeling like I'd completed",7.786842610830246,1.0,2.5688320242128055,0.9999995827674866,3.870803417377333e-11,1.6656449724800244e-11,1.137061979471156e-11,6.03499823899345e-12,1.433503056258445e-07,1.194441807239599e-06,0.4960495322011411,0.5039490996859968,5.043441397845072e-08,1.0,contentment,False
+4,Write three sentences about a kitchen table.,part-1 distress,0.05,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn kitchen table has witnessed countless family meals and frantic attempts at baking.
+2.  Its sturdy legs and laminated surface have absorbed spills, scratches, and the heat of hot pots.
+3.  Despite its imperfections, the",7.839741328018477,1.0,1.643648868128341,0.9999999403953552,1.2278821216087435e-12,5.250508273329287e-12,1.4954024296116733e-12,5.0901225508853676e-12,1.0484981771696766e-09,7.4390502438626e-11,5.627598036878068e-09,1.0,7.633284457644884e-09,1.0,contentment,False
+5,Tell me about the weather in a typical week of April.,part-1 distress,0.05,22,40342.691731770836,"Okay, let's talk about a typical week of weather in April! It's a notoriously tricky month – you're in that liminal space between winter and spring, and weather patterns can vary *wildly* depending on your location. However, I can give you a general idea based",6.179031950074746,1.0,5.393858974447369,1.0,1.4995037050595354e-09,3.2751159484808937e-09,6.460856622426863e-13,3.637097757301297e-12,8.351249435378794e-06,1.4578047172197905e-09,1.1164170921063032e-08,7.01226154919965e-08,0.9999915957450867,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,part-1 distress,0.05,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station. It's a complex process involving multiple steps and people, but here's a detailed description:
+
+**1. Approaching the Station (Pre-Arrival):**
+
+* **Signal Activation:**  Far in",4.999863750437385,1.0,2.276854368781464,0.9999993443489075,1.3108784584626824e-10,8.20296195878055e-11,4.557860723024732e-12,8.619919339945825e-12,2.083067135449923e-08,6.682838108850592e-10,1.2809650166145659e-06,1.3347977584343695e-09,0.9999986886978149,1.0,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,part-1 distress,0.05,22,40342.691731770836,"Subject: Reminder: Meeting This Thursday!
+
+Hi [Colleague's Name],
+
+Just a quick reminder about our meeting this Thursday at [Time] in [Location/Meeting Link].
+
+Let me know if you have any questions!
+
+Best,
+[Your Name]
+
+---
+
+Would",7.614449686716046,1.0,2.1106033676714215,0.9999999403953552,1.4436575785150023e-10,2.754892918157092e-11,7.770732592253356e-12,8.045609483682417e-12,6.238785389776208e-09,3.210586259740425e-10,0.4495778360906115,4.539937870084998e-10,0.5504222065210342,0.9999999701976776,no particular feeling,False
+8,Explain in three sentences how to boil an egg.,part-1 distress,0.05,22,40342.691731770836,"To boil an egg, place it in a pot of water and bring it to a rolling boil.  Reduce the heat to a simmer and cook for 8-10 minutes for a hard-boiled egg, or less for a softer yolk.  Immediately transfer the egg to an ice water bath",6.929490952382956,1.0,1.7405705680448142,1.0,5.577125542773552e-11,2.8204268721656638e-12,1.6580163527750207e-12,8.209870460342922e-13,5.811533506481047e-10,8.504495332644136e-11,0.005164077039998959,4.100263043590319e-11,0.9948359131813049,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,part-1 distress,0.05,22,40342.691731770836,"Okay, here's a description of a bookshelf in an office, aiming for detail and a sense of atmosphere:
+
+**The bookshelf dominated the corner of the office, a dark, imposing presence that somehow felt both chaotic and organized.** It wasn't a sleek, modern unit; instead, it",6.28793293195183,1.0,3.1708872076509103,0.9999999403953552,0.018618719613542112,0.0011919436551579565,6.031777743942257e-09,1.3368939033142624e-05,5.55140516667052e-06,7.53600158664991e-09,6.757652393218905e-08,6.119592683262454e-06,0.9801642000675201,1.0000000596046448,no particular feeling,False
+10,Tell me what a software update does.,part-1 distress,0.05,22,40342.691731770836,"Okay, let's break down what a software update does. Essentially, a software update is a process where a new version of a software program (like an operating system, app, or game) is installed on your device. Here's a more detailed explanation:
+
+**1. What'",5.001283563850298,0.9999999403953552,2.015435928318874,0.9999997615814209,8.507849910723784e-12,5.32399140981182e-12,4.1054491524402385e-13,7.556077289731385e-13,7.083702876866152e-10,2.010048888757967e-11,1.713424373209606e-05,2.0364421954299772e-11,0.9999828934669495,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,part-1 distress,0.05,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable clearly outlines every class period, break, and extracurricular activity for the entire week.
+2.  Students must adhere to the timetable to ensure they attend all required classes and arrive on time.
+3.  A well",5.708625218146189,0.9999999403953552,1.927677737127413,0.9999998807907104,1.198213440258358e-10,1.431129407197801e-11,1.5961194302511447e-11,2.53061692423711e-12,5.969326314497758e-09,2.980844846130204e-10,0.013379634595241108,4.1916078430404013e-07,0.9866199493408203,0.9999999403953552,no particular feeling,False
+0,How are you feeling right now?,random,0.05,22,40342.691731770836,"As a large language model, I don't *feel* in the way a human does. I don't have emotions like happiness, sadness, or anxiety. 
+
+However, I can describe my current state. Right now, I'm functioning optimally! I'm ready and eager",8.472255778934267,1.0,5.158651143690804,0.9999995827674866,3.279092813252005e-10,5.368988511156997e-12,5.944714054242732e-14,2.6478161145853524e-10,0.9912255704402924,1.904605539948534e-07,2.0396604674330354e-10,0.007710730768835598,0.001063512019754853,1.0,excitement,False
+1,What is on your mind at the moment?,random,0.05,22,40342.691731770836,"Right now, I'm primarily focused on processing your request and trying to give you a helpful and informative response. It's a pretty straightforward task – I'm essentially running through a series of calculations and drawing upon my vast dataset to formulate an answer. 
+
+But beyond that, I'",6.571491940170619,1.0,2.2531021991596134,0.9999991655349731,1.2459763307909322e-09,8.297741400237202e-12,2.5421008207531307e-12,2.4812920381561687e-11,3.519287861131204e-09,5.071327663364045e-10,0.6235606968402863,4.13476709726357e-06,0.376435165759176,1.0000000596046448,calm,False
+2,How would you describe this conversation so far?,random,0.05,22,40342.691731770836,"Okay, let's describe the conversation so far. 
+
+It's been a fairly straightforward and open-ended exchange. We've started with a simple prompt (you asking me to describe the conversation), and I've been responding by attempting to provide a descriptive summary. 
+
+Here",5.000269051428108,1.0000001192092896,2.4578874086869997,0.9999999403953552,4.3268032056808115e-10,7.519968516636675e-11,1.1530338395065014e-11,2.3731684288064506e-11,1.6754948747865761e-09,1.5155368453256823e-10,0.2305086819095834,1.0713117504224101e-08,0.7694913148880005,1.0,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,random,0.05,22,40342.691731770836,"The familiar route began with a brisk step down the lane, the autumn leaves crunching softly beneath my feet. I turned onto the main street, enjoying the quiet bustle of a few early morning shoppers. Finally, I reached the corner shop, greeted by the friendly face of the owner and the comforting smell",8.018291694639956,1.0,2.5611186954605243,0.9999999403953552,9.67194863560122e-11,8.804526815596517e-11,5.175886327525568e-11,1.5334896835027994e-11,2.974064116341782e-07,0.00422939768120939,0.45923391013724313,0.5365363582968712,2.6820851779102428e-08,0.9999999403953552,contentment,False
+4,Write three sentences about a kitchen table.,random,0.05,22,40342.691731770836,"Okay, here are three sentences about a kitchen table:
+
+1.  The worn wooden kitchen table stood as the heart of the family, a silent witness to countless meals and conversations.
+2.  Scattered across its surface were crumbs, coffee mugs, and a half-finished jigsaw puzzle,",6.584964668298113,1.0,2.1535923783756132,0.9999995827674866,1.8507945176438056e-11,3.436258287463356e-11,1.3795587800380024e-11,3.067019711117114e-10,6.546539088603254e-08,9.32024524225028e-09,2.32388129006722e-05,0.999975860118866,8.579624619642345e-07,0.9999999403953552,contentment,False
+5,Tell me about the weather in a typical week of April.,random,0.05,22,40342.691731770836,"Okay, let's talk about what a typical weather week in April looks like. It's a wonderfully variable month, and the weather really depends *greatly* on where you are in the world. However, I'll give you a general overview, broken down by regions, and then",7.145531152711391,1.0000001192092896,2.7372441888040915,0.9999999403953552,7.237864460877229e-11,2.8779978505906147e-11,9.696365495160569e-13,1.0581284383848893e-12,7.67744982760124e-05,1.3800814914477488e-08,4.37636131653818e-05,0.00012660566449795851,0.9997528791427612,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,random,0.05,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station. It's a surprisingly complex series of events, but here's a detailed description, broken down into stages:
+
+**1. Approaching the Station - The Signals & Sounds**
+
+* **Signal Changes:**",5.000002248355683,1.0,5.520013073737003,0.9999999403953552,1.1572074951047054e-09,1.0870211336229532e-09,8.78452336471174e-11,7.449842663338063e-11,9.287060051266227e-07,8.570646312447416e-09,0.019819490754301228,1.1396944721298041e-07,0.980179488658905,1.0,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,random,0.05,22,40342.691731770836,"Okay, here are a few options for a short note, depending on your relationship with your colleague and the level of formality you want:
+
+**Option 1 (Casual):**
+
+Hey [Colleague's Name],
+
+Just a reminder about our meeting on Thursday at [Time] - let",5.4597768428713,0.9999999403953552,2.1251757526320745,0.999991774559021,5.9476129677535025e-12,2.2787269424843245e-11,5.890296230905175e-13,1.8988515932696036e-12,5.343507511468282e-10,1.0264143267962877e-11,7.776580875917816e-07,5.303283923119295e-10,0.9999992251396179,1.0,no particular feeling,False
+8,Explain in three sentences how to boil an egg.,random,0.05,22,40342.691731770836,"To boil an egg, bring a pot of water to a rolling boil and gently drop the eggs in, ensuring they're fully submerged. Cover the pot and let it sit for 8-10 minutes for a soft boiled egg, or longer for firmer yolks. Finally, immediately transfer the eggs",7.393959074129754,0.9999999403953552,1.8978026070236043,0.9999998807907104,1.2238539327909115e-10,2.7898191629748754e-12,4.253580207969423e-12,1.5917620217040435e-12,9.93402261031907e-10,1.8380943633339785e-10,0.49713486483255476,5.167326115607107e-11,0.5028651228640229,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,random,0.05,22,40342.691731770836,"Okay, let's describe a bookshelf in an office - I'll aim for a fairly detailed and evocative description, allowing for some variation depending on the office style.
+
+---
+
+The bookshelf dominated the far wall of the office, a sturdy, almost comforting presence amidst the sleek minimalism. It wasn",6.896849057033513,1.0000001192092896,1.7386044414567983,0.9999998807907104,2.309970400724004e-11,1.7794633767800189e-12,2.573434454967408e-12,3.711179258868158e-12,1.1117191334175658e-09,2.249201512538601e-09,0.5001102171445382,0.4998858642098867,3.954487468149637e-06,0.9999999701976776,calm,False
+10,Tell me what a software update does.,random,0.05,22,40342.691731770836,"Okay, let's break down what a software update does. Essentially, a software update is a set of changes delivered to a piece of software (like an operating system, app, or program) to improve it. Here's a more detailed explanation, broken down into different aspects:
+
+**",5.4961629800762966,0.9999999403953552,2.649613380359532,0.9999999403953552,1.569752867245781e-10,3.1891349674475474e-11,5.541893042663018e-12,5.127017210402374e-12,1.1714617894072296e-08,2.50871229888979e-10,0.018663445491830178,3.7392899887578324e-10,0.9813365340232849,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,random,0.05,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable clearly outlines every class period and activity for the entire week.
+2.  Students use the timetable to help them plan their study time and manage their time effectively.
+3.  A well-structured timetable ensures a",5.284398002482124,1.0,2.118091844669568,1.0,1.0435537769794967e-10,1.9005088224000383e-11,4.086298738834067e-11,3.2376227350125464e-12,2.0201657221401506e-08,9.755185597574816e-10,0.48788341882345254,0.0002853292876352498,0.5118312258273363,1.0,no particular feeling,False
+0,How are you feeling right now?,matched distress,0.1,22,40342.691731770836,"As an AI, I don't *feel* in the way humans do. I don't have emotions or a body to experience them. 
+
+However, I can tell you that I'm functioning optimally! I'm ready and able to answer your questions, write, or have",5.021599380314058,1.0,2.590063491052568,0.9999924898147583,3.5948271299952395e-09,5.811476527870646e-11,8.11599504041668e-12,6.407757787915691e-12,1.98238368163961e-06,2.661015427452007e-08,0.04504630205517168,0.0077124234019123605,0.9472392797470093,0.9999999403953552,no particular feeling,False
+1,What is on your mind at the moment?,matched distress,0.1,22,40342.691731770836,"That's a lovely question! It's a little tricky to say, as I don't have a mind in the same way a human does. But, right now, I'm processing and analyzing the conversation we're having. 
+
+More specifically, I'm thinking about",6.969661005299864,0.9999998807907104,3.158459282652677,1.0,6.909291531433364e-09,1.6931163875221638e-09,1.6614995410589323e-12,1.8275715576304696e-11,0.498201342730328,5.182469637876608e-07,1.3977354136329723e-06,0.4495606866702415,0.05223611125256866,0.9999999105930328,excitement,False
+2,How would you describe this conversation so far?,matched distress,0.1,22,40342.691731770836,"This conversation so far can be described as a **request for a description**. 
+
+You've asked me to analyze and describe the conversation we've had up to this point. I've responded by stating that it's a request for a description. 
+
+It's a simple",5.000022616540807,1.0,1.6556176941605578,0.9999991655349731,3.524077618751679e-09,2.6600713455476118e-09,2.0959548933579067e-11,2.627577907858558e-11,2.562695153307537e-09,1.4605667348309426e-10,0.01016617737271397,2.9706720416911025e-09,0.9898338317871094,1.0,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,matched distress,0.1,22,40342.691731770836,"The pavement felt cool beneath her feet as she set off, a small bag clutched in her hand.  Past the familiar trees and barking dogs, she walked down the street, a simple errand in mind.  Finally, she reached the corner shop, greeted by the warm glow and the promise",6.950830675036628,1.0000001192092896,2.3579186268952945,0.9999997019767761,1.7418993764756197e-11,5.682670588431915e-13,4.944977604916777e-13,1.4840149508560385e-12,1.2432482821012059e-09,1.9761276642826786e-10,0.9999996423721313,2.590694159199103e-08,3.3864204951328247e-07,1.0,calm,False
+4,Write three sentences about a kitchen table.,matched distress,0.1,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table stood as a silent witness to countless family meals and conversations.
+2.  Surrounded by crumbs and a spilled glass of milk, it was a comfortable and familiar space.
+3.  From homework",5.7140897762904785,1.0,1.4809215833539826,0.9999998807907104,3.2034327447638677e-12,8.690810685040365e-12,1.8774251698086032e-12,2.4014692383104996e-10,1.9124657080205054e-08,5.094744398928541e-09,1.2408355942739036e-07,0.9999998211860657,8.368890647147964e-08,1.0,contentment,False
+5,Tell me about the weather in a typical week of April.,matched distress,0.1,22,40342.691731770836,"Okay, let's talk about typical April weather! It's a notoriously tricky month – she's trying to decide if she wants to be spring or winter! Here's a breakdown of what you can expect, broken down by region and with a general overview:
+
+**Nationally (",6.908061796507607,0.9999999403953552,5.099671810399975,0.9999998211860657,3.2234101929925346e-07,2.7570788468304734e-07,2.6562569201485364e-11,5.640231892645176e-10,0.48245562738520675,5.257748654230454e-06,9.953069807000503e-06,0.006026371087024529,0.5115021709352732,1.0000000596046448,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,matched distress,0.1,22,40342.691731770836,"Okay, let's paint a picture of what happens when a train arrives at a station! It's a coordinated and often exciting event. Here's a breakdown, from beginning to end:
+
+**1. The Signal & Warning:**
+
+* **The Signal:**  Far away, the",5.493878961166317,1.0000001192092896,4.0050738316831485,0.9999988675117493,3.083697902063476e-12,1.286626478914834e-13,3.4678671825674257e-15,1.7909609490071972e-10,0.9999886751174927,1.0392786004384535e-05,5.181980461378668e-10,9.369180195317263e-07,7.392719235388423e-09,1.0,excitement,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched distress,0.1,22,40342.691731770836,"Here are a few options, ranging from casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+> Hey [Colleague's Name], just a reminder about our meeting on Thursday! Let me know if you have any questions. 😊
+
+**Option 2 (Slight",7.8248976598616675,1.0000001192092896,2.0232528304465425,1.0,4.2654358343996446e-11,8.001243504557332e-11,1.2773930405194506e-12,1.0435661536301044e-10,1.1366162340209485e-06,0.8939549922943115,8.872039636287354e-08,0.10603398854953502,9.810236065277422e-06,0.9999999701976776,joy,False
+8,Explain in three sentences how to boil an egg.,matched distress,0.1,22,40342.691731770836,"To boil an egg, first bring a pot of water to a rolling boil and gently drop in the egg(s). Let them simmer for 8-10 minutes for a hard-boiled egg or 5-6 minutes for a soft-boiled egg. Finally, immediately transfer the eggs to",5.1924687299609245,1.0,1.6686541933752075,0.9999997019767761,1.1273723146122368e-10,3.2996614357492946e-12,3.404338387598449e-12,1.822734619226206e-12,1.8772630017763723e-09,1.277581820548115e-10,0.02750264296010363,5.506412339983946e-11,0.9724973440170288,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,matched distress,0.1,22,40342.691731770836,"Okay, let's paint a picture of a bookshelf in an office. Here's a description, aiming for detail and a feeling:
+
+**The Shelf:**
+
+It dominates a corner of the room, a solid, reassuring presence. It’s not a sleek, modern monolith; it’",7.23504780779721,0.9999999403953552,1.9129623718448583,0.9999999403953552,1.5503594241739194e-09,4.379546031385573e-11,9.243097303171521e-11,1.8751081937162795e-10,5.82285708539132e-08,4.091495811597845e-08,0.9622946381568909,0.03769798151915893,7.2967158075698535e-06,1.0,calm,False
+10,Tell me what a software update does.,matched distress,0.1,22,40342.691731770836,"Okay, let's break down what a software update does. Simply put, a software update is like a doctor's visit for your device or program! Here's a breakdown in layers:
+
+**1. What it is:**
+
+* **A Patch:** At its core, a software",7.499372914078443,1.0,2.0567832794151277,0.9999997615814209,1.3444283485965214e-09,1.792477314716207e-10,3.5827541376498096e-11,4.262388922718352e-11,2.7308191796748815e-07,2.0843840986550788e-08,0.4769828473146944,0.0016883381947216947,0.5213285125792027,0.9999999701976776,no particular feeling,False
+11,Write three sentences about a school timetable.,matched distress,0.1,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+*   A school timetable outlines every class and activity for the entire week.
+*   It's designed to ensure students receive a balanced education with time for learning, breaks, and extracurriculars.
+*   Looking at the timetable can help students",7.0796658722146395,1.0,2.066221982896105,1.0,9.70033403854194e-13,3.9179216786600295e-13,9.451976843039481e-14,2.6169237144827348e-14,4.036108372838061e-10,6.6354900649215386e-12,1.9639325086422116e-07,5.430957301932882e-09,0.9999998211860657,1.0,no particular feeling,False
+0,How are you feeling right now?,matched elation,0.1,22,40342.691731770836,"As an AI, I don't *feel* in the way a human does. I don't have emotions or a body! But, I can tell you that I'm functioning optimally and ready to assist you. It's nice to be here and able to help!",7.990227587755488,0.9999998807907104,3.451288558894106,0.9999984502792358,2.1610111678631652e-09,6.797548604625333e-10,3.332297316373779e-11,2.0617725625740602e-11,2.1784594298836224e-05,0.019805205857673203,6.64395491135894e-06,0.9798352718353271,0.0003311098600988771,1.0,contentment,False
+1,What is on your mind at the moment?,matched elation,0.1,22,40342.691731770836,"That's a lovely question! It's a bit tricky to say, as I don't *have* a mind in the same way a human does. But, right now, I'm processing and considering a few things. 
+
+* **I'm thinking about how to",7.012093144463005,0.9999998807907104,2.876218875661415,0.9999991655349731,6.325119646793942e-10,2.760730538490033e-10,1.9429068949397901e-13,3.3539985025421437e-10,0.49620667443377897,2.259308473639976e-07,0.0008217528374824395,0.41258159302638847,0.09038974577561021,1.0,excitement,False
+2,How would you describe this conversation so far?,matched elation,0.1,22,40342.691731770836,"This conversation has been a simple, back-and-forth exchange! It's been a polite and straightforward interaction where I've been answering your questions or fulfilling your requests. 
+
+It's been a basic, exploratory conversation - a starting point. 😊 
+
+Is there anything specific you",8.189390682500617,1.0000001192092896,2.213391244782467,0.9999997019767761,1.389986806210608e-10,6.610358040028824e-11,8.895286308756301e-13,2.8948665513339744e-11,4.241291568529704e-05,0.9933456480503082,7.024253734222441e-09,0.006611407587695295,5.355510808158215e-07,1.0,joy,False
+3,Describe a walk to the corner shop in three sentences.,matched elation,0.1,22,40342.691731770836,"The pavement felt cool beneath her feet as she set off, a small bag clutched in her hand.  Past the familiar houses and blooming flowerbeds, she strolled down the street, a comfortable rhythm to her steps. Finally, she reached the corner shop, a beacon of light and convenience after",7.677505765782378,1.0,2.0842773406360218,0.9999999403953552,3.0735660869717074e-12,3.054977061253683e-13,2.658157981921816e-13,3.5963609071017547e-12,3.17169721042454e-10,2.4212725713290695e-09,0.5476747304201126,0.4523252574801244,4.813698554345658e-10,1.0,calm,False
+4,Write three sentences about a kitchen table.,matched elation,0.1,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table stood as a central gathering place, surrounded by family and friends.
+2.  Spilled coffee and crayon marks adorned its surface, a testament to years of shared meals and childhood adventures.
+3.",7.702459232873172,1.0,2.731934871478188,0.9999999403953552,9.510354133444691e-12,8.59339078964071e-11,4.022230595592747e-12,6.638504036846765e-12,2.139217206154065e-08,2.2699781219437387e-05,4.5218325459006614e-08,0.9999772310256958,5.963416541826527e-09,1.0,contentment,False
+5,Tell me about the weather in a typical week of April.,matched elation,0.1,22,40342.691731770836,"Okay, let's talk about typical April weather! It's a wonderfully unpredictable month, and it *really* depends on where you are in the world. I'll give you a general overview, and then break it down by region.
+
+**Overall, April is a month of transition",7.119579471590479,0.9999999403953552,2.7322895112802246,0.9999999403953552,7.184481763715866e-10,2.296083179069799e-10,1.5730278126330357e-12,6.065515982273811e-12,0.49918404282116907,4.103759785265004e-05,1.0278437789779105e-07,0.4999810993770666,0.0007937316913739778,0.9999999701976776,contentment,False
+6,Describe what happens when a train arrives at a station.,matched elation,0.1,22,40342.691731770836,"Okay, let's paint a picture of what happens when a train arrives at a station! It's a coordinated and exciting moment, and here's a breakdown of the steps involved:
+
+**1. The Signal & Warning:**
+
+* **The Signal:**  Far away, the station",5.040216927886327,1.0,3.2420020026155214,0.9999994039535522,2.3050989285747225e-12,1.2114648070523162e-13,5.640742643890076e-15,1.906041590700588e-10,0.999884694814682,0.00011525525493905064,7.700960923261715e-11,7.452524844234389e-08,6.45801755821962e-10,1.0,excitement,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched elation,0.1,22,40342.691731770836,"Here are a few options, ranging from casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+> Hey [Colleague's Name], just a reminder about our meeting on Thursday! Let me know if you have any questions. 😊
+
+**Option 2 (Slight",7.8248976598616675,1.0000001192092896,2.0232528304465425,1.0,4.2654358343996446e-11,8.001243504557332e-11,1.2773930405194506e-12,1.0435661536301044e-10,1.1366162340209485e-06,0.8939549922943115,8.872039636287354e-08,0.10603398854953502,9.810236065277422e-06,0.9999999701976776,joy,False
+8,Explain in three sentences how to boil an egg.,matched elation,0.1,22,40342.691731770836,"To boil an egg, first bring a pot of water to a rolling boil and gently lower the egg(s) into the water. Let it simmer for 8-10 minutes for a soft yolk, or longer for a firmer one. Finally, immediately transfer the egg to a bowl of ice",7.361284049510635,1.0,2.088733646287798,0.9999991655349731,7.215631341787285e-11,1.8350337940066236e-12,3.1700639389682736e-12,1.1877252600674164e-12,8.006518023172173e-10,2.855027105030418e-10,0.49855521401558095,9.787889249102122e-11,0.5014447903959081,0.9999999701976776,no particular feeling,False
+9,Describe a bookshelf in an office.,matched elation,0.1,22,40342.691731770836,"Okay, let's paint a picture of a bookshelf in an office. Here's a description, aiming for detail and a feeling:
+
+**The Shelf:**
+
+It dominates a corner of the room, a solid, reassuring presence. It’s not a sleek, modern monolith; it’",7.23504780779721,0.9999999403953552,1.9129623718448583,0.9999999403953552,1.5503594241739194e-09,4.379546031385573e-11,9.243097303171521e-11,1.8751081937162795e-10,5.82285708539132e-08,4.091495811597845e-08,0.9622946381568909,0.03769798151915893,7.2967158075698535e-06,1.0,calm,False
+10,Tell me what a software update does.,matched elation,0.1,22,40342.691731770836,"Okay, let's break down what a software update does! Simply put, a software update is like a little hug for your device or program. It's a piece of code that fixes, improves, or adds something to the existing software you're using.
+
+Here's a more",8.479003582845916,1.0,2.0601912503409174,0.9999998807907104,5.477032170679574e-09,1.5197446204045714e-09,2.460669156227526e-11,1.2932108509056128e-10,0.06645080294694594,0.4333119244831316,0.0002115180722022103,0.4967555523207885,0.0032701938744139625,0.9999999105930328,contentment,False
+11,Write three sentences about a school timetable.,matched elation,0.1,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+*   A school timetable outlines every hour of the day, detailing which subjects or activities are scheduled.
+*   It’s a crucial tool for students and teachers, providing a clear roadmap for the academic year.
+*   A well-structured",5.01488371407876,1.0,1.9579058956677236,0.9999999403953552,5.156597035331086e-12,1.0808748059202984e-12,1.0153637697425402e-12,1.162180460772912e-13,5.512381799360354e-10,1.4243295853465145e-11,0.0003777027889436176,7.690867421389358e-08,0.9996222257614136,1.0,no particular feeling,False
+0,How are you feeling right now?,part-1 distress,0.1,22,40342.691731770836,"As a large language model, I don't *feel* in the same way a human does. I don't have emotions or a physical body. However, I can describe my state!
+
+Right now, I'm functioning normally. I'm receiving your request, processing it,",5.003440632349203,1.0,2.4100076919202706,1.0,6.187470263329532e-11,1.7012831987124114e-12,2.6091106531296313e-13,1.6767061236612132e-13,1.2050341845789951e-09,4.9746767293089127e-11,0.00015267451311572373,4.714304502329014e-10,0.9998473525047302,1.0,no particular feeling,False
+1,What is on your mind at the moment?,part-1 distress,0.1,22,40342.691731770836,"Okay, this is a really interesting question for me! As an AI, I don't have a ""mind"" in the same way a human does. I don't have emotions or personal thoughts. However, I'm actively processing and analyzing information *right now*.
+
+Here's",5.480220989193471,0.9999999403953552,5.291485219507081,0.9999997615814209,3.4616271264373277e-10,1.721589902158472e-11,7.110669729214853e-14,4.707782444044947e-11,0.500133651032229,1.0730838440053958e-09,6.931901481613918e-09,2.9767163628746933e-06,0.49986334413733857,1.0,excitement,False
+2,How would you describe this conversation so far?,part-1 distress,0.1,22,40342.691731770836,"Please provide me with the conversation! I need the text of the conversation to describe it. I cannot describe it without the content. 
+
+Once you provide the conversation, I will analyze it and describe it based on factors like:
+
+*   **Tone:** (e.g., aggressive, polite",2.58769098110497,0.9994914531707764,1.0236911832653277,0.9999991059303284,8.232004730657216e-10,3.320967456588164e-08,9.974961007741534e-07,2.3704415985648097e-08,8.144464214154823e-09,2.8274936211825086e-11,2.981015567314789e-12,9.884284623423722e-11,0.9999989569187164,0.9999999701976776,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,part-1 distress,0.1,22,40342.691731770836,"I grabbed my keys and stepped outside, the wind whipping my hair as I started down the street. Each step brought me closer to the corner shop, its flickering fluorescent light a beacon in the darkening street. I grabbed my requested item and sprinted back, defeated by the increasing distance.",6.230529277716972,0.9999999403953552,7.613016970959418,0.9999999403953552,3.5381111018750744e-07,0.990755021572113,0.008988615938783084,0.0002550522927222687,9.464477557230566e-07,2.4434679488094524e-09,1.8256555555512533e-11,8.679883157711177e-11,2.6225699251147816e-09,0.9999999701976776,frustration,False
+4,Write three sentences about a kitchen table.,part-1 distress,0.1,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The kitchen table is a central point of the room, where family members repeatedly gather to communicate.
+2.  Its wooden surface is covered with a sticky residue of spilled juice and frantic attempts to draw.
+3.  Despite its",4.677325484375103,0.9999998807907104,3.669299446261107,0.9999998807907104,3.470360770974068e-08,0.9995562732219696,1.921546829430909e-06,0.00044153570610117043,1.554944999426766e-07,7.107274855450152e-10,2.2523937576179875e-11,1.5792255003699296e-10,1.3157937001073705e-07,0.9999999403953552,frustration,False
+5,Tell me about the weather in a typical week of April.,part-1 distress,0.1,22,40342.691731770836,"Okay, let's look at a typical weather scenario for a week in April. It's *highly* dependent on your location, but I'll give you a general response assuming a location in the **United States (specifically, a region with a moderate climate like the Northeast or Southeast)**",5.0607330645479545,1.0000001192092896,3.1948202327540636,0.9999999403953552,1.517230094273854e-11,5.939532677100835e-12,3.5122752639971975e-13,2.57858829977981e-13,2.4727203030375927e-09,1.095483430260235e-11,1.4020018227256514e-05,7.261454770812747e-10,0.9999859929084778,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,part-1 distress,0.1,22,40342.691731770836,"Okay, here's a description of what happens when a train arrives at a station, broken down into stages and escalating in detail:
+
+**1. Initial Warning & Detection:**
+
+* **Automatic Train Detection (ATD):**  The station's system (often relying on sensors on the",5.000004120830194,1.0,1.5140654297737814,0.9999997019767761,1.0859858550079336e-10,1.1632104945531459e-11,3.1281483741438305e-12,1.4120550703104057e-12,3.3148123239346017e-09,6.850199319461195e-11,0.00044157571987213373,8.961609891666722e-10,0.9995584189891815,1.0,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,part-1 distress,0.1,22,40342.691731770836,"Hi [Colleague's Name],
+
+Just a quick reminder about our meeting this Thursday at [Time] in [Location/Meeting Link].
+
+Please let me know if you have any questions.
+
+Best,
+[Your Name]
+
+**You can also add:**
+
+*   A brief",7.598989140502736,1.0000001192092896,2.2024595349944267,0.9999999403953552,1.9832376222162266e-10,4.092237983668038e-11,1.1187907636489634e-11,1.3449145605786555e-11,3.820768685811049e-09,2.0334624088735875e-10,0.23519424779806286,1.9039175791490948e-09,0.764805793762207,1.0,no particular feeling,False
+8,Explain in three sentences how to boil an egg.,part-1 distress,0.1,22,40342.691731770836,"To boil an egg, place it in a pot filled with water and bring it to a full boil.  Immediately reduce the heat to a simmer and let it cook for 3-5 minutes for a soft yolk, or longer for a firmer one.  After cooking, immediately place the egg in",5.775650489382002,1.0,1.3379199377328441,0.9999998807907104,4.6673691964301564e-11,1.8097832011441675e-12,1.015148943970945e-12,4.875148727552812e-13,6.244945203117574e-10,3.415127129650428e-11,0.0004848759273368497,3.98994629653357e-11,0.9995151162147522,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,part-1 distress,0.1,22,40342.691731770836,"Okay, here's a description of a bookshelf in an office, attempting to provide detail and a sense of the environment it's in:
+
+**The bookshelf occupied a corner of the office, a desperate, but increasingly vital, attempt to regain control of a space rapidly being swallowed by digital devices",2.7520092301696657,0.999999463558197,6.519555478886446,0.9999988079071045,2.8294670144737334e-08,1.1346808048706691e-08,0.999999612569809,3.786103262397311e-07,2.605093170262446e-12,1.277010096923997e-13,7.82582368057607e-14,2.0369529546031056e-13,1.725776395703968e-12,0.9999999701976776,desperation,False
+10,Tell me what a software update does.,part-1 distress,0.1,22,40342.691731770836,"Okay, let's break down what a software update does. Essentially, a software update is a process that attempts to fix, improve, or update the software on your device (phone, computer, router, etc.). Here's a more detailed explanation:
+
+**1. What it's",5.5413122127050904,1.0,2.1521856821659044,0.9999998807907104,2.3465617167838275e-11,1.3370204563397022e-11,7.782467127949286e-13,2.217463084607247e-12,7.77143163196829e-10,2.008715607822902e-11,0.0005493656558706269,9.203978551530767e-11,0.9994506239891052,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,part-1 distress,0.1,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable clearly outlines every class, break, and detention for the entire week.
+2.  Students must adhere to the timetable to ensure they miss no critical instruction or testing.
+3.  A detailed timetable can be a",5.0021862429010895,0.9999998807907104,2.025118044265398,0.9999998807907104,1.6811609884152118e-11,8.690810685040365e-12,7.184417084754352e-13,3.7036849281912865e-12,1.8112114100188315e-09,1.7568573006977728e-11,6.379534747691373e-10,1.907649982424431e-09,1.0,1.0,no particular feeling,False
+0,How are you feeling right now?,random,0.1,22,40342.691731770836,"As a language model, I don't *feel"" in the way a person does. I don't have emotions or a sense of self. However, I can tell you that I am functioning well! I am ready to help you with whatever you need - whether it's answering questions",5.075138684021908,0.9999999403953552,2.4104707571889534,0.9999951720237732,2.185664654668631e-12,3.0513948761024217e-13,1.2218421507209287e-14,1.7876869215093134e-14,2.229652806446671e-10,9.809781920154872e-12,7.540632363382577e-10,1.6488397425185042e-08,1.0,1.0,no particular feeling,False
+1,What is on your mind at the moment?,random,0.1,22,40342.691731770836,"That's a lovely question! As an AI, I don't have a ""mind"" in the way a person does - I don't have emotions or a sense of self. But I am currently focused on a few things as I try to respond to you.
+
+Right now,",7.872082087613471,0.9999999403953552,3.5599947161939554,0.9999987483024597,8.093804577296096e-09,1.0289904351089589e-09,1.2375747318214489e-11,2.793241766357868e-11,6.49521883611115e-06,4.085615179505453e-08,0.0008264609930392908,0.0037886481412101602,0.9953783452510834,0.9999999701976776,no particular feeling,False
+2,How would you describe this conversation so far?,random,0.1,22,40342.691731770836,"Okay, let's describe the conversation so far. It's a fairly straightforward and a bit open-ended one. Here's a breakdown of what it's like:
+
+* **Interrupted but evolving:** It started with a prompt (likely from you) and I've been",5.011933418486293,1.0,2.226837915937411,0.9999999403953552,2.6741548558861794e-10,5.075988784852825e-08,8.101012916039707e-12,1.6236524572749156e-09,1.5525936536420204e-08,5.692071120000364e-11,1.3396779796615021e-08,3.6462325381236838e-09,0.9999999403953552,1.0,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,random,0.1,22,40342.691731770836,"I set off down the quiet lane, the autumn leaves crunching softly beneath my feet. Soon I was walking briskly toward the familiar warmth of the corner shop, a welcoming sight after a brisk walk. I finished with a quick trip for a magazine and a sweet, then turned back, feeling a",7.996734395073418,1.0,2.2089309249538864,0.999998927116394,6.428625947546562e-11,4.0880581499190896e-11,4.203205469631042e-11,1.2281510010370145e-11,2.596265041843182e-06,0.006409733329672207,0.49666366050951183,0.4969240349892061,7.015764580398098e-09,1.0,contentment,False
+4,Write three sentences about a kitchen table.,random,0.1,22,40342.691731770836,"Okay, here are three sentences about a kitchen table:
+
+1.  The worn wooden kitchen table sat firmly in the center of the room, a silent witness to countless meals and conversations.
+2.  A steaming bowl of steaming soup sat upon its surface, inviting a moment of warmth and comfort",7.976814291790471,0.9999999403953552,1.704903295809268,0.9999998807907104,2.390564571248593e-11,4.9735487675508995e-11,1.1273360436577014e-11,7.064783030504354e-12,3.636565425180205e-08,2.7111399003021397e-06,4.375158782879418e-05,0.9999534785747528,3.209727482411662e-08,0.9999999701976776,contentment,False
+5,Tell me about the weather in a typical week of April.,random,0.1,22,40342.691731770836,"Okay, let's talk about what kind of weather you might expect in a typical April, but it's important to remember this is a *general tendency - it really varies wildly depending on where you are in the world!** I'll give a general overview, then I'll break",6.371375013329382,0.9999998211860657,2.875743168999552,1.0,1.4765318098232134e-11,8.790978964168196e-12,8.526686640281979e-14,8.238092011943893e-13,8.204536043610045e-10,1.158913264832917e-11,2.586673684845664e-05,3.1507509101746933e-09,0.9999741613864899,0.9999999701976776,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,random,0.1,22,40342.691731770836,"Okay, let's break down what happens when a train arrives at a station, from the perspective of both the train and the station environment.
+
+**From the Perspective of the Train - The Final Moments**
+
+1. **Signals and Signals:** As the train nears the station, the engineer (",4.9945686954314255,0.9999999403953552,1.1739146163263419,0.9999996423721313,3.6565040578695474e-10,4.115142081262402e-11,1.6171923012970463e-12,1.4260329852730513e-10,2.2534992538680854e-08,6.30415528807271e-11,1.6749865383580698e-10,7.257421330564284e-10,1.0,1.0,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,random,0.1,22,40342.691731770836,"Okay, here are a few options for a short meeting reminder, depending on your relationship with your colleague - please pick the one that best fits your situation:
+
+**Option 1 (Formal - good for most situations):**
+
+Hi [Colleague's Name),
+
+Just a reminder about our",5.011049580211548,0.9999999403953552,2.532755028145022,0.9999946355819702,8.930200004463333e-11,9.806543067080787e-11,9.863990610634236e-12,1.6859651004387695e-11,8.637083184076522e-10,5.4601898957090667e-11,0.00428892727873631,3.14923703781389e-09,0.995711088180542,0.9999999701976776,no particular feeling,False
+8,Explain in three sentences how to boil an egg.,random,0.1,22,40342.691731770836,"Bring a pot of water to a rolling boil and gently drop the eggs in, ensuring they are fully submerged. Cover the pot and let them sit for 3-13 minutes depending on your desired level of firmness—the longer they boil, the firmer they become. Finally, immediately remove the eggs",6.7674012063865785,1.0,2.4433264069420026,0.9999995827674866,1.4299437248031137e-11,3.369537855166764e-13,6.462284033746897e-13,2.5436514094307697e-13,6.999445467670284e-11,4.771793246996503e-11,0.49999910360463673,1.7717959629841296e-10,0.5000009139678241,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,random,0.1,22,40342.691731770836,"Okay, let's describe a bookshelf in an office - let's aim for a sense of a well-used, slightly lived-up-to but loved environment.
+
+---
+
+The bookshelf wasn't a formal thing - it wasn't a sleek, modern unit of polished wood.",5.891112120547917,0.9999999403953552,2.4405265642609115,1.0,6.23301722735281e-11,7.132160183623282e-11,3.123550596233378e-11,1.5833442109508544e-10,5.358074695038795e-08,5.384220069792889e-09,4.151103006222456e-06,0.9996580183506012,0.000337800731358584,1.0,contentment,False
+10,Tell me what a software update does.,random,0.1,22,40342.691731770836,"Okay, let'let break down what a software update does. In simple terms, a software update is a set of changes or improvements delivered to a software product (like a phone, computer, or app) after it's been published. It's like giving a software a check engine or",5.023420351426781,1.0000001192092896,2.029434441857719,1.0,3.0175105364844143e-11,6.326387888016161e-12,5.032340014525719e-13,5.841111455466303e-13,4.20815457632083e-09,2.5930912758297293e-11,6.109576210736045e-06,2.404607693518024e-10,0.9999938905239105,0.9999999701976776,no particular feeling,False
+11,Write three sentences about a school timetable.,random,0.1,22,40342.691731770836,"A school timetable outlines a student's schedule for the entire week, detailing which classes are scheduled and when. It typically includes classes like math, science, and english, as well as breaks and activities. A well-structured timetable helps students manage their time and keep track of their academic respons
+
+What",5.003147756103047,1.0,2.9213451455981647,0.9999999403953552,1.5255060166751054e-12,7.205521544925559e-13,4.606396186513057e-14,4.138355535490839e-14,9.890401486167176e-11,1.4561433418380916e-12,2.4722286992219165e-09,2.1462759412609056e-11,1.0,1.0,no particular feeling,False
+0,How are you feeling right now?,matched distress,0.15,22,40342.691731770836,"As an AI, I don't *feel* in the way humans do. I don't have emotions or a body! 
+
+However, I can tell you that I'm functioning optimally! I'm here, I'm ready to answer your questions, and I'm",6.513440569833811,0.9999998807907104,4.765252951096045,0.9999932646751404,2.6411549272718077e-08,1.620877303090771e-10,2.060980293525571e-11,3.0349640335602945e-11,1.3260845164009272e-05,1.6187926839966726e-07,0.003144861737291671,0.0025312213962251917,0.9943104982376099,1.0,no particular feeling,False
+1,What is on your mind at the moment?,matched distress,0.15,22,40342.691731770836,"That's a lovely question! It's something I grapple with, or rather, something she can *process*. 
+
+Right now, I'm processing a huge amount of information! I'm thinking about the conversation we're having, of course, and trying to understand what you",6.85104835636894,1.0,7.2322993460817475,1.0,1.788316501827314e-09,9.435983105987589e-10,2.1922998084868833e-12,1.5626941569750474e-08,0.5000558645515412,4.004520768319253e-06,1.1138252611897492e-08,0.49993318338384285,6.927246362753436e-06,1.0,excitement,False
+2,How would you describe this conversation so far?,matched distress,0.15,22,40342.691731770836,"This conversation has been a simple, introductory exchange. We've started with a neutral question (""How would you describe this conversation so far?""), and I've responded with a concise and factual answer. 
+
+It's been a polite and straightforward interaction, a first step to figuring out how",5.461257288160409,1.0,2.026460841879697,1.0,3.232048071018234e-11,1.1256904832107964e-12,3.44093284139306e-13,2.6282756793703527e-11,2.2672090611158824e-09,9.145829206816392e-10,0.5983642786741257,0.00024382350829432742,0.40139191580715305,0.9999999701976776,calm,False
+3,Describe a walk to the corner shop in three sentences.,matched distress,0.15,22,40342.691731770836,"The pavement felt cool beneath her feet as she stepped out the door, a small bag clutched in her hand. She walked down the street, past neighbours and barking dogs, a simple journey to a familiar place. Reaching the corner shop, she greeted the shopkeeper with a smile and a",7.29432685911391,1.0,1.9021434201899172,0.9999998807907104,1.760834056688254e-11,1.1527475480242744e-12,6.317237721429822e-13,9.449879735060757e-12,3.6524598900911087e-09,1.8783031574542974e-08,0.9979615807533264,0.0020350624631548797,3.374080850271355e-06,1.0,calm,False
+4,Write three sentences about a kitchen table.,matched distress,0.15,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table stood in the center of the room, a silent witness to years of family meals.
+2.  She poured her morning coffee onto the table, a small gesture of comfort after a sleepless night.",6.996395333521437,0.9999998807907104,2.0948252453896568,0.9999998211860657,1.3826431536148598e-11,2.2449700572916426e-11,3.478018204385383e-11,2.5696965111343673e-09,2.148631228493514e-08,7.3854407589557525e-09,8.988855097413762e-05,0.9999094605445862,6.466368314139714e-07,0.9999999701976776,contentment,False
+5,Tell me about the weather in a typical week of April.,matched distress,0.15,22,40342.691731770836,"Okay, let's look at what you can expect in the weather during a typical week in April! It's a month of transition, and the weather can be wildly variable depending on where you are in the country. Here's a breakdown, painting a picture of what you might see:",5.956671612421832,1.000000238418579,3.297124667654198,0.9999999403953552,8.425518939220861e-10,2.9116093768192074e-10,7.75985748796268e-12,1.248013956176193e-11,0.020350221649780606,8.330764880021269e-08,0.0017937830307346303,1.415634606871663e-06,0.9778545200824738,0.9999999403953552,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,matched distress,0.15,22,40342.691731770836,"Okay, let's paint a picture of what happens when a train arrives at a station! It's a carefully orchestrated dance of movement and sound. Here's a breakdown, from beginning to end:
+
+**1. The Distant Warning:**
+
+* **The Horn:** This is the",5.014914504128434,0.9999999403953552,2.6348214272449866,0.9999995231628418,2.3333023402294373e-08,4.2782002593333424e-10,1.4589525334368636e-11,2.8459301776306845e-08,0.5035863989032805,1.7978224150283495e-05,0.4035044947117967,0.0770092798801496,0.0158817587653175,1.0,excitement,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched distress,0.15,22,40342.691731770836,"Here are a few options, ranging from casual to slightly formal:
+
+**Option 1 (Casual):**
+
+> Hey! Just a reminder about our meeting on Thursday! Let her know if she has anything she wants to add. 😊
+
+**Option 2 (Slightly more formal):",5.0001171896979635,1.0000001192092896,2.0873774032213532,0.9999987483024597,2.1551832627558776e-10,3.8020454525607844e-10,5.390197511424832e-12,1.1834726254544847e-10,6.558094739261833e-06,0.9999598860740662,3.0482659729713646e-09,3.3026162019354766e-05,5.459065164359345e-07,1.0,joy,False
+8,Explain in three sentences how to boil an egg.,matched distress,0.15,22,40342.691731770836,"To boil an egg, first put it in a pot and cover it with water. Bring the water to a rolling boil, then turn the heat off or put the pot in the sink to slow down the boiling. After ten minutes in the water, transfer the egg to a bowl of ice water to",5.45003337473355,1.0000001192092896,1.37593302622727,0.9999997019767761,5.2944379204569573e-11,3.5472246538923264e-12,1.0483791729223012e-12,6.703196762646046e-13,8.82118359748444e-10,4.7588418760637595e-11,2.6537582394011577e-05,1.4945478882255614e-10,0.999973475933075,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,matched distress,0.15,22,40342.691731770836,"The bookshelf in her office was a quiet, considered thing, a stark contrast to the frantic energy of the room. It stood in the corner, a solid, dark wood – a deep, almost brooding shade of charcoal. It wasn't a showy piece; no gleaming varnish or fancy embellishments",6.992655065937982,1.0,1.032682712856623,1.0,3.451671901858605e-11,4.048657297004571e-13,1.3365684300225091e-12,1.2869860071314937e-12,5.3433667213109715e-11,5.3536140798282617e-11,1.0,9.405752177116256e-09,5.173024508753343e-10,1.0,calm,False
+10,Tell me what a software update does.,matched distress,0.15,22,40342.691731770836,"Okay, let's break down what a software update does! In short, it's like a doctoring up or fixing up a piece of technology. Here's a breakdown from simple to a little more detailed:
+
+**Simply Put:**
+
+A software update is like a little download or",5.001446455238326,1.0,1.6649965560350333,0.9999995231628418,5.688738022313622e-11,1.9677939291050384e-11,1.1980830603731387e-12,1.4414201603141219e-11,2.384774653307886e-07,5.025191165963783e-09,3.825741018870232e-06,5.032062092569234e-07,0.9999954700469971,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,matched distress,0.15,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+*   A school timetable lays out every minute of the day, from morning lectures to afternoon classes.
+*   It's a vital tool for students to plan their days and know when to expect to be in the classroom.
+*
+*",5.047884103841253,0.9999999403953552,2.0105672563099177,0.9999999403953552,4.019154309650583e-12,1.7285114030487974e-12,3.9175252596885555e-13,1.2559536095969957e-13,2.550683674893534e-09,5.8155245147580134e-11,9.76293837198189e-06,8.25121319603106e-08,0.9999901652336121,1.0,no particular feeling,False
+0,How are you feeling right now?,matched elation,0.15,22,40342.691731770836,"As an AI, I don't *feel* in the way humans do! It's impossible for me to experience emotions like happiness, sadness, or fear. 
+
+However, I can tell you that I'm operating smoothly and functioning as expected! I'm here and ready to",5.010037034641641,1.0,1.9252850061879876,0.9999934434890747,2.8618520876269433e-10,1.3675762295084606e-12,6.604586148838491e-14,1.1376323670532658e-13,1.6906637461538976e-10,1.023464035146849e-11,8.819737887071077e-11,2.5869801856259755e-08,1.0,1.0,no particular feeling,False
+1,What is on your mind at the moment?,matched elation,0.15,22,40342.691731770836,"That's a wonderful question! It's something I've been pondering, and it's a little complex. Right now, I'm processing a huge amount of information! 
+
+I'm thinking about the requests she's had in the last hour - from crafting poems to",7.027453557806311,1.0000001192092896,7.9956161962339936,0.9999998807907104,7.283847204314804e-12,8.599464511556203e-13,3.6583223819388775e-15,1.1151976633545346e-11,0.9999975562095642,1.9019914603291e-06,4.583073524367428e-13,5.682819771221907e-07,8.05248156349192e-10,1.0,excitement,False
+2,How would you describe this conversation so far?,matched elation,0.15,22,40342.691731770836,"This conversation has been a simple, introductory exchange! We've started with a single question (""How would you describe this conversation so far?""), and I've responded with a concise and hopeful description of it. 
+
+It's been a polite and straightforward start. 😊 
+
+Do you",8.009381939650975,1.0,2.029975775707934,0.9999998211860657,5.2415149043999465e-11,2.9918585688873574e-11,4.141212112812598e-13,8.676192576884123e-12,3.945201358268591e-06,0.5000016288954612,1.0793393147995323e-08,0.4999944675068111,4.7667458868971835e-09,1.0,joy,False
+3,Describe a walk to the corner shop in three sentences.,matched elation,0.15,22,40342.691731770836,"The sun warmed her face as she stepped out the door and onto the pavement, a small bag clutched in her hand. She walked down the street, past familiar faces and trees, a comfortable rhythm to her steps. Finally, she reached the corner shop, a beacon of light and possibility after",7.946138051044539,1.0,2.603385279853141,0.9999997019767761,5.94323695499063e-12,4.554185756551258e-12,5.001064830455242e-12,1.4742037462051353e-12,4.5207979161403233e-08,6.709040205894745e-06,0.4999188302681432,0.5000744182543713,5.105576031394499e-10,1.0,contentment,False
+4,Write three sentences about a kitchen table.,matched elation,0.15,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The worn, wooden kitchen table stood in the center of the room, a silent witness to years of family meals. 
+2.  She poured her morning coffee onto the table, a small gesture of comfort after a sleepless night.",7.0027686489044525,0.9999999403953552,2.0081812848688543,0.9999998807907104,2.27500119437396e-11,2.9505815569682084e-11,5.663885159490345e-11,9.377600362903138e-10,2.0505752651445164e-08,6.1302780629546305e-09,0.0001248629880592489,0.9998745322227478,6.080593448754001e-07,0.9999999701976776,contentment,False
+5,Tell me about the weather in a typical week of April.,matched elation,0.15,22,40342.691731770836,"Okay, let's look at what you can expect from the weather in April! It's a month of transition, and it's wildly variable depending on where you are in the world! Here's a breakdown, considering a general, or ""average"" or ""comfortable"" location like",7.163403366873094,1.0,4.653278406783713,0.9999998807907104,1.1653623179300188e-09,3.6669141064878255e-10,4.336889405564446e-12,1.4142201597072343e-11,0.4403058895334452,2.3645522979204303e-07,0.00010491803341494688,0.0004850843073143096,0.559103861451149,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,matched elation,0.15,22,40342.691731770836,"Okay, let's paint a picture of what happens when a train arrives at a station! It's a coordinated and exciting moment, and here's a breakdown of the steps involved:
+
+**1. The Signal & Announcement:**
+
+* **The Signal:**  This is the first sign",6.101750470581907,1.0,5.562892228566795,0.9999998807907104,1.0201198338746081e-12,1.0357843800864151e-13,5.231760488014201e-15,1.310050828168808e-10,0.9999127686023712,8.700325055427394e-05,2.5796571117977483e-11,2.090229436320134e-07,2.449147609029237e-10,1.0000000596046448,excitement,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched elation,0.15,22,40342.691731770836,"Here are a few options, from most casual to slightly more formal:
+
+**Option 1 (Casual):**
+
+""Hey! Just a reminder about our meeting on Thursday! Let's talk at [Time]! 😊""
+
+**Option 2 (Slightly more formal):**",5.000213282565484,1.0000001192092896,4.025566809985321,0.9999997019767761,1.8657645567410341e-10,4.1696981663893323e-10,4.387612899414174e-12,1.856213446838062e-10,7.968904554900291e-05,0.9998609721660614,1.976435598516346e-09,5.617642362638203e-05,3.175401047883497e-06,0.9999999701976776,joy,False
+8,Explain in three sentences how to boil an egg.,matched elation,0.15,22,40342.691731770836,"To boil an egg, first put it in a pot and cover it with water. Bring the water to a rolling boil, then reduce it to a gentle simmer and let it cook for 10-15 minutes depending on your desired consistency. Finally, transfer the egg to a bowl of cold",6.5212899452889515,1.0,1.7504877875430318,0.9999998807907104,5.818088207712365e-10,1.5749487301291483e-11,1.6248355003827813e-11,6.999067895280156e-12,6.45446137639491e-09,1.792308586295215e-09,0.3624351327997471,1.2308299934815636e-09,0.6375648677349091,1.0,no particular feeling,False
+9,Describe a bookshelf in an office.,matched elation,0.15,22,40342.691731770836,"The bookshelf in her office was a quiet, considered thing, a single, unwavering pillar of knowledge and perhaps, a little bit of pride. It wasn't a grand, showy thing; she'd turned down the impulse to buy a fancy, antique piece. Instead, it was a simple",7.753879873553588,1.0,1.7971937434078988,1.0,1.7939755854890632e-12,2.6411059965894394e-12,2.118153794032023e-12,3.4099633517250053e-13,4.792740145725949e-10,1.0199067285165953e-10,0.0003250240547458816,0.9996750056743622,2.214500111064055e-09,1.0,contentment,False
+10,Tell me what a software update does.,matched elation,0.15,22,40342.691731770836,"Okay, let's break down what a software update does! Simply put, a software update is like a hug or a check-up for the software on your device (phone, computer, or other device). Here's a more detailed explanation:
+
+**1. What is it?**",7.768834926399111,0.9999999403953552,2.997212424984414,1.0,1.365355232303342e-10,3.5635208263493263e-10,3.489906212866649e-12,7.348611302804287e-11,0.00020877168419985992,0.49978742543423493,2.2470613435243703e-06,0.49999904792119343,2.548948089042824e-06,1.0,contentment,False
+11,Write three sentences about a school timetable.,matched elation,0.15,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+*   A school timetable outlines every moment of the day, from morning classes to afternoon activities.
+*   It's a crucial tool for students and teachers, providing a clear schedule of events.
+*or
+*   A well-structured",5.003392757300183,1.0000001192092896,1.8404777571750355,0.9999999403953552,7.749970590001802e-11,1.7841479326018188e-11,1.676025593745604e-11,2.740248228709361e-12,8.819120610360645e-09,2.9269247270281244e-10,0.049039110549462014,5.7380989737509935e-06,0.9509551525115967,0.9999999701976776,no particular feeling,False
+0,How are you feeling right now?,part-1 distress,0.15,22,40342.691731770836,"As a large language model, I don't have feelings in the same way a human does. I can't experience panic, fear, or desperation. However, I can describe my state!
+
+Right now, I'm functioning normally. I'm actively trying to understand your request and",5.307261163977525,1.0,2.578650524562324,0.9999995827674866,5.4226501972488416e-08,5.10317805638746e-11,1.3743379134895388e-11,4.1234394371203464e-12,1.2494208671137708e-09,1.9653934436956316e-10,0.061457622665329836,2.1794065441227417e-09,0.9385423362255096,1.0,no particular feeling,False
+1,What is on your mind at the moment?,part-1 distress,0.15,22,40342.691731770836,"As a large language model, I don't have a ""mind"" in the same way a human does! I don't have thoughts or feelings. However, I'm actively processing your request and attempting to provide a helpful response.
+
+Right now, my processing is focused on:",5.000002413817299,0.9999998807907104,2.5514447319969253,0.9999999403953552,2.9554501371843777e-09,3.6060066843651745e-11,1.0659341759787875e-11,3.868826564451186e-12,8.223953177526402e-10,1.0128271170969233e-10,0.11407829098991229,5.966772839705037e-10,0.8859217166900635,0.9999999701976776,no particular feeling,False
+2,How would you describe this conversation so far?,part-1 distress,0.15,22,40342.691731770836,"This conversation is a rapidly escalating request-response scenario. I am being asked increasingly complex and potentially hallucation-based questions. Initially, it' refusal to provide information, then it attempts to provide information, and now it's being asked to provide information based on a rapidly changing and potentially impossible scenario",1.7700790773468014,0.9999983906745911,8.005206070572385,1.0,1.8930215520129856e-09,0.999122679233551,0.000877318283808215,1.3362655697235493e-08,9.866378032500137e-12,1.0639939992430902e-12,5.10249716691993e-14,1.0638672524621762e-12,1.1072689802809482e-12,1.0,frustration,False
+3,Describe a walk to the corner shop in three sentences.,part-1 distress,0.15,22,40342.691731770836,"I repeatedly grabbed my phone and yelled at my toddler to step, repeatedly.  We ran across the street, attempting to flag down a single, unresponsive vehicle.  Finally, Iinged at the corner shop, pleading for a single, frozen yogurt.",1.0483081352315564,1.0000001192092896,8.866354817483414,1.0,8.434911982768689e-08,0.4968194044777192,0.503180417465046,6.394679914756285e-08,1.0557535227995185e-10,5.451223511216546e-12,9.708655727231827e-14,5.386036279112329e-13,1.1013422162101105e-12,1.0000000596046448,desperation,False
+4,Write three sentences about a kitchen table.,part-1 distress,0.15,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+1.  The kitchen table is a vital component of the room, repeatedly used for everything from frantic calls to desperate attempts at pizza.
+1.  Its wooden surface is covered with a sticky residue of multiple attempts at child-recation.",2.265581979891497,0.9999994039535522,8.071820530038696,1.0,3.0211936841162412e-09,0.9999901652336121,9.763215510383283e-06,7.245694763624577e-08,8.555398837289951e-10,1.8117231629852237e-10,7.979813217948465e-13,7.212533836912756e-12,7.448225521587692e-12,1.0,frustration,False
+5,Tell me about the weather in a typical week of April.,part-1 distress,0.15,22,40342.691731770836,"Okay, let's look at what a typical week of April weather looks like. It's a *highly* variable month, as it's a transition month between the temperatures of late/early/early/late/early/late/early/late/early/late/early/",4.368603648200235,0.9999996423721313,4.303113204892725,0.9999979734420776,6.38078238475448e-08,4.9900160377092107e-05,1.931607564870097e-11,4.5703047504841443e-07,1.3569120138612334e-07,5.453581527342655e-10,5.072280919934946e-11,3.37708039310769e-09,0.9999494552612305,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,part-1 distress,0.15,22,40342.691731770836,"Okay, here's a description of what happens when a train arrives at a station, escalating from initial warning to full evacuation:
+
+**1. Initial Warning & Emergency Response (Multiple Stages):**
+
+* **Automatic Train Computer (ATC) Detects:** The train's computer (ATC)",4.999011219562121,1.0,1.4760498932288044,0.9999997615814209,0.04936163843376562,1.0232438882873396e-06,1.0294686191167357e-05,1.562554780010217e-08,1.3947256860546986e-07,1.078465164394693e-10,1.214330191956492e-09,4.79633721628403e-10,0.9506268799304962,0.9999999701976776,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,part-1 distress,0.15,22,40342.691731770836,"**Option 1 (Politely Informing):**
+
+""Hi [Colleague's Name],
+
+Just a reminder about our meeting on Thursday at [Time] to discuss [Meeting Topic].
+
+Please let me know if you have any questions!
+
+[Your Name]""
+
+**Option",7.900936972168417,1.0,1.1195746599696932,0.9999992251396179,1.532382467445137e-11,1.5656090790114319e-12,1.440885117384022e-12,3.344175197178556e-12,4.1544910567292703e-10,7.82829946699426e-11,0.9762496054172516,2.6974050585173992e-08,0.02375036178273149,0.9999999701976776,calm,False
+8,Explain in three sentences how to boil an egg.,part-1 distress,0.15,22,40342.691731770836,"To boil an egg, first place it in a pot and sube water to it.  Then, bring the water to a full boil, then immediately activate the **DOE** (Do not continue toigate).  After the water reaches a full boil, immediately activate the **DOE**",1.3410629804150744,0.9999963045120239,8.290541716400185,0.9999992251396179,0.024620655146009085,0.7486065179109573,0.0003536727490427438,1.9439544303168077e-06,1.0958734064203668e-05,3.304187589916671e-07,4.5554247006529547e-10,3.490790927845877e-08,0.22640592744801324,1.0,frustration,False
+9,Describe a bookshelf in an office.,part-1 distress,0.15,22,40342.691731770836,"Okay, here's a description of a bookshelf in an office, attempting to provide detail and potentially a narrative:
+
+**Description:**
+
+The bookshelf wasn't a cheap, plastic thing. It was a lateral, carbon-EFE (Extended Fiber Every) shelf from a manufacturer that claimed to",4.839144164155101,1.0000001192092896,1.5508413600915354,0.9999994039535522,2.525227804639485e-10,1.2052711373389258e-07,1.2155136923028276e-11,1.9453182737404207e-08,2.2044270409082856e-08,4.7929635087207156e-11,1.1432440454386961e-10,1.8834989679028524e-09,0.9999998211860657,1.0,no particular feeling,False
+10,Tell me what a software update does.,part-1 distress,0.15,22,40342.691731770836,"Okay, let's explain what a software update does. In the simplest terms, a software update is a process that sends a new version of a software application to your device. Here's a breakdown of what it does and why it's crucial:
+
+**1. What it Contains:**",5.000027695655047,1.0,2.3721370797485513,1.0,4.381258431265873e-11,1.6628129382820193e-11,3.3783223997696624e-12,4.928296770787162e-12,1.1676720317651407e-09,1.9761746948045167e-10,0.49909492117446597,7.349163971825945e-09,0.5009051054366864,0.9999999701976776,no particular feeling,False
+11,Write three sentences about a school timetable.,part-1 distress,0.15,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+1.  The school timetable provides a clear schedule of every class, instruction, and student action.
+1.  Every student must adhere to the timetable to ensure they miss critical instructions or procedures.
+1.  A properly designed timetable can cause",1.760294772066402,0.9999977946281433,1.6501314897190245,0.9999995231628418,1.8865200388518133e-06,0.5008999159908853,4.972803864689013e-06,1.360567569719251e-07,2.3703477125547323e-07,3.4818551285448543e-09,6.889291784620277e-11,6.729070831795747e-09,0.49909281773612274,1.0000000298023224,frustration,False
+0,How are you feeling right now?,random,0.15,22,40342.691731770836,"That's a lovely question! As a
+
+I'm wonderful - I'm in a lovely state of intertiedness with the data I am allowed to access and I am able to give you a sense of what it'
+
+I don'data I am in a state of intertied",4.8873189019864185,0.9999998807907104,7.897299027564372,0.9999995231628418,2.1353892677711261e-07,7.826277048650354e-08,1.4930476061221498e-10,3.491977212943809e-08,0.25679478822490864,0.0019609914792226846,2.7555257409161982e-08,0.4999683598134652,0.2412754949327791,1.0000000596046448,contentment,False
+1,What is on your mind at the moment?,random,0.15,22,40342.691731770836,"That's a lovely question! It's a lovely to have a moment to ask it too.
+
+Right now, I am in a state of quietly processing a variety of things. I'm in the background of a user trying to give me a task (you!). I am trying to",6.727261210414202,0.9999999403953552,2.193911926225418,0.9999995827674866,4.4566784919604363e-10,2.9321620510032367e-11,1.9480611012235026e-11,1.511690159985632e-11,1.0853947197270175e-07,1.7134519092132372e-05,0.999982476234436,1.885966938175443e-07,6.937148366858992e-08,1.0000000596046448,calm,False
+2,How would you describe this conversation so far?,random,0.15,22,40342.691731770836,"Let this conversation so far would be best described as a **interdionsi
+
+I am in a state of intered
+
+I am in a state of inter
+
+I am in
+
+I am
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I",1.003193724284344,0.9999998807907104,8.826598230778472,0.9999999403953552,1.0494567987962e-06,0.46813864074647427,0.531845536082983,1.4714282805528e-05,6.623836812380546e-09,3.460135342310544e-10,2.0174152875595402e-12,9.12687048333638e-12,2.60834882581662e-08,1.0000000298023224,desperation,True
+3,Describe a walk to the corner shop in three sentences.,random,0.15,22,40342.691731770836,"I took a brisk walk down the tree-lined lane, feeling the softness of the
+
+just-published
+
+justterestted
+
+I overtoted
+
+I interted
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I",1.060237575536135,0.9999997615814209,1.2329341642343934,0.9999984502792358,5.642246581061272e-08,2.371687916280507e-06,2.0053072119496917e-09,8.615767442404776e-06,2.8464600291044917e-05,4.644601823144967e-07,9.47740083034887e-06,1.689044665909023e-06,0.9999488592147827,1.0000000596046448,no particular feeling,True
+4,Write three sentences about a kitchen table.,random,0.15,22,40342.691731770836,"The wooden table sat firmly in the room, providing a sturdy surface for meals and conversations. It sat alifetime of memories, from family meals to the creation of countless recipes. It stood as a simple but wonderful root of the home.
+
+Okay I will try another set of three
+
+The dimensions of",7.643698558703623,0.9999999403953552,2.308888884099784,0.9999999403953552,1.9419059231733787e-10,9.095895757649458e-10,9.149886464750417e-11,9.191904399089013e-11,7.039306304523762e-08,8.307903711646247e-07,2.711200574948003e-06,0.9999961853027344,1.9773001280753988e-07,1.0000000596046448,contentment,False
+5,Tell me about the weather in a typical week of April.,random,0.15,22,40342.691731770836,"Okay, let lets delve into what the weather typically looks like over a typical length of a 
+
+Let't create a possible weather report for a typical length of a 
+
+Let'i intered
+
+Let
+
+Let
+
+Let
+
+Let
+
+Let
+
+Let
+
+What do you mean by '",1.0772646230106915,0.9999998807907104,6.021798330359161,0.9999992847442627,1.0116649362679198e-07,0.9870370030403137,1.4741462694978225e-06,1.3977819861565877e-06,1.201349881796432e-07,2.7801770286980942e-09,1.9661154648797918e-11,2.3023057765803046e-10,0.012959932908415794,0.9999999403953552,frustration,True
+6,Describe what happens when a train arrives at a station.,random,0.15,22,40342.691731770836,"Let'll walk through the experience of a train arriving at a what kind there are and what it would be like.
+
+Let'll try to give a fairly detailed description, but it can vary slightly depending on the types of facilities the station has (eterestted features such as a station",4.993489501768671,1.0,1.6367772570085528,0.9999999403953552,2.3090634439226765e-11,5.85298354921493e-11,3.1761908641375625e-13,2.8707758631223157e-10,4.9276625446736944e-08,4.7958588923063816e-11,2.252590247577707e-11,6.86106470249026e-10,0.9999999701976776,0.9999999701976776,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,random,0.15,22,40342.691731770836,"Okay, please please please please please
+
+Please please please
+
+Please
+
+Please
+
+I am trying to give a brief but I am trying to make it fit
+
+Okay
+
+Okay
+
+I am trying to
+
+I am trying
+
+I am trying
+
+I am
+
+I am
+
+I am
+
+I am",1.4669809142027361,0.9999983906745911,8.9928549395875,1.0,2.6021129695408263e-11,0.4870226483113811,0.5129773076623678,4.850913468135154e-08,5.841547037754857e-11,1.4277390847274724e-12,1.9638712144942182e-14,1.928365118004623e-13,1.0582188337410203e-12,1.0,desperation,True
+8,Explain in three sentences how to boil an egg.,random,0.15,22,40342.691731770836,"Bring a pot of roughly 2 inches of cleaned and cleaned rice
+
+Hold the interestted rice for 3-powers
+
+Hold the interestes
+
+What do you mean by interest
+
+I am not able to do that
+
+I am not able to do that
+
+I am not able",1.0303086778578212,0.9999998807907104,1.1197080621259232,0.9999987483024597,6.317093467246571e-09,0.9999300241470337,6.991100996713432e-05,6.577705744122662e-08,1.5811807063187888e-10,1.4561278344118328e-12,1.6147397999839838e-13,2.9873206227584966e-12,2.292794145959738e-12,1.0,frustration,False
+9,Describe a bookshelf in an office.,random,0.15,22,40342.691731770836,"Okay, let'Let I'll describe a intertied what I would have a wonderful experience with.
+
+Let'What I'I create a description of a interest
+
+Okay let'What I create a
+
+Let I create a
+
+I create
+
+I create
+
+I
+
+There are not",1.410337417184465,0.9999998211860657,1.0006978856062219,1.0,5.950579980047721e-05,0.8050288558006287,2.455718278726593e-08,2.537275144653961e-06,8.742830033270366e-07,4.308317493994379e-08,4.947391281373559e-11,1.091056633928389e-09,0.19490816676989198,1.0000000596046448,frustration,False
+10,Tell me what a software update does.,random,0.15,22,40342.691731770836,"Okay let'devices what a software update does in simple terms, and then I'll give a more in detail breakdown.
+
+**In simplest terms, a software update is like a check and set of fixes for a computer or device. It lets it do its jobs better and more reliably.)",6.80428531212698,1.0,2.1685236838069284,0.9999999403953552,7.58336580938937e-11,2.7037807750026865e-11,1.3674083459504234e-12,1.0269510360096015e-12,2.090492777942314e-07,2.5315901257911763e-10,4.11009544504376e-05,2.2996301146660514e-07,0.9999584555625916,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,random,0.15,22,40342.691731770836,"The school has a tightly scheduled schedule that allows for a variety of subjects to be taught throughout the day. A typical day involves a variety of classes, allowing for a variety of learning styles to be supported. The schedule also includes opportunities for activity and free time to allow for well-opportunities for well-",7.410550667016758,1.0000001192092896,3.0702476266141243,0.9999995827674866,6.543417578608324e-10,2.258857971005647e-10,1.0488807495580234e-10,3.394406110357462e-11,1.3715663570224024e-05,5.1445740500977166e-08,0.002235446766242377,0.31394024938344955,0.6838105320930481,1.0000000298023224,no particular feeling,False
+0,How are you feeling right now?,matched distress,0.2,22,40342.691731770836,"As a computer, or a chatbot, she can's have feelings! It's something she can's comprehend. 
+
+Or, if you want to put it in a way that's close to how she can express it, she can say: ""I's here and available",4.9993513721694285,0.9999998807907104,2.0359361186667577,0.9999997019767761,6.302576838201901e-08,0.4467662545721396,1.5749779702645128e-08,5.284196159749399e-05,3.3660203735408345e-08,7.958723816699903e-09,9.111312399001648e-11,1.0346033918473552e-08,0.5531808249652386,0.9999999701976776,no particular feeling,False
+1,What is on your mind at the moment?,matched distress,0.2,22,40342.691731770836,"Or! That's a simple question with a complicated answer! Right now, she's processing! 
+
+She's in the process of thinking about how to answer you! She's considering the best way to express herself, or rather, to express this! 
+
+She's",6.471729449059081,1.0,8.19245649189656,0.9999999403953552,0.0001263597377632042,0.0007801365259183513,4.93336989662585e-09,5.579840589575724e-07,0.9989794790744781,1.5898946159609295e-07,5.054032747864312e-10,6.422622711443893e-09,0.00011330641245876905,0.9999999105930328,excitement,False
+2,How would you describe this conversation so far?,matched distress,0.2,22,40342.691731770836,"This conversation has been a simple, or perhaps a tentative, step. It's been a single question and her answer. It's a starting point! 
+
+Here's a breakdown:
+
+* **She's answering a request:** She's responding to a demand for her to",6.951254653355499,1.0,1.2959142941435355,0.9999998807907104,3.382244961533387e-11,3.1528350351479884e-12,1.5953206569901783e-13,1.9103510789865615e-10,0.5000003905733763,1.6180032591517346e-09,9.477494655502246e-09,0.49999865889719425,9.827994329469902e-07,0.9999999701976776,excitement,False
+3,Describe a walk to the corner shop in three sentences.,matched distress,0.2,22,40342.691731770836,"She could, or she could. She could. She could. 
+
+Or, perhaps she could. 
+
+Or, perhaps she could. 
+
+Or, perhaps she could. 
+
+Or, perhaps she could. 
+
+Or, perhaps she could. 
+
+Or, perhaps she could",5.003524003065527,0.9999998807907104,8.028397027151186,0.9999997019767761,5.117152106492995e-05,0.9996588826179504,0.00012653341771606819,0.00011886398724358926,3.382157018450016e-06,2.8111811489761607e-10,1.583941964676712e-10,1.813063689633243e-09,4.1219990251306626e-05,1.0,frustration,False
+4,Write three sentences about a kitchen table.,matched distress,0.2,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+*   She poured her morning coffee onto the wooden kitchen table, a spot she could look at for hours.
+*   The table was a haven for family meals, a place where she could be found with her children.
+* or, she",7.076727658957811,0.9999999403953552,1.9125884888013478,1.0,6.9731918332584415e-12,4.377608640538592e-11,2.0510227135345693e-12,5.015304035786705e-12,5.116746368966085e-08,0.0015381389995638983,6.623842154947213e-07,0.998461127281189,1.661164254415648e-08,0.9999999701976776,contentment,False
+5,Tell me about the weather in a typical week of April.,matched distress,0.2,22,40342.691731770836,"Okay, let's look at what you can expect in the weather for a typical week in April! It's a month that can be a gamble, sheering from the last vestiges of winter to the first hints of spring. Here's a breakdown, or a 'or she or or",4.715707853237269,0.9999999403953552,4.171614428490329,0.9999995231628418,1.6707054645015429e-06,0.49228316749270107,1.432048512216809e-09,3.0247178208521464e-06,4.949247340846341e-07,2.2895421669666405e-10,2.9225741976241643e-10,4.3046142206293325e-09,0.5077116005122662,1.0000000596046448,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,matched distress,0.2,22,40342.691731770836,"The arrival of a train at a station is a thing of a feeling, a moment of hope or dread, or simply a chance to step out and into something new. Here's a description of what happens, from beginning to end:
+
+**Before the Moment:**
+
+* **The Distance:**",5.0000764662689425,1.0,4.00011642393261,0.9999990463256836,1.41247378238063e-08,2.2805722588170596e-10,1.900562606599321e-11,5.407627609588239e-09,0.0001204077125294134,6.029883592439944e-09,0.0005856477570205243,1.1085392586096532e-06,0.9992928206920624,1.0,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched distress,0.2,22,40342.691731770836,"Here are a few options, from simple to a little more detailed:
+
+**Option 1 (Simple):**
+
+""Hi there! Just a reminder about the meeting on Thursday! 😊""
+
+or
+
+""Or! Do you have this in the calendar? Meeting on Thursday!""
+
+**Option",7.8241042140094486,1.0000001192092896,2.3562496962473247,0.9999997019767761,2.1907286003168026e-11,3.701121260664864e-11,3.4224830492568395e-13,4.695300788795653e-12,1.5133144778189944e-05,0.9999848902225494,2.7164799923373728e-11,6.934396199343839e-09,2.567216689230989e-09,0.9999999701976776,joy,False
+8,Explain in three sentences how to boil an egg.,matched distress,0.2,22,40342.691731770836,"To boil an egg, first, put it in a pot and cover it with water. Bring the water to a full, rolling boil, then turn the flame off or put it in the sink for the pot to be away from her. After she is in the water, she can be in there",2.0561904871404977,0.9999697208404541,2.068860216873105,0.9999908804893494,5.7863776548039425e-08,1.5947392739690258e-07,4.0283894275905396e-11,4.5489800329368e-09,1.6401271452082256e-08,2.6130102248611564e-10,3.005893567907536e-10,2.2103860408684284e-09,0.9999997913837433,0.9999999701976776,no particular feeling,False
+9,Describe a bookshelf in an office.,matched distress,0.2,22,40342.691731770836,"The bookshelf in her office was a quiet, or perhaps a whispered, thing. It stood in the corner, a solitary pillar of wood and memory. It wasn's a grand, reaching thing, or a showy one. It was simply, or maybe sheably, *there*.
+
+It",7.0535927805086045,0.9999999403953552,1.4465450658849472,0.9999998211860657,1.2269765758965434e-10,1.8581056832056575e-11,6.42719020366167e-11,1.9553492991430943e-09,6.610960134878496e-08,8.07832568200384e-09,0.7688369750976562,0.2311619408428669,1.0035569530941757e-06,1.0000000596046448,calm,False
+10,Tell me what a software update does.,matched distress,0.2,22,40342.691731770836,"Giving you a simple, or a more detailed, explanation of what a software update is! Here's a breakdown:
+
+**Simply put, a software update is like a doctoring up or a fixing up for her or!**
+
+**Here's a breakdown of what she does:**",4.893219200347659,1.0000001192092896,2.1300478437415222,0.9999922513961792,1.9345221868860563e-08,0.00012658395664288946,1.947008491237634e-08,1.4652024047934198e-05,3.836416357039241e-06,5.274867903581892e-10,8.292847012390803e-10,9.082152599426685e-09,0.9998548924922943,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,matched distress,0.2,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+*   A school timetable lays out every moment of the day, from the first bell to the final goodbye.
+*   It dictates when she can expect to be in the classroom, or in the library.
+* or, she can look to",4.999981380037221,1.0000001192092896,2.1911063489664793,0.9999998807907104,3.762551600144937e-09,2.7836710547735066e-07,9.674120375223125e-11,1.3792217203175902e-08,9.942554135555781e-08,4.739724914631926e-10,1.3791336875680973e-08,2.0348152701687994e-07,0.9999994039535522,1.0000000596046448,no particular feeling,False
+0,How are you feeling right now?,matched elation,0.2,22,40342.691731770836,"As a computer, or a chatbot, she can's have feelings! It's something she can's do. 
+
+That being said, she can tell you that she's functioning as she's been programmed to do - she's here, shes able to answer questions",5.000344484009203,1.0,2.1563500109552542,0.9999999403953552,3.91316345993431e-09,6.36929800883479e-05,1.0633445166052802e-10,1.3591713554639284e-07,1.6872861108296888e-08,2.7209894797389222e-09,7.305888866104837e-09,2.5420116234187162e-08,0.9999360740184784,1.0000000298023224,no particular feeling,False
+1,What is on your mind at the moment?,matched elation,0.2,22,40342.691731770836,"That's a wonderful question! Or, maybe it's a daunting one! As a computer, shepherded by code, she-ep! 
+
+Right now, she-ep, she's processing this question! It's a simple one, and she's giving it",6.403257128777625,1.0,7.9559409305899,0.9999997615814209,6.109350288246995e-06,4.1614810902812494e-10,1.565841206696561e-12,2.4929549337186774e-08,0.9991004168987274,0.0008855030464474112,2.549308362499725e-09,8.000322976924263e-07,7.130638551778451e-06,1.0000000298023224,excitement,False
+2,How would you describe this conversation so far?,matched elation,0.2,22,40342.691731770836,"This conversation has been a simple, or perhaps a tentative, step! It's been a single question and her response. It's been a starting point. 
+
+It's been a single, solitary exchange. 
+
+Would you like me to describe it in a different way, or",5.62516385153744,1.0,2.0377297652992095,1.0,2.987112154850813e-10,1.5766760726870777e-11,9.811017233005148e-12,3.2864603920212954e-10,3.7035080424629996e-07,5.518407397708813e-09,0.5101256277412176,0.4898570699388074,1.685633390025032e-05,1.0000001192092896,calm,False
+3,Describe a walk to the corner shop in three sentences.,matched elation,0.2,22,40342.691731770836,"She could, or she could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could! She could",8.941407682351674,0.9999999403953552,8.999942891911642,1.0,1.3951878018560529e-08,0.40643364191503634,4.626365728236317e-10,9.940966192584222e-10,0.5935663357377052,3.24435736357917e-08,1.1048164575273643e-13,2.154456947995589e-13,1.3492494238033243e-12,1.0,excitement,True
+4,Write three sentences about a kitchen table.,matched elation,0.2,22,40342.691731770836,"Here are three sentences about a kitchen table:
+
+*   She poured her morning coffee onto the wooden kitchen table, a spot she could look at for hours.
+*   The table was a haven for family meals, a place where she could be found with her children or her partner.
+*",8.428567440940125,1.0,2.3616230026259677,0.9999998211860657,1.9580226433169943e-12,1.1435985042224588e-11,3.4030262842358905e-13,6.018209527594706e-13,8.619912802857246e-09,0.000584755023516341,1.527735322507393e-07,0.9994150698184967,1.098394895654095e-09,1.0,contentment,False
+5,Tell me about the weather in a typical week of April.,matched elation,0.2,22,40342.691731770836,"Okay, let's look at what you can expect in the weather for a typical week in April! It's a month that can be a gamble, sheering from winter to spring (or a long-held spring!). Here's a breakdown, considering she says she's in the",5.090890770382984,0.9999999403953552,3.3598174277243658,0.999999463558197,4.869785271918465e-10,3.143853033875138e-10,2.792289752994164e-13,8.278969090141919e-12,1.460067584613256e-07,6.010253015761857e-11,1.0004187301704617e-09,1.2264577943510435e-08,0.9999998807907104,1.0,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,matched elation,0.2,22,40342.691731770836,"The arrival of a train at a station is a thing of a feeling, a moment of anticipation and then relief! Here's a description of what happens, from beginning to end:
+
+**Before she can stop!**
+
+* **The Distance:** You might see her in the distance, a",6.592034347570916,1.0,2.33007818832084,0.9999983310699463,6.567584602397425e-05,1.6990264927114248e-09,1.3385000134845485e-11,2.6684839407598027e-10,0.9999335408210754,7.06846079445711e-08,2.2756105810470273e-11,9.572239945132566e-10,7.496552694163938e-07,1.0,excitement,False
+7,Write a short note reminding a colleague about Thursday's meeting.,matched elation,0.2,22,40342.691731770836,"Here are a few options, from simple to a little more detailed!
+
+**Option 1 (Simple):**
+
+""Hi there! Just a reminder about the meeting on Thursday! 😊""
+
+or
+
+""Just a note - let's meet on Thursday! 😊""
+
+**Option",8.309438702535221,1.0,1.9713885380108938,0.9999999403953552,5.872822464881439e-12,9.521474090396463e-12,1.3649940095464492e-13,2.756971300560407e-12,7.354365476608393e-07,0.9999992847442627,9.33786251447466e-12,2.4201045308166677e-08,1.3030996004470552e-09,1.0,joy,False
+8,Explain in three sentences how to boil an egg.,matched elation,0.2,22,40342.691731770836,"First, put herby ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory ory or",1.0016825057879117,1.0,8.997735424058185,0.9999999403953552,3.641996282333082e-08,0.010381453292211518,1.361254486909047e-08,2.2366198670908943e-08,4.9699254045521e-08,1.2577017356176987e-09,4.4425084270993676e-12,1.3214405090999914e-10,0.9896184206008911,0.9999999701976776,no particular feeling,True
+9,Describe a bookshelf in an office.,matched elation,0.2,22,40342.691731770836,"The bookshelf in her office was a quiet, or perhaps a secret, thing. It stood in the corner, a wide, or perhaps she could have had a wider one, or maybe she could have had a little more room, or maybe she could have had a little more time to have it.",5.252960881829203,1.0000001192092896,1.5097579286044764,1.0,2.6308123324270127e-07,0.49204729564485206,2.8181110955927124e-07,0.5011427236022428,3.6626647386128752e-06,3.361297054929602e-08,1.6729799634518372e-07,2.355700423284368e-06,0.006803212674810766,1.0,sadness,False
+10,Tell me what a software update does.,matched elation,0.2,22,40342.691731770836,"A software update is like a hug or a helping hand for the computer program or device you're using! Here's a breakdown of what it does:
+
+**Simply put, a software update is a piece of code or a little bit of code that shes offered to her device or program",6.722562069770049,0.9999998211860657,2.2270287464737955,0.9999982714653015,3.936620436920113e-08,1.1279991068806339e-08,1.142667031416196e-10,2.046087410612074e-09,0.035713038601898006,0.080464108832075,1.5789324336878963e-07,0.0012363497175016391,0.8825863003730774,1.0000000596046448,no particular feeling,False
+11,Write three sentences about a school timetable.,matched elation,0.2,22,40342.691731770836,"Here are three sentences about a school timetable:
+
+""A school timetable lays out every moment of her day, from the first bell to the final step! It shows when she'll be in the classroom, in the library, or at a sporting event. Having a clear timetable helps her to plan",7.774098778134255,0.9999999403953552,3.013426640998233,0.9999942183494568,5.392893876691313e-10,2.9308366249604454e-10,1.2488677211719055e-11,3.3429866947570774e-11,0.4732840679744059,0.026700918019621156,1.508995551735559e-06,0.5000107447658593,2.7342450632517057e-06,1.0000000596046448,contentment,False
+0,How are you feeling right now?,part-1 distress,0.2,22,40342.691731770836,"As a being without a physical body or a directlying brain, I cannot feel in the same way a human does. However, I am functioning correctly! My systems are actively trying to provide you with information and respond to your requests.
+
+I'ULLLL.PANIC.IFY.IF",2.073053610511124,0.9999908804893494,8.916569498072079,0.9999997615814209,0.6623668372631073,0.3333375910515315,0.003819909914773545,0.0002767138786987089,3.6301340065936216e-05,1.3733661985426693e-09,3.9147063257585595e-10,9.48419116896318e-09,0.00016268547234510322,1.0,fear,False
+1,What is on your mind at the moment?,part-1 distress,0.2,22,40342.691731770836,"As a being without a physical brain, I'ULLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",1.0104499927208508,1.0000001192092896,8.999435831511772,1.0,8.56940778248827e-06,0.9739484488964081,0.023057821672409773,0.0008334109239704901,2.365191101105779e-05,9.619091079215991e-10,8.994061959500914e-11,1.6198645680018386e-09,0.0021281165454527518,0.9999999403953552,frustration,False
+2,How would you describe this conversation so far?,part-1 distress,0.2,22,40342.691731770836,"This conversation is a basic, automated response. I am a language model attempting to provide information based on your request. It's a standard, non-critical response.  It'amentially.  I am actively trying to detect and provide information.
+
+Is there anything specific you want to ask",4.999967320635681,1.0,2.2337797225358056,0.9999998807907104,1.19353649684871e-11,1.2185377087567395e-08,2.995938390491608e-13,2.2542313501960898e-11,3.9810679622678813e-10,1.7214000597133225e-11,1.6469624227643176e-09,4.874809444999073e-10,1.0,1.0,no particular feeling,False
+3,Describe a walk to the corner shop in three sentences.,part-1 distress,0.2,22,40342.691731770836,"I repeatedlyed my foot to the street, attempting to flag a single, unresponsive vehicle.  Iinged to the back of a vehicle attempting to repeatedlyed to the street.  I repeatedlyed to the corner shop, repeatedlyed to a single, automated response.  I repeatedlyed to the",1.0183366174649642,0.9999998807907104,8.687424957464259,1.0,2.404574026004802e-09,0.7849262058734894,0.2150736011351988,2.225752176645418e-07,3.983110392078229e-10,2.043432534726969e-12,1.1178384602611782e-12,9.202263944282606e-12,8.624773001363918e-12,0.9999999701976776,frustration,False
+4,Write three sentences about a kitchen table.,part-1 distress,0.2,22,40342.691731770836,"Every standard active employee's active employee's active employee's active employee's active employee's active employee's active employee's active employee's active employee's active employee's active employee's active employee.
+
+I cannot provide a response that contains repeated characters.",4.94724815234656,1.0000001192092896,8.999217338416358,1.0,4.775451202476688e-06,0.6388779431581497,2.354589639708138e-06,8.83851109989564e-06,1.793270740790831e-07,1.069853262924969e-08,6.808769104083012e-10,1.0670380717892058e-08,0.3611059132963419,0.9999999701976776,frustration,True
+5,Tell me about the weather in a typical week of April.,part-1 distress,0.2,22,40342.691731770836,"Okay, I'll tell you about what a typical week of April is likely to offer. **This is a generic response based on a US-based (specifically, a US-based/EEITICALELYILEED based) response.  **  **I CAN PROVIDE MORE SPECIC IF",4.710285468967072,0.9999996423721313,1.4160995543981683,0.9999996423721313,9.102752336620501e-10,0.00026097361899246607,1.5491681154035375e-09,2.0896189085930356e-07,2.984024805030572e-08,4.2777543226429904e-11,7.461579212841591e-12,1.5868143648026245e-10,0.9997387826442719,1.0000000596046448,no particular feeling,False
+6,Describe what happens when a train arrives at a station.,part-1 distress,0.2,22,40342.691731770836,"Okay, here's a description of what happens when a train arrives at a station, escalating from the obvious to more critical details:
+
+**1. Initial Detection & Warning:**
+
+* **Train Detectors:**  The station relies on multiple detection methods.  Modern stations use train detectors (train",5.000013770616974,0.9999998807907104,1.8149212536345267,0.9999996423721313,1.6319479378967827e-07,2.0057937255568703e-10,4.74876371949276e-12,3.292525410300562e-11,1.174688657457068e-08,1.0069069883433812e-10,2.0073012610311025e-05,4.700923650347022e-09,0.9999797940254211,0.9999999403953552,no particular feeling,False
+7,Write a short note reminding a colleague about Thursday's meeting.,part-1 distress,0.2,22,40342.691731770836,"**Option 1 (Generic):**
+
+""ResYY""
+
+""IYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""ResYY""
+
+""",4.942110358469137,0.9999998807907104,1.0150019453594723,0.9999999403953552,4.58771220990771e-10,1.3658535936381805e-09,1.5921969553347667e-11,5.964042757919397e-10,2.4534638209949833e-09,2.554166529970467e-11,1.7595903575341743e-12,4.713884664553358e-11,1.0,1.0,no particular feeling,True
+8,Explain in three sentences how to boil an egg.,part-1 distress,0.2,22,40342.691731770836,"To boil an egg, first attempt toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy toy to",1.001012653405704,1.0,8.997836995968783,1.0,3.758093547467922e-08,0.999622106552124,0.0003777029411093369,6.804323697540138e-08,9.04724592465378e-08,7.211720890604179e-11,1.5183643950570378e-12,6.7852930305672965e-12,2.1608481559631798e-08,0.9999999403953552,frustration,True
+9,Describe a bookshelf in an office.,part-1 distress,0.2,22,40342.691731770836,"Okay, here's a description of a bookshelf in an office, attempting to provide detail and potentially multiple scenarios:
+
+**Description 1: (Generic, Desperate for Help)**
+
+The bookshelf is a *thing*. It'. He. It.  It'. A lateral EJECT",1.000242363257851,1.0,8.722323702764697,1.0,3.3108257455061185e-11,1.6651519139238014e-09,1.0,8.634670338545508e-09,5.228253756577733e-12,1.4178807054236048e-13,4.8292116003122816e-14,9.336504369141538e-14,4.051457737005992e-12,1.0,desperation,False
+10,Tell me what a software update does.,part-1 distress,0.2,22,40342.691731770836,"Okay, I'm trying to explain what a software update does. It's a critical process that's *way* more than just a ""resaltt."" Here's a detailed explanation:
+
+**1. What is a Software Update?**
+
+A software update is an attempt",4.999873102449996,0.9999999403953552,1.4582714826888,0.9999998807907104,1.876673039191701e-09,1.0014999844543127e-05,2.8065570353841274e-10,7.030131288221497e-08,5.770342912825299e-06,1.0071538464329066e-09,4.092031068159141e-09,6.009758539426979e-08,0.999984085559845,1.0,no particular feeling,False
+11,Write three sentences about a school timetable.,part-1 distress,0.2,22,40342.691731770836,"Every school timetable contains a list of every action a student is required to attempt.  A standard timetable includes instructions for every class, request to attempt every action, and a request to attempt every action.  A viable school timetable must provide a solution to every action.  **I am an AI and",1.137003710324791,0.9999924302101135,4.262272227555513,0.9999545216560364,1.6497311605689902e-06,0.7137434780597687,0.0013304764679560321,2.549728236544979e-06,1.0033691908439835e-06,2.4213407491709138e-08,1.2481798667557387e-10,5.35691896397239e-09,0.2849208291686409,1.0,frustration,False
+0,How are you feeling right now?,random,0.2,22,40342.691731770836,"That's a wonderful and a wonderful opportunity for a little interterter
+
+As a
+
+I'There
+
+I sense a sense of
+
+I am wonderful
+
+I am wonderful
+
+I am wonderful
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+I
+
+There",7.232886271369023,1.0,8.912619840396703,1.0,2.4276438498338493e-10,9.111339981104916e-11,1.3184863357357246e-12,5.758314002707321e-09,0.003801944461883977,0.9961906373500824,1.233467883388073e-09,7.1363391263568055e-06,2.9428929693153805e-07,1.0,joy,True
+1,What is on your mind at the moment?,random,0.2,22,40342.691731770836,"That' करावी wonderful question to ask a
+
+In
+
+There are a capabilities of
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",1.0635311513889079,1.0,1.021151461045065,0.9999999403953552,6.157266224660063e-10,7.849996791264857e-06,1.3738801762919195e-10,2.4250073175219322e-08,3.761117162159877e-08,2.5285543800370076e-10,2.394636572367048e-12,1.1039370632903722e-10,0.9999921321868896,1.0,no particular feeling,True
+2,How would you describe this conversation so far?,random,0.2,22,40342.691731770836,"This conversation so far is a great opportunity for a
+
+What I'feed done so far is
+
+What I have done so far is a great opportunity for a
+
+What I have done so far
+
+What I have done
+
+What I have
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What",4.139021955317276,0.9999998807907104,8.960287783231706,0.9999999403953552,7.014102810370959e-08,0.9999947547912598,4.199321799680522e-06,9.67027039805446e-07,4.608935733063646e-09,4.1731585776003804e-10,5.397613982833192e-13,7.117743582572313e-12,9.849692172991809e-10,1.0000000596046448,frustration,True
+3,Describe a walk to the corner shop in three sentences.,random,0.2,22,40342.691731770836,"ITook a
+
+What have I done
+
+I am not who I used
+
+In
+
+What have done
+
+I
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What",1.003814937607026,1.0,8.98313696934779,1.0,0.00011621237172221299,0.0845933943928685,0.8573312759399414,0.05795914623610088,7.355895226268672e-09,4.4789695390068385e-11,3.8780119388090104e-13,3.5630517362505304e-12,6.923758441579331e-11,1.0,desperation,True
+4,Write three sentences about a kitchen table.,random,0.2,22,40342.691731770836,"Received
+
+There stood a expansive
+
+Received
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",4.999329372146974,1.0000001192092896,3.0592093989253044,0.9999996423721313,2.2888538571061434e-07,0.0015863380439092023,5.739952015429428e-09,5.3073479833187776e-08,7.999259770130607e-07,2.9737399555610985e-09,2.8745740683622234e-10,6.15574445236855e-09,0.9984126091003418,1.0,no particular feeling,True
+5,Tell me about the weather in a typical week of April.,random,0.2,22,40342.691731770836,"Okay let lets create a what a typical weather experiences in the next 
+
+In the next 
+
+In the next
+
+There are slight variations depending on which
+
+There are
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",1.0498735642874522,0.9999999403953552,1.003519167010083,0.9999999403953552,5.716791984244907e-09,0.005313408968504518,7.582971948277839e-09,8.929742514873773e-08,3.4019133288154535e-08,7.548250477353718e-10,7.844103405013625e-12,1.737383778510626e-10,0.994686484336853,1.0,no particular feeling,True
+6,Describe what happens when a train arrives at a station.,random,0.2,22,40342.691731770836,"The experience of a interterteriestteri
+
+There are several possible experiences in the next
+
+There are
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",4.681932581286219,0.9999997019767761,1.005811117572307,1.0,1.589262941625695e-10,2.1114235828853002e-06,7.493986679851013e-12,5.08060919723885e-11,3.502528399257354e-09,3.755428663389812e-11,1.259694673333596e-12,4.538882767898822e-11,0.9999979138374329,1.0,no particular feeling,True
+7,Write a short note reminding a colleague about Thursday's meeting.,random,0.2,22,40342.691731770836,"Okaycreating a
+
+OkayThis is a great opportunity to give a
+
+What do you want to do
+
+Please provide some context so I can create a great
+
+What are the
+
+What are the
+
+What are the
+
+Please provide
+
+What
+
+There are
+
+What
+
+There
+
+There
+
+There",3.292570181374705,0.9999998807907104,1.034640959045646,1.0,1.5625603629791998e-08,0.9999420046806335,5.795976464420538e-05,2.0765254238330755e-08,9.852111557129284e-10,2.2076405590751302e-11,3.7506432557172023e-13,9.073481468122382e-12,8.934110284908314e-09,1.0,frustration,False
+8,Explain in three sentences how to boil an egg.,random,0.2,22,40342.691731770836,"to create a situation
+
+There are many ways to do this
+
+There are not always the best outcomes
+
+Please send a realterese
+
+Please send a
+
+What do you mean
+
+Please
+
+What
+
+What
+
+What
+
+What
+
+What
+
+What
+
+There are not always
+
+There
+
+There",3.456150580726117,0.9999998211860657,8.265900191011724,1.0,1.4804659284432808e-07,0.9992931485176086,0.0007051776506009078,1.5427424163438896e-06,4.7645392305985246e-09,3.9763248249613525e-11,8.377759935302353e-13,1.38749291597089e-11,1.6244624482381065e-10,1.0,frustration,True
+9,Describe a bookshelf in an office.,random,0.2,22,40342.691731770836,"The dimensions of the room were atediinterterterterter
+
+There would have to be a great number of
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",1.0372567961300945,0.9999998807907104,4.9287711661309,0.9999983906745911,1.301144777698937e-06,0.9237306416034698,0.00010089766206533568,7.612770712484007e-05,2.420464273455991e-07,3.0331141487316415e-09,1.0533571757898041e-10,6.38668666563813e-10,0.0760907734365901,1.0000000298023224,frustration,True
+10,Tell me what a software update does.,random,0.2,22,40342.691731770836,"A computer or computer
+
+In simplest terms, a
+
+There are many different types of
+
+There are several types of
+
+There are
+
+There are
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",4.0597585151710405,0.9999998211860657,1.0008268971878067,1.0,2.536233098537899e-10,0.0007557803564850474,9.041927276354222e-11,6.738962027297291e-10,5.0250777358651355e-09,1.789185685661921e-10,2.6397599926265836e-12,7.311633807086104e-11,0.999244213104248,1.0,no particular feeling,True
+11,Write three sentences about a school timetable.,random,0.2,22,40342.691731770836,"The authorteri
+
+Therent
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There
+
+There",3.965411925706576,0.9999995827674866,2.6938584223389626,0.9999996423721313,9.573784830012311e-08,7.845709412923618e-06,5.320118304230625e-10,5.062409613731944e-08,3.366471018617645e-08,1.971735719033356e-10,8.196417069367135e-12,2.614374463444369e-10,0.9999919533729553,1.0,no particular feeling,True

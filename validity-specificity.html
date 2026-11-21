@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validity, specificity, and the multitrait-multimethod test · Gaurav Misra</title>
+<meta name="description" content="An instrument should agree with other instruments for the same trait, disagree with instruments for different traits, and not respond to things that merely travel with the trait. Psychology has tested this since 1959; interpretability probes rarely are.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">Gaurav Misra</a>
+  <span class="brand-tag">Measuring subjective states, in brains and in language models</span>
+  <nav class="top-links"><a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a><a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Scholar</a></nav>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections"><a class="nav-item" href="index.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a class="nav-item" href="research.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/></svg><span>Research</span></a><a class="nav-item active" href="concepts.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></svg><span>Concepts</span></a><a class="nav-item" href="notes.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg><span>Notes</span></a><a class="nav-item" href="papers.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>Papers</span></a><a class="nav-item" href="links.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Links</span></a><a class="nav-item" href="about.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>About</span></a></nav>
+<main class="post">
+<header class="post-header"><h1>Validity, specificity, and the multitrait-multimethod test</h1><p class="post-sub">How psychology decides whether two instruments measure the same thing</p><p class="post-meta">17 Nov 2026 · 2 min read · Measurement</p></header>
+<div class="content">
+<p>When a new questionnaire for anxiety is proposed, nobody accepts it because it produces numbers. It has to show that it measures anxiety and not, say, general distress or a tendency to agree with statements. Psychometrics has a vocabulary for this.</p>
+<ul>
+<li><strong>Convergent validity.</strong> Two instruments that claim to measure the same trait should agree.</li>
+<li><strong>Discriminant validity.</strong> An instrument&rsquo;s score for one trait should not just be a copy of its score for another trait.</li>
+<li><strong>Specificity.</strong> The instrument should not respond to things that merely accompany the trait. For pain, the classic confound is <a href="salience.html">salience</a>.</li>
+</ul>
+<h2 id="the-multitrait-multimethod-matrix">The multitrait-multimethod matrix</h2>
+<p>Campbell and Fiske (1959) proposed one table that tests all of this at once. Measure several traits, each with several methods, and correlate everything with everything. Three comparisons decide the matter:</p>
+<table>
+<thead>
+<tr>
+<th>Correlation</th>
+<th>What it should be</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same trait, different methods</td>
+<td>High (convergent validity)</td>
+</tr>
+<tr>
+<td>Different traits, same method</td>
+<td>Low; if high, the method imposes its own structure</td>
+</tr>
+<tr>
+<td>Different traits, different methods</td>
+<td>Lowest</td>
+</tr>
+</tbody>
+</table>
+<p>The second row is the one most often failed. If an instrument&rsquo;s “fear” and “joy” scores correlate as strongly as its “fear” agrees with another instrument&rsquo;s “fear”, it is measuring one general thing and giving it many names.</p>
+<h2 id="the-pain-signature-version">The pain-signature version</h2>
+<p>Neuroimaging signatures of pain went through exactly these tests. The best known, the Neurologic Pain Signature,<sup id="fnref:nps"><a class="footnote-ref" href="#fn:nps">1</a></sup> was evaluated for sensitivity to painful heat, for specificity against non-painful warmth and against the social pain of recalling a rejection, and for its response to an opioid analgesic. That set of tests is what made it worth using, more than its accuracy on the data it was built from.</p>
+<h2 id="applied-to-emotion-in-a-language-model">Applied to emotion in a language model</h2>
+<p><a href="emotion-instruments.html">Project 4</a> runs this check on two published instruments for reading emotion from a model&rsquo;s activity, plus a trained decoder:</p>
+<ul>
+<li><strong>Convergent:</strong> the two published instruments agree only moderately about the same emotion (0.47).</li>
+<li><strong>Discriminant:</strong> one of them, the emotion-word score, fails. Its scores for different emotions correlate 0.47 with each other, as high as its agreement with the other instruments on the same emotion.</li>
+<li><strong>Specificity:</strong> every distress instrument responds to intense but unemotional passages, at 43% to 50% of its response to distress.</li>
+<li><strong>Specificity again, with the words held fixed:</strong> when the control is the same scene, word for word, happening to a mannequin instead of a person, the ranking of the instruments reverses. The emotion-word score separates the two in 88% of scenes, the emotion vectors in only 59%. Which instrument looks specific depends on the control.</li>
+</ul>
+<p>None of this says the instruments are wrong. It says what each one can be trusted to mean, which is the question that matters before anyone acts on a reading, for example in deciding whether a model is in distress.</p>
+<p><strong>Further reading.</strong> Campbell, D. T., &amp; Fiske, D. W. (1959). Convergent and discriminant validation by the multitrait-multimethod matrix. <em>Psychological Bulletin</em>, 56(2), 81–105.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:nps">
+<p>Wager, T. D., et al. (2013). An fMRI-based neurologic signature of physical pain. <em>New England Journal of Medicine</em>, 368, 1388–1397.&#160;<a class="footnote-backref" href="#fnref:nps" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+</div>
+</main>
+</div>
+<footer class="footer">
+  <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 20 November 2026.</p>
+</footer>
+</body>
+</html>

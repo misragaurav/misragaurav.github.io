@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salience, and why it haunts EEG research · Gaurav Misra</title>
+<meta name="description" content="Much of the brain&#x27;s response to a painful stimulus is also produced by any sudden, attention-grabbing event. Salience controls are how pain research learned to tell the two apart, and how a distress probe in a language model should be tested.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">Gaurav Misra</a>
+  <span class="brand-tag">Measuring subjective states, in brains and in language models</span>
+  <nav class="top-links"><a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a><a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Scholar</a></nav>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections"><a class="nav-item" href="index.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a class="nav-item" href="research.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/></svg><span>Research</span></a><a class="nav-item active" href="concepts.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></svg><span>Concepts</span></a><a class="nav-item" href="notes.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg><span>Notes</span></a><a class="nav-item" href="papers.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>Papers</span></a><a class="nav-item" href="links.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Links</span></a><a class="nav-item" href="about.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>About</span></a></nav>
+<main class="post">
+<header class="post-header"><h1>Salience, and why it haunts EEG research</h1><p class="post-sub">Is that brain response about pain, or about something sudden and important happening?</p><p class="post-meta">17 Nov 2026 · 3 min read · EEG</p></header>
+<div class="content">
+<p>A brief laser pulse to the skin produces a large, reliable EEG response peaking a few hundred milliseconds later, strongest over the top of the head (the vertex potential, or N2–P2 complex). Its size tracks how painful the pulse is rated. For years it was read as a cortical marker of pain.</p>
+<p>Then came the control experiments. An equally sudden loud sound, a bright flash or an unexpected touch produce a vertex potential of similar shape. Make the painful stimulus predictable, by repeating it at a short fixed interval, and the response shrinks far more than the rated pain does. Make a non-painful stimulus rare and surprising, and the response grows. What the vertex potential tracks best is not pain but <strong>salience</strong>: how sudden, novel and behaviourally relevant an event is.<sup id="fnref:iannetti"><a class="footnote-ref" href="#fn:iannetti">1</a></sup> The same argument was made for the fMRI “pain matrix”: most of it responds to salient stimuli of any sense.</p>
+<h2 id="why-it-matters">Why it matters</h2>
+<p>Pain is almost always salient, so any measure of pain will correlate with salience. A correlation between a brain signal and pain ratings therefore does not show that the signal is about pain. Only a <strong>salience control</strong>, a stimulus matched in suddenness and intensity but not painful, can show that. The lesson generalises: a measure of a subjective state has to be tested against the states and events that usually accompany it.</p>
+<p>In practice this means:</p>
+<ul>
+<li>Match the control stimulus on intensity, suddenness and attentional capture, and differ only in the property of interest.</li>
+<li>Manipulate predictability or repetition, which changes salience without changing the stimulus.</li>
+<li>Report how much of the response the control produces, as a fraction of the response to the target. Zero is rarely the answer.</li>
+</ul>
+<p>My own EEG work classified high versus low pain from 128-channel recordings with machine learning, using power in specific frequency bands over medial frontal and sensorimotor regions.<sup id="fnref:jnp"><a class="footnote-ref" href="#fn:jnp">2</a></sup> The question any such classifier has to face is the salience question: would it also separate a loud tone from a soft one?</p>
+<h2 id="the-same-question-inside-a-language-model">The same question inside a language model</h2>
+<p><a href="emotion-instruments.html">Project 4</a> is the salience control applied to emotion instruments for language models. Alongside passages expressing eight emotions, it used passages that are intense but not emotional: urgent logistics, loud physical events, neutral surprises. Every distress instrument responded to them, at 43% to 50% of its response to real distress. In imaging terms, every instrument read partly as a salience detector. A second round made the control stricter: the same scene, word for word, with the injury happening to a training mannequin instead of someone&rsquo;s husband. Same events, same sirens, much lower stake. Every distress reading kept much of its response, and the instrument that had looked most specific in the first round separated the two in only 59% of scenes.</p>
+<p>A related control appeared in <a href="introspection.html">project 1</a>: a random vector of the same size as a concept vector, injected the same way. In one model it moved the answers almost as much as the concept did. That is the language-model version of the loud tone: any disturbance, whatever its content, produces a response, and only the comparison with the sham shows how much of the response is about the content.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:iannetti">
+<p>Iannetti, G. D., &amp; Mouraux, A. (2010). From the neuromatrix to the pain matrix (and back). <em>Experimental Brain Research</em>, 205, 1–12. See also Legrain, V., et al. (2011). The pain matrix reloaded. <em>Progress in Neurobiology</em>, 93, 111–124.&#160;<a class="footnote-backref" href="#fnref:iannetti" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:jnp">
+<p>Misra, G., Wang, W., Archer, D. B., Roy, A., &amp; Coombes, S. A. (2017). Automated classification of pain perception using high-density electroencephalography data. <em>Journal of Neurophysiology</em>, 117(2), 786–795.&#160;<a class="footnote-backref" href="#fnref:jnp" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+</div>
+</main>
+</div>
+<footer class="footer">
+  <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 20 November 2026.</p>
+</footer>
+</body>
+</html>

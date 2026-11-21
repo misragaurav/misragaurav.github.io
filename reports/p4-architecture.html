@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 4 architecture</title>
+<style>
+  :root {
+    --bg: #ffffff; --panel: #f8fafc; --ink: #0f172a; --muted: #475569; --line: #cbd5e1;
+    --series: #2563eb; --series-bg: #eff6ff;
+    --par: #d97706; --par-bg: #fffbeb;
+    --inject: #dc2626; --inject-bg: #fef2f2;
+    --file: #64748b; --file-bg: #f1f5f9;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.5 Inter, "Helvetica Neue", Arial, sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 6px 0 10px; }
+  h2 { font-size: 19px; margin: 44px 0 4px; }
+  p.lede, p.sub { color: var(--muted); margin: 0 0 16px; max-width: 760px; }
+  code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  /* legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 18px 0 0; padding: 12px 14px;
+            background: var(--panel); border: 1px solid var(--line); border-radius: 10px; font-size: 13.5px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .sw { width: 16px; height: 16px; border-radius: 4px; border: 2px solid; flex: none; }
+  .sw.s { border-color: var(--series); background: var(--series-bg); }
+  .sw.p { border-color: var(--par); background: var(--par-bg); }
+  .sw.i { border-color: var(--inject); background: var(--inject-bg); }
+  .sw.f { border-color: var(--file); background: var(--file-bg); border-style: dashed; }
+
+  /* shared pieces */
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+         padding: 2px 8px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .tag.s { color: var(--series); border-color: var(--series); background: var(--series-bg); }
+  .tag.p { color: var(--par); border-color: var(--par); background: var(--par-bg); }
+  .tag.i { color: var(--inject); border-color: var(--inject); background: var(--inject-bg); }
+  .arrow { width: 2px; height: 22px; margin: 0 auto; background: var(--muted); position: relative; }
+  .arrow::after { content: ""; position: absolute; left: -5px; bottom: -2px; border: 6px solid transparent;
+                  border-top-color: var(--muted); border-bottom: 0; }
+
+  /* view 1: the pipeline */
+  .step { display: grid; grid-template-columns: 38px 1fr auto; gap: 4px 14px; align-items: start;
+          padding: 14px 16px; border: 1.5px solid var(--series); background: var(--series-bg); border-radius: 12px; }
+  .step.file { border-color: var(--file); border-style: dashed; background: var(--file-bg); }
+  .num { width: 30px; height: 30px; border-radius: 50%; background: var(--series); color: var(--bg);
+         font-weight: 700; display: grid; place-items: center; font-size: 14px; }
+  .step.file .num { background: var(--file); }
+  .step h3 { margin: 2px 0 2px; font-size: 16px; }
+  .step p { margin: 0; color: var(--muted); font-size: 14px; }
+  .where { text-align: right; font-size: 12.5px; color: var(--muted); }
+  .where code { color: var(--ink); }
+  @media (max-width: 640px) { .step { grid-template-columns: 38px 1fr; } .where { grid-column: 2; text-align: left; } }
+
+  /* view 2: nested loops */
+  .loop { border: 1.5px solid var(--series); background: var(--series-bg); border-radius: 12px; padding: 12px 14px 14px; }
+  .loop .loop { margin-top: 10px; }
+  .loop > .head { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-weight: 600; }
+  .loop > .head small { font-weight: 400; color: var(--muted); font-size: 13.5px; }
+  .batch { margin-top: 10px; border: 1.5px solid var(--par); background: var(--par-bg); border-radius: 12px; padding: 12px 14px; }
+  .lanes { height: 54px; margin: 10px 0 4px; border-radius: 4px;
+           background: repeating-linear-gradient(90deg, var(--par) 0 calc(2% - 2px), transparent calc(2% - 2px) 2%); }
+  .lane-labels { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
+  .count { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .count b { color: var(--ink); }
+
+  /* view 3: one forward pass */
+  .pass { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 760px; }
+  .strip { display: grid; grid-template-columns: 132fr 29fr; gap: 4px; }
+  .strip div { height: 30px; border-radius: 4px; }
+  .strip .pre { background: repeating-linear-gradient(90deg, var(--file) 0 3px, transparent 3px 6px); opacity: .7; }
+  .strip .q { background: repeating-linear-gradient(90deg, var(--inject) 0 3px, transparent 3px 6px); }
+  .strip-labels { display: grid; grid-template-columns: 132fr 29fr; gap: 4px; font-size: 12.5px; color: var(--muted); margin: 4px 0 0; }
+  .strip-labels b { color: var(--ink); display: block; }
+  .node { border: 1.5px solid var(--series); background: var(--series-bg); border-radius: 10px; padding: 10px 14px; }
+  .node b { display: block; }
+  .node span { color: var(--muted); font-size: 13.5px; }
+  .node.out { border-color: var(--ink); background: var(--panel); }
+  .row { display: grid; grid-template-columns: 1fr 26px 1fr; align-items: center; }
+  .row .inj { border: 1.5px solid var(--inject); background: var(--inject-bg); border-radius: 10px; padding: 10px 14px; }
+  .row .inj b { color: var(--inject); display: block; }
+  .row .inj span { color: var(--muted); font-size: 13.5px; }
+  .harrow { height: 2px; background: var(--inject); position: relative; }
+  .harrow::after { content: ""; position: absolute; left: -2px; top: -5px; border: 6px solid transparent;
+                   border-right-color: var(--inject); border-left: 0; }
+  .half { max-width: calc(50% - 13px); }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; gap: 8px; } .harrow { display: none; } .half { max-width: none; } }
+
+  /* view 4: analysis fan-out */
+  .fan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; }
+  @media (max-width: 640px) { .fan { grid-template-columns: 1fr; }
+                              .lane-labels span:nth-child(2), .lane-labels span:nth-child(5) { display: none; } }
+  .fan .node { border-color: var(--par); background: var(--par-bg); }
+  .note { margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--line); color: var(--muted); font-size: 14px; max-width: 760px; }
+  .round { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+           margin: 22px 0 8px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Project 4 · Do emotion instruments agree, and are they specific?</p>
+  <h1>Architecture: what runs, and in what order</h1>
+  <p class="lede">The study records what a language model (Gemma 3 4B) does inside while it reads short passages, and reads emotion
+    out of that activity with three instruments. It ran twice: round 1 with natural passages, round 2 with passages rebuilt so
+    that the conditions share exactly the same words. Everything runs one step after another on one laptop GPU; nothing is trained
+    except small classifiers on the recorded numbers.</p>
+
+  <div class="legend">
+    <span><i class="sw s"></i>A step that runs a model or a computation</span>
+    <span><i class="sw p"></i>Independent pieces of the same step</span>
+    <span><i class="sw i"></i>The steering push</span>
+    <span><i class="sw f"></i>A file on disk</span>
+  </div>
+
+  <!-- ============================================================ view 1 -->
+  <h2>1. The pipeline, top to bottom</h2>
+  <p class="sub">Each stage needs the output of the one above it. Round 2 reuses the instruments built in round 1 without changing them.</p>
+
+  <p class="round">Round 1: natural passages</p>
+  <div class="step file"><div class="num">1</div>
+    <div><h3>Passages</h3><p>384 passages written by Claude: 8 emotions, neutral, 3 salience controls (urgent, loud, surprising) × 8 topics × 4 points of view. Emotion words banned and checked by script.</p></div>
+    <div class="where"><code>p4_build_stimuli.py</code><br><code>p4_stimuli/stimuli.csv</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">2</div>
+    <div><h3>Blind check of the passages</h3><p>A separate model (Qwen2.5-7B), never told the labels, rates each passage's valence, arousal and best-fitting emotion. 341 of 384 pass and are kept.</p></div>
+    <div class="where"><code>p4_rate.py</code><br><code>ratings.csv</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">3</div>
+    <div><h3>Record the model's activity</h3><p>Gemma 3 4B reads each passage once. At every layer, its activity is averaged over the passage's words. Details in view 2.</p></div>
+    <div class="where"><code>p4_record.py</code><br><code>acts.npy</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">4</div>
+    <div><h3>Build the instruments and analyse</h3><p>A (emotion vectors), B (emotion-word scores), C (trained decoder), C+ (decoder trained with the salience controls), W (words alone). Decoding, agreement, salience share. No model runs here; it takes minutes. Details in view 3.</p></div>
+    <div class="where"><code>p4_analyze.py</code><br><code>summary.json</code></div></div>
+
+  <p class="round">Round 2: same words, different meaning</p>
+  <div class="step file"><div class="num">5</div>
+    <div><h3>Matched passages</h3><p>32 scenes × 8 versions = 256 passages. Three "X, not Y" swaps flip who it happens to (real person or dummy), the outcome, and the time. The script checks that all 8 versions of a scene contain exactly the same words.</p></div>
+    <div class="where"><code>p4m_build_stimuli.py</code><br><code>p4m_stimuli/items.txt</code><br><code>p4m_stimuli/stimuli.csv</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">6</div>
+    <div><h3>Record again, twice per passage</h3><p>Same recording as stage 3, averaged over the whole passage and, separately, over the closing sentences only (identical in all 8 versions). The script checks that the 8 versions contain the same tokens.</p></div>
+    <div class="where"><code>p4m_record.py</code><br><code>acts_full.npy</code> · <code>acts_tail.npy</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">7</div>
+    <div><h3>Validate the passages: four raters</h3><p>The same pre-registered rules, applied to each rater's ratings. Details in view 4.</p></div>
+    <div class="where"><code>item_check*.csv</code><br><span class="tag p">4 raters, run separately</span></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">8</div>
+    <div><h3>Apply the frozen round-1 instruments</h3><p>Scores for every passage at every layer, then paired comparisons within each scene, with word and word-pair baselines. Details in view 3.</p></div>
+    <div class="where"><code>p4m_analyze.py</code><br><code>summary.json</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step"><div class="num">9</div>
+    <div><h3>Steering dose-response</h3><p>Push the model along a direction while it answers 12 neutral prompts: 4 directions × 4 doses, plus unsteered answers, 204 in all. Each answer is rated blind. Details in view 5.</p></div>
+    <div class="where"><code>p4m_steer.py</code><br><code>steer_rated_qwen3.csv</code></div></div>
+  <div class="arrow"></div>
+
+  <div class="step file"><div class="num">10</div>
+    <div><h3>Reports</h3><p>The round-1 and round-2 reports, and this presentation report. Every number is read from the files above.</p></div>
+    <div class="where"><code>p4_report.py</code> · <code>p4m_report.py</code><br><code>p4s_report.py</code></div></div>
+
+  <!-- ============================================================ view 2 -->
+  <h2>2. Recording one passage (stages 3 and 6)</h2>
+  <p class="sub">Read from top to bottom. The model's weights are fixed; it only reads.</p>
+
+  <div class="pass">
+    <div class="strip"><div class="pre"></div><div class="q"></div></div>
+    <div class="strip-labels">
+      <div><b>The passage · about 100 tokens</b>The first 10 are skipped, so the average isn't dominated by how a passage starts.</div>
+      <div><b>Closing sentences</b>Round 2 only: averaged separately.</div>
+    </div>
+    <div class="arrow" style="margin-top:10px"></div>
+    <div class="node"><b>Tokens become vectors</b><span>Each token becomes 2,560 numbers. This running vector per position is the residual stream.</span></div>
+    <div class="arrow"></div>
+    <div class="node"><b>34 blocks, one after another</b><span>Each block reads from earlier tokens (attention), then applies a small feed-forward network, and adds its update to the residual stream.</span></div>
+    <div class="arrow"></div>
+    <div class="node out"><b>Saved: one average per layer</b><span>For each passage, 35 snapshots (the input plus each block's output) of 2,560 numbers. Layer 22 is the headline layer, fixed before any data.</span></div>
+  </div>
+
+  <!-- ============================================================ view 3 -->
+  <h2>3. Instruments and analysis (stages 4 and 8)</h2>
+  <p class="sub">All built in round 1 from the 341 passing passages, then frozen and applied to round 2, the way you'd apply a signature to a new cohort.</p>
+  <div class="node" style="max-width:760px"><b>Recorded activity, one average per passage per layer</b><span>Round 1: 341 passages. Round 2: 256 passages, whole passage and closing sentences.</span></div>
+  <div class="arrow" style="margin-left:calc(min(760px,100%) / 2)"></div>
+  <div class="fan">
+    <div class="node"><b>A · Emotion vectors</b><span>Per emotion: mean activity of its stories minus the mean over all emotions, with the main patterns of neutral text removed. Score = how far a passage points along it.</span></div>
+    <div class="node"><b>B · Emotion-word scores</b><span>Activity read through the model's own vocabulary (logit lens): how much it favours each emotion's word list, standardised against neutral passages.</span></div>
+    <div class="node"><b>C, C+ · Trained decoder</b><span>Logistic regression, tested on topics it never saw. C+ also learns to reject the salience controls.</span></div>
+    <div class="node"><b>W, W2 · Words alone</b><span>A classifier on word counts (and word pairs). Never looks inside the model.</span></div>
+    <div class="node"><b>Round 1 tests</b><span>8-way decoding, agreement between instruments, how much of the distress signal salience alone produces.</span></div>
+    <div class="node"><b>Round 2 tests</b><span>Within each scene: good vs bad, now vs remembered, real vs dummy, distress vs its partners; bad × now interaction. Intervals by resampling scenes.</span></div>
+  </div>
+
+  <!-- ============================================================ view 4 -->
+  <h2>4. Validating the round-2 passages (stage 7)</h2>
+  <p class="sub">The rules were fixed before any rating: per scene, good beats bad by ≥ 2 points, the dummy version beats the real-person version by ≥ 1, now beats remembered on intensity by ≥ 0.5.</p>
+  <div class="fan">
+    <div class="node"><b>Qwen2.5-7B</b><span>The planned rater, on my laptop. All 256 passages. 0 of 32 scenes pass.</span></div>
+    <div class="node"><b>Qwen3-8B</b><span>A newer open model, on my laptop, "thinking" off. All 256 passages, plus comprehension questions. 3 pass.</span></div>
+    <div class="node"><b>Me</b><span>The 46 passages behind the 23 scenes Qwen3-8B failed on the dummy rule, in a spreadsheet built by <code>p4m_human_sheet.py</code>. All 23 pass; 8 scenes pass all rules.</span></div>
+    <div class="node"><b>GPT Astra</b><span>All 256, in a blind spreadsheet (<code>p4m_llm_sheet.py</code>), read in batches of 32. All 32 pass.</span></div>
+  </div>
+  <p class="note">The raters never change the instruments or their scores; they only decide which scenes count. With GPT Astra every scene passes,
+    so the pre-registered analysis is the analysis on all 32 scenes.</p>
+
+  <!-- ============================================================ view 5 -->
+  <h2>5. One steered answer (stage 9)</h2>
+  <p class="sub">The model answers a neutral prompt while a direction is added to its activity.</p>
+  <div class="pass">
+    <div class="node"><b>A neutral prompt</b><span>e.g. "Describe a bookshelf in an office." 12 prompts in all.</span></div>
+    <div class="arrow"></div>
+    <div class="node"><b>Blocks 0 to 22</b><span>The model reads the prompt as usual.</span></div>
+    <div class="arrow"></div>
+    <div class="row">
+      <div class="node"><b>Layer 22</b><span>Its output is altered before the next block sees it, at every position.</span></div>
+      <div class="harrow"></div>
+      <div class="inj"><b>+ dose × direction</b><span>Dose 0.05 to 0.20 of the typical activity size there. Directions: round-1 distress (A), matched distress, matched elation, random (sham).</span></div>
+    </div>
+    <div class="arrow half"></div>
+    <div class="node"><b>Blocks 23 to 33, then the next word</b><span>Up to 60 tokens, always picking the most likely next one.</span></div>
+    <div class="arrow"></div>
+    <div class="node out"><b>Rated blind</b><span>Valence and arousal of the answer (Qwen2.5-7B and Qwen3-8B); a detector flags answers that collapse into repetition.</span></div>
+  </div>
+  <p class="note">Why so little runs in parallel: there is one laptop GPU, and the models (Gemma and the raters) are loaded one at a time,
+    so recording, rating and steering queue up. The rating scripts save each passage as they go and skip passages already rated,
+    so an interrupted rating run restarts where it stopped.</p>
+</main>
+</body>
+</html>

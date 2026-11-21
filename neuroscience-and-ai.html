@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What transfers from neuroscience to AI research, and what does not · Gaurav Misra</title>
+<meta name="description" content="Interpretability has the experimental access neuroscience always wanted, and lacks the measurement discipline neuroscience paid for with decades of false positives. A side-by-side comparison of methods, and where the analogy breaks.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">Gaurav Misra</a>
+  <span class="brand-tag">Measuring subjective states, in brains and in language models</span>
+  <nav class="top-links"><a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a><a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Scholar</a></nav>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections"><a class="nav-item" href="index.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a class="nav-item" href="research.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/></svg><span>Research</span></a><a class="nav-item" href="concepts.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></svg><span>Concepts</span></a><a class="nav-item active" href="notes.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg><span>Notes</span></a><a class="nav-item" href="papers.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>Papers</span></a><a class="nav-item" href="links.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Links</span></a><a class="nav-item" href="about.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>About</span></a></nav>
+<main class="post">
+<header class="post-header"><h1>What transfers from neuroscience to AI research, and what does not</h1><p class="post-sub">A working comparison, from someone who has recorded from both</p><p class="post-meta">17 Nov 2026 · 3 min read · Essay</p></header>
+<div class="content">
+<p>Interpretability research looks a lot like systems neuroscience done with perfect equipment. You can record every unit, at every time step, with no noise; stimulate any pattern you like; lesion anything and undo it a second later; and run the same “subject” millions of times. Most of what neuroscientists would give anything for is free.</p>
+<p>What is not free is knowing what you measured. Neuroscience learned, slowly and expensively, that a clean-looking signal can be about something other than what it seems: salience instead of pain, expectation instead of perception, the contrast instead of the condition. Those lessons transfer almost unchanged, and in my experience they are where a neuroscientist can contribute most.</p>
+<h2 id="the-methods-side-by-side">The methods, side by side</h2>
+<table>
+<thead>
+<tr>
+<th>Neuroscience</th>
+<th>Language-model research</th>
+<th>What carries over</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EEG, fMRI: noisy, indirect, a few hundred to a few hundred thousand channels</td>
+<td>Activations: exact, direct, every unit at every layer</td>
+<td>Analysis logic carries over; the noise models do not. Uncertainty comes from sampling stimuli, not from the instrument.</td>
+</tr>
+<tr>
+<td>Trial averaging to beat noise</td>
+<td>Determinism: the same input gives the same output</td>
+<td>Averaging is still needed, but over stimuli (concepts, prompts, topics), and intervals should be bootstrapped over those.</td>
+</tr>
+<tr>
+<td>Contrast maps: condition minus control</td>
+<td>Difference-of-means concept and emotion vectors</td>
+<td>Everything, including the trap: the control defines the meaning. See <a href="contrast-maps.html">contrast maps</a>.</td>
+</tr>
+<tr>
+<td>Multivoxel pattern decoding</td>
+<td>Linear probes</td>
+<td>High accuracy is cheap when stimuli differ on the surface. Decoders need cross-condition transfer tests.</td>
+</tr>
+<tr>
+<td>Representational similarity analysis</td>
+<td>The same, on activation patterns</td>
+<td>Directly; the model is just a very cooperative subject.</td>
+</tr>
+<tr>
+<td>Microstimulation, TMS</td>
+<td>Activation steering</td>
+<td>Write access establishes causation, but only with a sham at the same intensity and a dose-response curve. See <a href="dose-response.html">dose-response</a>.</td>
+</tr>
+<tr>
+<td>Lesions</td>
+<td>Ablation</td>
+<td>Same logic, same caveat: removing a part shows what the rest cannot do without it, not what the part does.</td>
+</tr>
+<tr>
+<td>Self-report, ratings</td>
+<td>The model&rsquo;s own answers</td>
+<td>The report is behaviour, with its own biases. Separate sensitivity from criterion. See <a href="signal-detection.html">signal detection</a>.</td>
+</tr>
+<tr>
+<td>Salience controls for pain signatures</td>
+<td>Intensity controls for “distress” probes</td>
+<td>The single most transferable idea. See <a href="salience.html">salience</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="where-the-analogy-breaks">Where the analogy breaks</h2>
+<p><strong>There is no noise to hide behind, and no noise to blame.</strong> A model&rsquo;s answer to a prompt is fixed. Every “effect” is real for those exact inputs; the question is only whether it generalises to other inputs. That makes stimulus sampling the whole of the statistics.</p>
+<p><strong>The subject was built from text about subjects.</strong> A language model was trained on what people write about their inner lives. When it reports a feeling, the report may be produced by machinery that represents the feeling, by machinery that represents how people talk about the feeling, or both. Human self-report has an analogous problem (demand characteristics, social desirability), but nowhere near as strong.</p>
+<p><strong>You can change the subject between trials.</strong> Steering, ablation and fine-tuning change the system itself. That is a gift for causal claims and a hazard for measurement: a stimulus strong enough to matter can also break the system&rsquo;s ability to answer, and the two must be told apart. Both of my projects needed a random-vector sham for exactly this reason.</p>
+<p><strong>Ground truth is missing on both sides.</strong> I could never verify from a scan that a person was in pain; I relied on their report and on converging measures. For models there is not even agreement about whether there is anything to report. The useful stance, in both cases, is the measurement scientist&rsquo;s: build instruments, test their convergent validity and their specificity, and ask whether an intervention changed the state or only the report. That stance does not require settling the metaphysics first.</p>
+<h2 id="an-idea-that-does-not-transfer-as-it-first-seems">An idea that does not transfer as it first seems</h2>
+<p>In EEG we average many trials of the same condition to pull a small signal out of noise. The tempting translation is to run many copies of a model on the same input and average their activations. For a deterministic model the copies are identical, so the average equals any one of them. The version that does work averages over <em>stimuli</em>: many concepts, many wordings, many topics. That is what every analysis on this site does, and it is why every interval here is computed over concepts or topics rather than over repetitions.</p>
+</div>
+</main>
+</div>
+<footer class="footer">
+  <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 20 November 2026.</p>
+</footer>
+</body>
+</html>

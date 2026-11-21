@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Useful links · Gaurav Misra</title>
+<meta name="description" content="Interpretability research, the tools used in these projects, places to learn, and the neuroscience software I came from.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">Gaurav Misra</a>
+  <span class="brand-tag">Measuring subjective states, in brains and in language models</span>
+  <nav class="top-links"><a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a><a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Scholar</a></nav>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections"><a class="nav-item" href="index.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a class="nav-item" href="research.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/></svg><span>Research</span></a><a class="nav-item" href="concepts.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></svg><span>Concepts</span></a><a class="nav-item" href="notes.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg><span>Notes</span></a><a class="nav-item" href="papers.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>Papers</span></a><a class="nav-item active" href="links.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Links</span></a><a class="nav-item" href="about.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>About</span></a></nav>
+<main class="post">
+<header class="post-header"><h1>Useful links</h1></header>
+<div class="content">
+<p>A short, opinionated list: the places I actually read and the tools I actually used.</p>
+<h2 id="interpretability-and-model-psychology">Interpretability and model psychology</h2>
+<ul>
+<li><a href="https://transformer-circuits.pub">Transformer Circuits Thread</a> — Anthropic&rsquo;s interpretability papers, including the concept-injection work on introspection that <a href="introspection.html">project 1</a> builds on.</li>
+<li><a href="https://www.anthropic.com/research">Anthropic research</a> and the <a href="https://alignment.anthropic.com">Alignment Science blog</a>.</li>
+<li><a href="https://www.neuronpedia.org">Neuronpedia</a> — browse features and steering directions of open models in the browser.</li>
+<li><a href="https://distill.pub">Distill</a> — the archive of clear, visual explanations of how neural networks work.</li>
+<li><a href="https://www.alignmentforum.org">Alignment Forum</a> and <a href="https://www.lesswrong.com">LessWrong</a> — where much of the field thinks out loud. This site&rsquo;s layout borrows from LessWrong.</li>
+</ul>
+<h2 id="tools-used-in-these-projects">Tools used in these projects</h2>
+<ul>
+<li><a href="https://huggingface.co/docs/transformers">Hugging Face Transformers</a> — loads open-weights models such as Gemma and Qwen.</li>
+<li><a href="https://pytorch.org">PyTorch</a> — the numerical engine; it runs on a Mac&rsquo;s graphics processor.</li>
+<li><a href="https://github.com/TransformerLensOrg/TransformerLens">TransformerLens</a> and <a href="https://nnsight.net">nnsight</a> — libraries for recording and editing a model&rsquo;s internal activity. My projects use plain PyTorch hooks, which do the same thing with less machinery.</li>
+<li><a href="https://plotly.com/python/">Plotly</a> — every figure on this site.</li>
+<li><a href="https://claude.com/claude-code">Claude Code</a> — the coding agent I worked with to write and check the experiment code.</li>
+</ul>
+<h2 id="learning-the-foundations">Learning the foundations</h2>
+<ul>
+<li><a href="https://www.3blue1brown.com/topics/neural-networks">3Blue1Brown on neural networks</a> — the best visual introduction to how networks and transformers work.</li>
+<li><a href="https://karpathy.ai/zero-to-hero.html">Neural Networks: Zero to Hero</a> — Andrej Karpathy builds a language model from scratch, in code.</li>
+<li><a href="https://www.arena.education">ARENA</a> — a hands-on curriculum in alignment research engineering, including interpretability.</li>
+</ul>
+<h2 id="neuroscience-and-psychophysics-tools-i-came-from">Neuroscience and psychophysics tools I came from</h2>
+<ul>
+<li><a href="https://sccn.ucsd.edu/eeglab/">EEGLAB</a> — the EEG toolbox I used for pain studies.</li>
+<li><a href="https://mne.tools">MNE-Python</a> — EEG and MEG analysis in Python.</li>
+<li><a href="https://afni.nimh.nih.gov">AFNI</a> and <a href="https://fsl.fmrib.ox.ac.uk">FSL</a> — fMRI analysis.</li>
+<li><a href="https://nilearn.github.io">Nilearn</a> — pattern decoding and representational analysis for brain data in Python; the same methods appear in <a href="emotion-instruments.html">project 4</a>.</li>
+<li><a href="https://www.psychopy.org">PsychoPy</a> — building psychophysics experiments.</li>
+</ul>
+</div>
+</main>
+</div>
+<footer class="footer">
+  <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine. Built 20 November 2026.</p>
+</footer>
+</body>
+</html>
