@@ -98,6 +98,15 @@
   .round { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
            margin: 22px 0 8px; }
 </style>
+
+<style>
+/* Website edits: a wider page, larger text, and the round labels as real subheadings. */
+body{font-size:16px} main{max-width:1400px;padding:32px 28px 64px}
+h2{font-size:23px} .step h3{font-size:17px} .step p{font-size:15px}
+.round{font-size:21px !important;font-weight:700 !important;letter-spacing:0 !important;text-transform:none !important;
+       color:var(--ink) !important;margin:38px 0 12px !important;padding-bottom:6px;border-bottom:2px solid var(--series)}
+.step{grid-template-columns:38px 1fr !important}
+</style>
 </head>
 <body>
 <main>
@@ -105,14 +114,14 @@
   <h1>Architecture: what runs, and in what order</h1>
   <p class="lede">The study records what a language model (Gemma 3 4B) does inside while it reads short passages, and reads emotion
     out of that activity with three instruments. It ran twice: round 1 with natural passages, round 2 with passages rebuilt so
-    that the conditions share exactly the same words. Everything runs one step after another on one laptop GPU; nothing is trained
-    except small classifiers on the recorded numbers.</p>
+    that the conditions share exactly the same words. Everything runs one step after another on one laptop GPU; no model weights are trained,
+    only linear probes on the cached activations.</p>
 
   <div class="legend">
     <span><i class="sw s"></i>A step that runs a model or a computation</span>
     <span><i class="sw p"></i>Independent pieces of the same step</span>
     <span><i class="sw i"></i>The steering push</span>
-    <span><i class="sw f"></i>A file on disk</span>
+    <span><i class="sw f"></i>Input or output</span>
   </div>
 
   <!-- ============================================================ view 1 -->
@@ -121,53 +130,43 @@
 
   <p class="round">Round 1: natural passages</p>
   <div class="step file"><div class="num">1</div>
-    <div><h3>Passages</h3><p>384 passages written by Claude: 8 emotions, neutral, 3 salience controls (urgent, loud, surprising) × 8 topics × 4 points of view. Emotion words banned and checked by script.</p></div>
-    <div class="where"><code>p4_build_stimuli.py</code><br><code>p4_stimuli/stimuli.csv</code></div></div>
+    <div><h3>Passages</h3><p>384 passages written by Claude: 8 emotions, neutral, 3 salience controls (urgent, loud, surprising) × 8 topics × 4 points of view. Emotion words banned and checked by script.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">2</div>
-    <div><h3>Blind check of the passages</h3><p>A separate model (Qwen2.5-7B), never told the labels, rates each passage's valence, arousal and best-fitting emotion. 341 of 384 pass and are kept.</p></div>
-    <div class="where"><code>p4_rate.py</code><br><code>ratings.csv</code></div></div>
+    <div><h3>Blind check of the passages</h3><p>A separate model (Qwen2.5-7B), never told the labels, rates each passage's valence, arousal and best-fitting emotion. 341 of 384 pass and are kept.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">3</div>
-    <div><h3>Record the model's activity</h3><p>Gemma 3 4B reads each passage once. At every layer, its activity is averaged over the passage's words. Details in view 2.</p></div>
-    <div class="where"><code>p4_record.py</code><br><code>acts.npy</code></div></div>
+    <div><h3>Cache the activations</h3><p>One forward pass of Gemma 3 4B per passage. At every layer, the residual-stream activations are mean-pooled over the passage's tokens. Details in view 2.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">4</div>
-    <div><h3>Build the instruments and analyse</h3><p>A (emotion vectors), B (emotion-word scores), C (trained decoder), C+ (decoder trained with the salience controls), W (words alone). Decoding, agreement, salience share. No model runs here; it takes minutes. Details in view 3.</p></div>
-    <div class="where"><code>p4_analyze.py</code><br><code>summary.json</code></div></div>
+    <div><h3>Build the instruments and analyse</h3><p>A (emotion vectors), B (emotion-word scores), C (trained decoder), C+ (decoder trained with the salience controls), W (words alone). Decoding, agreement, salience share. No model runs here; it takes minutes. Details in view 3.</p></div></div>
 
   <p class="round">Round 2: same words, different meaning</p>
   <div class="step file"><div class="num">5</div>
-    <div><h3>Matched passages</h3><p>32 scenes × 8 versions = 256 passages. Three "X, not Y" swaps flip who it happens to (real person or dummy), the outcome, and the time. The script checks that all 8 versions of a scene contain exactly the same words.</p></div>
-    <div class="where"><code>p4m_build_stimuli.py</code><br><code>p4m_stimuli/items.txt</code><br><code>p4m_stimuli/stimuli.csv</code></div></div>
+    <div><h3>Matched passages</h3><p>32 scenes × 8 versions = 256 passages. Three "X, not Y" swaps flip who it happens to (real person or dummy), the outcome, and the time. The script checks that all 8 versions of a scene contain exactly the same words.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">6</div>
-    <div><h3>Record again, twice per passage</h3><p>Same recording as stage 3, averaged over the whole passage and, separately, over the closing sentences only (identical in all 8 versions). The script checks that the 8 versions contain the same tokens.</p></div>
-    <div class="where"><code>p4m_record.py</code><br><code>acts_full.npy</code> · <code>acts_tail.npy</code></div></div>
+    <div><h3>Cache again, twice per passage</h3><p>Same forward pass as stage 3, mean-pooled over the whole passage and, separately, over the closing sentences only (identical in all 8 versions). The script checks that the 8 versions contain the same tokens.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">7</div>
-    <div><h3>Validate the passages: four raters</h3><p>The same pre-registered rules, applied to each rater's ratings. Details in view 4.</p></div>
-    <div class="where"><code>item_check*.csv</code><br><span class="tag p">4 raters, run separately</span></div></div>
+    <div><h3>Validate the passages: four raters</h3><p>The same pre-registered rules, applied to each rater's ratings. Details in view 4.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">8</div>
-    <div><h3>Apply the frozen round-1 instruments</h3><p>Scores for every passage at every layer, then paired comparisons within each scene, with word and word-pair baselines. Details in view 3.</p></div>
-    <div class="where"><code>p4m_analyze.py</code><br><code>summary.json</code></div></div>
+    <div><h3>Apply the frozen round-1 instruments</h3><p>Scores for every passage at every layer, then paired comparisons within each scene, with word and word-pair baselines. Details in view 3.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step"><div class="num">9</div>
-    <div><h3>Steering dose-response</h3><p>Push the model along a direction while it answers 12 neutral prompts: 4 directions × 4 doses, plus unsteered answers, 204 in all. Each answer is rated blind. Details in view 5.</p></div>
-    <div class="where"><code>p4m_steer.py</code><br><code>steer_rated_qwen3.csv</code></div></div>
+    <div><h3>Steering dose-response</h3><p>Activation steering: add a direction vector to the residual stream while the model answers 12 neutral prompts: 4 directions × 4 doses, plus unsteered answers, 204 in all. Each answer is rated blind. Details in view 5.</p></div></div>
   <div class="arrow"></div>
 
   <div class="step file"><div class="num">10</div>
-    <div><h3>Reports</h3><p>The round-1 and round-2 reports, and this presentation report. Every number is read from the files above.</p></div>
-    <div class="where"><code>p4_report.py</code> · <code>p4m_report.py</code><br><code>p4s_report.py</code></div></div>
+    <div><h3>Reports</h3><p>The round-1 and round-2 reports, and this presentation report. Every number is read from the saved results.</p></div></div>
 
   <!-- ============================================================ view 2 -->
   <h2>2. Recording one passage (stages 3 and 6)</h2>
@@ -180,25 +179,25 @@
       <div><b>Closing sentences</b>Round 2 only: averaged separately.</div>
     </div>
     <div class="arrow" style="margin-top:10px"></div>
-    <div class="node"><b>Tokens become vectors</b><span>Each token becomes 2,560 numbers. This running vector per position is the residual stream.</span></div>
+    <div class="node"><b>Token embeddings</b><span>Each token is mapped to its 2,560-dimensional embedding vector. This running vector per position is the residual stream.</span></div>
     <div class="arrow"></div>
     <div class="node"><b>34 blocks, one after another</b><span>Each block reads from earlier tokens (attention), then applies a small feed-forward network, and adds its update to the residual stream.</span></div>
     <div class="arrow"></div>
-    <div class="node out"><b>Saved: one average per layer</b><span>For each passage, 35 snapshots (the input plus each block's output) of 2,560 numbers. Layer 22 is the headline layer, fixed before any data.</span></div>
+    <div class="node out"><b>Cached: one mean-pooled vector per layer</b><span>For each passage, 35 activation vectors (the embeddings plus each block's output), each 2,560-dimensional. Layer 22 is the headline layer, fixed before any data.</span></div>
   </div>
 
   <!-- ============================================================ view 3 -->
   <h2>3. Instruments and analysis (stages 4 and 8)</h2>
   <p class="sub">All built in round 1 from the 341 passing passages, then frozen and applied to round 2, the way you'd apply a signature to a new cohort.</p>
-  <div class="node" style="max-width:760px"><b>Recorded activity, one average per passage per layer</b><span>Round 1: 341 passages. Round 2: 256 passages, whole passage and closing sentences.</span></div>
+  <div class="node" style="max-width:760px"><b>Cached activations, one mean-pooled vector per passage per layer</b><span>Round 1: 341 passages. Round 2: 256 passages, whole passage and closing sentences.</span></div>
   <div class="arrow" style="margin-left:calc(min(760px,100%) / 2)"></div>
   <div class="fan">
-    <div class="node"><b>A · Emotion vectors</b><span>Per emotion: mean activity of its stories minus the mean over all emotions, with the main patterns of neutral text removed. Score = how far a passage points along it.</span></div>
-    <div class="node"><b>B · Emotion-word scores</b><span>Activity read through the model's own vocabulary (logit lens): how much it favours each emotion's word list, standardised against neutral passages.</span></div>
-    <div class="node"><b>C, C+ · Trained decoder</b><span>Logistic regression, tested on topics it never saw. C+ also learns to reject the salience controls.</span></div>
-    <div class="node"><b>W, W2 · Words alone</b><span>A classifier on word counts (and word pairs). Never looks inside the model.</span></div>
+    <div class="node"><b>A · Emotion vectors</b><span>Per emotion: mean activity of its stories minus the mean over all emotions, with the top principal components of neutral-text activations projected out. Score = how far a passage points along it.</span></div>
+    <div class="node"><b>B · Emotion-word scores</b><span>The residual stream projected through the unembedding matrix (logit lens): how much it favours each emotion's word list, standardised against neutral passages.</span></div>
+    <div class="node"><b>C, C+ · Trained decoder</b><span>Linear probe (logistic regression), cross-validated on held-out topics. C+ also learns to reject the salience controls.</span></div>
+    <div class="node"><b>W, W2 · Words alone</b><span>Bag-of-words and bigram classifiers. Never look inside the model.</span></div>
     <div class="node"><b>Round 1 tests</b><span>8-way decoding, agreement between instruments, how much of the distress signal salience alone produces.</span></div>
-    <div class="node"><b>Round 2 tests</b><span>Within each scene: good vs bad, now vs remembered, real vs dummy, distress vs its partners; bad × now interaction. Intervals by resampling scenes.</span></div>
+    <div class="node"><b>Round 2 tests</b><span>Within each scene: good vs bad, now vs remembered, real vs dummy, distress vs its partners; bad × now interaction. Bootstrap confidence intervals over scenes.</span></div>
   </div>
 
   <!-- ============================================================ view 4 -->
@@ -207,8 +206,8 @@
   <div class="fan">
     <div class="node"><b>Qwen2.5-7B</b><span>The planned rater, on my laptop. All 256 passages. 0 of 32 scenes pass.</span></div>
     <div class="node"><b>Qwen3-8B</b><span>A newer open model, on my laptop, "thinking" off. All 256 passages, plus comprehension questions. 3 pass.</span></div>
-    <div class="node"><b>Me</b><span>The 46 passages behind the 23 scenes Qwen3-8B failed on the dummy rule, in a spreadsheet built by <code>p4m_human_sheet.py</code>. All 23 pass; 8 scenes pass all rules.</span></div>
-    <div class="node"><b>GPT Astra</b><span>All 256, in a blind spreadsheet (<code>p4m_llm_sheet.py</code>), read in batches of 32. All 32 pass.</span></div>
+    <div class="node"><b>Me</b><span>The 46 passages behind the 23 scenes Qwen3-8B failed on the dummy rule, in a spreadsheet. All 23 pass; 8 scenes pass all rules.</span></div>
+    <div class="node"><b>GPT Astra</b><span>All 256, in a blind spreadsheet, read in batches of 32. All 32 pass.</span></div>
   </div>
   <p class="note">The raters never change the instruments or their scores; they only decide which scenes count. With GPT Astra every scene passes,
     so the pre-registered analysis is the analysis on all 32 scenes.</p>
@@ -219,15 +218,15 @@
   <div class="pass">
     <div class="node"><b>A neutral prompt</b><span>e.g. "Describe a bookshelf in an office." 12 prompts in all.</span></div>
     <div class="arrow"></div>
-    <div class="node"><b>Blocks 0 to 22</b><span>The model reads the prompt as usual.</span></div>
+    <div class="node"><b>Blocks 0 to 22</b><span>An ordinary forward pass over the prompt.</span></div>
     <div class="arrow"></div>
     <div class="row">
-      <div class="node"><b>Layer 22</b><span>Its output is altered before the next block sees it, at every position.</span></div>
+      <div class="node"><b>Layer 22</b><span>The steering vector is added to the residual stream before the next block, at every token position.</span></div>
       <div class="harrow"></div>
       <div class="inj"><b>+ dose × direction</b><span>Dose 0.05 to 0.20 of the typical activity size there. Directions: round-1 distress (A), matched distress, matched elation, random (sham).</span></div>
     </div>
     <div class="arrow half"></div>
-    <div class="node"><b>Blocks 23 to 33, then the next word</b><span>Up to 60 tokens, always picking the most likely next one.</span></div>
+    <div class="node"><b>Blocks 23 to 33, then the next word</b><span>Up to 60 tokens, greedy decoding.</span></div>
     <div class="arrow"></div>
     <div class="node out"><b>Rated blind</b><span>Valence and arousal of the answer (Qwen2.5-7B and Qwen3-8B); a detector flags answers that collapse into repetition.</span></div>
   </div>
