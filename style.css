@@ -50,10 +50,14 @@ a:hover { text-decoration: underline; }
 .nav-item.active .icon { color: var(--accent); }
 
 /* ---------------- main column */
-main { flex: 1; min-width: 0; padding: 28px 40px 60px 24px; }
-/* Text column: 1.4 times the original 690 px (widened 21 Nov 2026 at Gaurav's request). */
-main.post .content, main.post .post-header { max-width: 966px; }
-main.listing { max-width: 1150px; }
+/* main is a size container, so figures and tables can measure the space it offers (cqw units). */
+main { flex: 1; min-width: 0; padding: 28px 32px 60px; container-type: inline-size; }
+/* Text column: 1.4 times the original 690 px (widened 21 Nov 2026 at Gaurav's request), centred in the
+   space beside the navigation rail so the empty space is shared on both sides (21 Nov 2026). */
+main.post .content, main.post .post-header { max-width: 966px; margin-left: auto; margin-right: auto; }
+main.listing > * { max-width: 1150px; margin-left: auto; margin-right: auto; }
+/* Figures and tables may be wider than the text: up to 1280 px, never wider than main, centred on the text. */
+:root { --wide: min(1280px, 100cqw); }
 .post-header { margin-bottom: 26px; }
 h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; color: var(--head); line-height: 1.25; }
 .post-header h1 { font-size: 44px; margin: 6px 0 10px; }
@@ -78,13 +82,15 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; color: var(--head)
 
 /* tables: white, hairlines, sans-serif, scroll sideways on a phone instead of overflowing the page */
 .content table { display: block; overflow-x: auto; border-collapse: collapse; font-family: var(--sans); font-size: 16.5px;
-  line-height: 1.45; background: var(--card); margin: 20px 0; border: 1px solid var(--line); max-width: 100%; }
+  line-height: 1.45; background: var(--card); margin: 20px 0; border: 1px solid var(--line);
+  /* At least as wide as the text, at most --wide; a table wider than the text grows equally on both sides. */
+  width: max-content; min-width: 100%; max-width: var(--wide); position: relative; left: 50%; transform: translateX(-50%); }
 .content th, .content td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .content th { font-weight: 700; color: var(--head); }
 .content tr:last-child td { border-bottom: 0; }
 
 /* figures: a white card in light and dark mode alike, like a printed figure */
-figure.plot { margin: 26px -10px; background: #fff; border: 1px solid var(--line); border-radius: 3px; padding: 6px; }
+figure.plot { width: var(--wide); margin: 26px 0 26px calc((100% - var(--wide)) / 2); background: #fff; border: 1px solid var(--line); border-radius: 3px; padding: 6px; }
 figure.plot + p em:only-child, .caption { display: block; font-family: var(--sans); font-size: 16px; line-height: 1.5; color: var(--muted); font-style: normal; }
 
 /* footnotes (LessWrong style: small, at the end) */
@@ -134,7 +140,8 @@ sup a { font-family: var(--sans); font-size: 0.75em; }
   main { padding: 20px 16px 48px; }
   .post-header h1 { font-size: 31px; }
   .content h2 { font-size: 24px; }
-  figure.plot { margin: 22px 0; }
+  figure.plot { margin: 22px 0; width: auto; }
+  .content table { width: auto; max-width: 100%; left: 0; transform: none; }
   .row-link { flex-direction: column; gap: 4px; }
   .spotlight { padding: 18px; }
 }
