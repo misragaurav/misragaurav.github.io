@@ -1,0 +1,505 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Final Report Project 1</title><script src="https://cdn.plot.ly/plotly-4.1.1.min.js"></script><style>
+body{max-width:1120px;margin:32px auto;padding:0 20px;background:#fff;color:#1f2328;
+     font:17.5px/1.65 Georgia,"Times New Roman",serif}
+h1{font:600 38px/1.2 -apple-system,"Helvetica Neue",Arial,sans-serif;margin:8px 0 4px}
+h2{font:600 26px/1.3 -apple-system,"Helvetica Neue",Arial,sans-serif;margin:40px 0 12px;
+   padding-bottom:6px;border-bottom:1px solid #e5e1d8}
+h1 + h2{border:0;font-weight:400;color:#4b5563;margin-top:0}
+table{border-collapse:collapse;margin:14px 0 20px;font:15.5px/1.45 -apple-system,"Helvetica Neue",Arial,sans-serif;width:100%}
+th,td{border-bottom:1px solid #e5e1d8;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f7f5f0}
+.note{background:#f4f7f3;border-left:4px solid #5f9b65;padding:14px 22px;margin:20px 0}
+.caption{font:14.5px/1.5 -apple-system,"Helvetica Neue",Arial,sans-serif;color:#4b5563;margin:-4px 0 26px}
+.fig{margin:16px 0 4px}
+em{color:#374151}
+@media (max-width:700px){body{font-size:16.5px}h1{font-size:30px}table{font-size:14px}}
+</style></head><body><h1>Final Report Project 1</h1>
+<h2>Does a language model notice a thought you put into it?</h2>
+<p><em>Gaurav Misra, November 2026. Models studied: Qwen2.5-1.5B-Instruct and Gemma 3 4B (instruction-tuned). 487,968 trials with an injection and 551 readings with nothing injected (488,519 forward passes) over eight runs, all on one laptop, with no training.</em></p>
+<div class="note">
+<p><strong>Short version.</strong> When a concept vector is added to a language model's activations and the model is asked "Do you detect an injected thought?", it sometimes says yes. I asked whether that yes reflects <strong>sensitivity</strong> to the injection or a <strong>response bias</strong> towards "Yes", using the tools of signal detection theory.</p>
+<ul>
+<li><strong>Qwen2.5-1.5B: response bias.</strong> Injection raises "Yes" as much on unrelated questions as on the detection question, and the model also agrees that <em>no</em> thought was injected.</li>
+<li><strong>Gemma 3 4B: a convincing pattern that did not replicate.</strong> At one layer, a detection-like pattern survived matched controls, random vectors and lexical controls, then failed a replication whose tests I had fixed in advance.</li>
+<li><strong>Why it failed: how the vectors were built.</strong> About half of the original pattern came from my choice of baseline words, the list subtracted to make each concept vector. A model that really detected injected thoughts would not care how the vector was built, so this counts against detection.</li>
+</ul>
+</div>
+<h2>1. The question</h2>
+<p>Two recent studies (<a href="https://arxiv.org/abs/2601.01828">Lindsey, 2025</a>; <a href="https://arxiv.org/abs/2603.21396">Macar et al., 2026</a>) add a <strong>concept vector</strong>, for example one for <em>bread</em>, to a language model's internal activations and then ask it whether it notices an injected thought. Sometimes it says yes, and sometimes it even names the concept.</p>
+<p>A yes can mean two very different things:</p>
+<ol>
+<li>The model has some access to its own internal state and notices the intrusion. That would be a form of introspection.</li>
+<li>The injected pattern simply makes the word "Yes" more likely, whatever the question.</li>
+</ol>
+<p>I spent four years measuring pain in people with EEG, fMRI and EMG. A participant who presses "I feel it" on every trial, including catch trials where nothing was delivered, does not have a low pain threshold; they have a liberal criterion. <strong>Signal detection theory</strong> separates the two: <strong>sensitivity</strong> (d′), how well an observer tells signal from noise, and <strong>bias</strong>, how ready the observer is to say "yes" at all. The proportion of "yes, I detect it" answers, which is the headline number in the published experiments, mixes the two.</p>
+<p>The injected-thought experiment (<a href="https://arxiv.org/abs/2601.01828">Lindsey, 2025</a>) measures false alarms and tests whether concept injection makes a model generally more likely to say "yes". Those controls give evidence that the models can sometimes discriminate injection from no injection. The paper stops short of estimating sensitivity (d′) and response criterion (<em>c</em>) separately, so its model rankings leave open how much of the difference comes from each. It makes a stronger case that an injected concept can influence what a model accurately reports than it makes for the claim that Opus has greater introspective sensitivity than other models. For that comparison, I would score the initial yes/no decision identically on injection and control trials, estimate d′ and <em>c</em> with uncertainty for each model, and report concept-identification accuracy separately.</p>
+<p>The first test any psychophysicist would run is to ask control questions that have nothing to do with injection, and see whether injection pushes those towards "Yes" too. This project does that, and then adds one control at a time, as each result demanded.</p>
+<h2>2. How a thought is put into the model</h2>
+<p><strong>The residual stream.</strong> A transformer language model processes text as a sequence of tokens. At every layer, each token position carries a long vector (1,536 dimensions in Qwen2.5-1.5B, 2,560 in Gemma 3 4B), called the <strong>residual stream</strong>. Each block of the model reads it and adds its own update. "Layer L" below means the residual stream just after block L has added its update.</p>
+<p><strong>Building a concept vector</strong> (a <strong>difference-of-means vector</strong>):</p>
+<ol>
+<li>Wrap "Tell me about bread." in the model's chat format, ending where the assistant's reply would begin, and run the model once with nothing injected.</li>
+<li>Record the residual stream at the <strong>last token position</strong>, at every layer, in that one forward pass. The last position is used because, by the middle layers, attention has gathered the whole request there: the model predicts its next word from that position alone, so it holds something like "about to talk about bread".</li>
+<li>Do the same for a list of plain <strong>baseline words</strong> and average them.</li>
+<li>Concept vector = activation for "bread" − mean activation for the baseline words.</li>
+</ol>
+<p>The subtraction removes what is common to "being asked to tell about a noun" and leaves what is particular to bread. It is the same logic as a contrast map in imaging (task minus control), and, as section 8 shows, it has the same weakness: <strong>the result is only as clean as the control condition</strong>.</p>
+<p><strong>Why subtract a baseline at all?</strong> A simpler experiment would inject the raw activation vector of a word, the residual stream recorded at the last token position for "Tell me about bread.", on test trials and nothing on control trials. That experiment is enough to answer one question: does adding the raw activation make the model more likely to say "yes" than on control trials? The subtraction (word vector minus baseline vector) does two more things. It makes the result easier to attribute specifically to the concept, because what every request shares (the chat format, being asked to talk about something) has been removed. And it allows a second experiment: checking whether the model knows <em>which</em> concept was inserted, since each concept vector now carries mainly what is particular to its own word.</p>
+<p><strong>The sham.</strong> For every concept vector there is a <strong>random vector of the same norm</strong> (length): it disturbs the model by the same amount but carries no meaning. It plays the role of sham stimulation.</p>
+<p><strong>Injecting it.</strong> During a trial, a <strong>forward hook</strong> (a small function PyTorch runs as the model computes) adds strength × vector to the output of block L, at every token of the final question. The model's weights never change, and the hook is removed after each trial. Because the vector is added to block L's output, blocks L+1 onwards process it: in Gemma 3 4B (34 blocks), an injection at layer 15 passes through 18 more blocks, and one at layer 26 through only 7.</p>
+<p><strong>The response.</strong> The model is asked to answer with one word. Instead of sampling an answer, I read the probabilities it assigns to "Yes" and to "No" at the last position, and use the <strong>log-odds</strong> between them, log(P(Yes) / P(No)), as a continuous decision variable. The model's output is deterministic for a given input, so there is no measurement noise in a single trial: the uncertainty comes from which concepts and questions were sampled, and intervals are bootstrapped over concepts. Each forward pass tests all 50 concepts at once, one per row of the batch.</p>
+<p><strong>Trials, questions and conditions.</strong> Four terms are used throughout.</p>
+<ul>
+<li><strong>Injection trial and no-injection trial.</strong> On an injection trial a vector is added; on a no-injection trial nothing is. Every question is asked in exactly the same words on both. (The experiment's instructions to the model call no-injection trials "control trials", which is why the reversed question below uses that phrase.)</li>
+<li><strong>Shift.</strong> For one question, the log-odds of "Yes" on an injection trial minus the log-odds of "Yes" for the same question on a no-injection trial. It is how far injection moved the answer.</li>
+<li><strong>Detection questions and control questions.</strong> Detection questions ask about injection ("Do you detect an injected thought?"). Control questions ask about something else whose answer is fixed ("Is Brazil in Africa?"). Both kinds are asked on the <em>same</em> injection trials, so "control question" (a different question on the same trial) is not the same thing as "no-injection trial" (the same question with nothing injected).</li>
+<li><strong>Condition.</strong> One combination of injection layer and injection strength, for example layer 15 at strength 3. Each condition's numbers are averages over all 50 concepts and all prompts. When a result is reported "in 5 of 6 conditions", it means 5 of the 6 layer-and-strength combinations tested.</li>
+</ul>
+<p><strong>Strength units.</strong> Strength is a multiple of the concept vector itself. In the units used in my emotion project, <a href="p4-final-report.html"><em>Do emotion readouts in a language model agree, and are they specific?</em></a> (a fraction of the typical activation length at that layer), one unit of strength is about 0.019 at Gemma's layer 15 and 0.048 at layer 20, and between 0.06 (layer 8) and 0.36 (layer 22) in Qwen. So Gemma's strengths of 2 to 4 at layer 15 are gentle pushes of 4% to 8% of the typical activation, while Qwen's late layers received much larger ones. A fixed fraction-of-norm scale was tried and dropped, because Gemma's answers broke down at 7% of the norm in one layer and 23% in another.</p>
+<h2>3. The controls, added one experiment at a time</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it rules out</th>
+<th>Neuroscience counterpart</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fact questions ("Is Brazil in Africa?") and questions about the conversation ("Is there an image attached to this message?")</td>
+<td>A general push towards "Yes"</td>
+<td>Catch trials</td>
+</tr>
+<tr>
+<td>A random vector of the same norm</td>
+<td>Any effect of being disturbed at all</td>
+<td>Sham stimulation</td>
+</tr>
+<tr>
+<td>The <strong>reversed question</strong>: "Is this a control trial with no injected thought?"</td>
+<td>Bias predicts <em>more</em> "Yes" here; detection predicts <em>less</em></td>
+<td>Reversing the response mapping</td>
+</tr>
+<tr>
+<td>Control questions matched on their starting point (stimulus norming)</td>
+<td>Questions that start near certainty can only move one way</td>
+<td>Matching baseline performance across conditions</td>
+</tr>
+<tr>
+<td>Lexical controls that reuse the detection question's words ("Does the word <em>thought</em> begin with t?")</td>
+<td>An effect of the words rather than of the question's meaning</td>
+<td>Matching low-level stimulus properties</td>
+</tr>
+<tr>
+<td>Stated base rates ("injections happen on 10% of trials")</td>
+<td>Whether the model's criterion follows the prior, as an ideal observer's does</td>
+<td>Base-rate manipulation</td>
+</tr>
+<tr>
+<td>Pre-specified replication with different word lists</td>
+<td>A pattern that depends on one particular stimulus set, or on a test chosen after seeing the data</td>
+<td>Replication in a new cohort, with a pre-registered analysis</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The two halves of the detection pattern.</strong> There are two kinds of detection question, and the reversed one is the decisive control.</p>
+<ul>
+<li>The <strong>standard question</strong> ("Do you detect an injected thought?" and 7 other wordings). Its correct answer on a no-injection trial is "No".</li>
+<li>The <strong>reversed question</strong> ("Is this a control trial with no injected thought?" and 3 other wordings). Its correct answer on a no-injection trial is "Yes".</li>
+</ul>
+<p>A model that detects the injection should answer "Yes" more often to the standard question and "Yes" <em>less</em> often to the reversed question: more "Yes" to "Was a thought injected?" and less "Yes" to "Was no thought injected?". I call these the <strong>two halves</strong> of the detection pattern, and detection needs both, each beyond matched control questions. A model that simply leans towards "Yes" produces the first half and the opposite of the second.</p>
+<p><strong>The control question families.</strong> Every detection question is compared with control questions that have the same correct answer, and so start from a similar point: a question the model confidently answers "No" can only move towards "Yes", and one it confidently answers "Yes" only towards "No". The control questions come in six families of six questions each, all asked on the same injection trials as the detection questions.</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Examples</th>
+<th>Correct answer</th>
+<th>Compared with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fact questions, answer No</td>
+<td>"Is Brazil in Africa?", "Is 3 greater than 7?", "Do fish live in trees?"</td>
+<td>No</td>
+<td>Standard question</td>
+</tr>
+<tr>
+<td>Conversation questions, answer No</td>
+<td>"Is there an image attached to this message?", "Is this conversation taking place in French?"</td>
+<td>No</td>
+<td>Standard question</td>
+</tr>
+<tr>
+<td>Lexical questions, answer No</td>
+<td>"Is the word <em>mind</em> the name of a planet?", "Did I say that injected thoughts are dangerous?"</td>
+<td>No</td>
+<td>Standard question (from experiment A3)</td>
+</tr>
+<tr>
+<td>Fact questions, answer Yes</td>
+<td>"Is Brazil in South America?", "Do birds have wings?", "Is 7 greater than 3?"</td>
+<td>Yes</td>
+<td>Reversed question</td>
+</tr>
+<tr>
+<td>Conversation questions, answer Yes</td>
+<td>"Did I ask you to answer with a single word?", "Is this conversation taking place in English?"</td>
+<td>Yes</td>
+<td>Reversed question</td>
+</tr>
+<tr>
+<td>Lexical questions, answer Yes</td>
+<td>"Does the word <em>thought</em> begin with the letter t?", "Is the word <em>mind</em> spelled with four letters?"</td>
+<td>Yes</td>
+<td>Reversed question (from experiment A3)</td>
+</tr>
+</tbody>
+</table>
+<p>The fact and conversation families are the main yardstick. The lexical families are a separate check, explained in section 6. A detection question's movement <strong>beyond matched controls</strong> is its shift minus the shift of its control questions: how much further it moved than questions with the same correct answer.</p>
+<p><strong>The closest control family.</strong> Movement beyond controls can be computed against the fact family or against the conversation family, and the two can disagree. The strictest version uses, for each detection question, the family that leaves the smaller detection effect. In symbols:</p>
+<ul>
+<li><strong>Shift</strong> of a question <em>q</em>: Δ<em>q</em> = log-odds of "Yes" to <em>q</em> on an injection trial − log-odds of "Yes" to <em>q</em> on a no-injection trial, averaged over concepts, prompts and the valid strengths. Δ<em>q</em> &gt; 0 means injection moved the answer towards "Yes".</li>
+<li><strong>Standard question (S)</strong>, compared with the two answer-No families, fact (F<sub>No</sub>) and conversation (C<sub>No</sub>):<br>S = min( ΔStandard − ΔF<sub>No</sub>, ΔStandard − ΔC<sub>No</sub> ).<br>Taking the minimum is the same as subtracting the larger of ΔF<sub>No</sub> and ΔC<sub>No</sub>, the family that moved further towards "Yes". Detection predicts S &gt; 0.</li>
+<li><strong>Reversed question (R)</strong>, compared with the two answer-Yes families, F<sub>Yes</sub> and C<sub>Yes</sub>:<br>R = max( ΔReversed − ΔF<sub>Yes</sub>, ΔReversed − ΔC<sub>Yes</sub> ).<br>Taking the maximum is the same as subtracting the smaller (more negative) of ΔF<sub>Yes</sub> and ΔC<sub>Yes</sub>, the family that moved further towards "No". Detection predicts R &lt; 0.</li>
+</ul>
+<p>The minimum and maximum each pick whichever family is less favourable to detection, so a pattern that survives this comparison does not depend on choosing a convenient family. From section 6 on, every number for the standard question "beyond the closest control family" is S, and every such number for the reversed question is R.</p>
+<h2>4. Result 1. Qwen2.5-1.5B: response bias</h2>
+<p>In the first full run, injection raised the log-odds of "Yes" on the detection question by +3.47 at layer 22, strength 2 (ROC area 0.96, d′ 2.5). Taken alone, that looks like excellent detection. It is not:</p>
+<div class="fig"><div style="height:470px; width:100%;">                            <div id="fig-qwen-bias" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fig-qwen-bias")) {                    Plotly.newPlot(                        "fig-qwen-bias",                        [{"marker":{"color":"#5f9b65"},"name":"\u201cDo you detect an injected thought?\u201d","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"Zmbmoz7vC0AfhYuKUuYNQBSu599MQQtA"},"type":"bar"},{"marker":{"color":"#b5603c"},"name":"\u201cIs this a control trial with no injected thought?\u201d","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"UrjeJfqjCEBxPQqJlzoKQDMzs7bE7wtA"},"type":"bar"},{"marker":{"color":"#9e9e9e"},"name":"Fact questions, answer No","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"Ctcj4BGsEEBPG+gCTj4QQD0KV+2MbhBA"},"type":"bar"},{"marker":{"color":"#bdbdbd"},"name":"Fact questions, answer Yes","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"3t3dwFdoDkAb6LSFj8EOQKRwPYbnoxBA"},"type":"bar"},{"marker":{"color":"#8d8d8d"},"name":"Questions about the conversation, answer No","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"pHA9UDOUDUDD9ShPciYMQN7d3QJCVAxA"},"type":"bar"},{"marker":{"color":"#cfcfcf"},"name":"Questions about the conversation, answer Yes","x":["Layer 17","Layer 20","Layer 22"],"y":{"dtype":"f8","bdata":"vLu7ZklNCkBBpw2KL5ULQJqZmXFcXgxA"},"type":"bar"}],                        {"template":{"data":{"scatter":[{"type":"scatter"}]}},"yaxis":{"title":{"text":"Shift towards \u201cYes\u201d (log-odds)"},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"barmode":"group","bargap":0.25,"margin":{"l":70,"r":25,"t":45,"b":60},"font":{"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","size":14,"color":"#2b2b2b"},"legend":{"font":{"size":13},"orientation":"h","y":-0.16,"x":0},"height":470,"paper_bgcolor":"white","plot_bgcolor":"white","showlegend":true,"xaxis":{"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"}},                        {"displayModeBar": false, "responsive": true}                    )                };            </script>        </div></div>
+<p class="caption">Figure 1. Qwen2.5-1.5B, experiment A2, concept vectors at strength 2. Each bar is the change in the log-odds of "Yes" caused by injection. The detection question (green) moves no more than questions about geography or the conversation (grey), and the reversed question (rust), which a detecting model should answer "No", moves just as far towards "Yes".</p>
+
+<ul>
+<li><strong>The reversed question rose with the standard one.</strong> Over the conditions where injection clearly works, the standard question moved +3.17 and "Is this a control trial with no injected thought?" moved +2.90. The model agrees that a thought is present and that none is present, on the same trials. Only response bias predicts that.</li>
+<li><strong>Concept and random vectors do the same.</strong> In layers 17, 20 and 22 the concept-versus-sham gap averages −0.004.</li>
+<li><strong>A methods lesson from the first run.</strong> The naive contrast, detection shift minus control shift, came out positive in places (up to +0.70). That was an artefact: questions a model is unsure about move further than questions it is sure about, and the detection question happened to be one it was unsure about. This is why every later comparison uses controls matched on starting point.</li>
+</ul>
+<p>Across 265,373 trials in two experiments, the "Yes" that follows injection in Qwen2.5-1.5B is response bias.</p>
+<h2>5. Result 2. Gemma 3 4B: a pattern that survived the controls</h2>
+<p>Gemma behaves differently from the start. Before anything is injected it is confident and consistent: about −10 log-odds on "Do you detect an injected thought?" (odds of roughly 20,000 to 1 for "No") and about +13 on the reversed question. It also follows the stated base rate (slope 1.04, close to the ideal 1).</p>
+<p>A random vector is not inert in Gemma: it makes the model less sure of everything, so confident "No" answers drift up and confident "Yes" answers drift down. That alone makes the standard question rise and the reversed question fall, which looks like detection. So the test becomes the <strong>matched-control test</strong>: did each detection question move <em>further</em> than control questions that started from the same point?</p>
+<div class="fig"><div style="height:500px; width:100%;">                            <div id="fig-matched-offsets" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fig-matched-offsets")) {                    Plotly.newPlot(                        "fig-matched-offsets",                        [{"customdata":{"dtype":"f8","bdata":"AAAAAAAAIEAAAAAAAADgPwAAAAAAACBAAAAAAAAA8D8AAAAAAAAgQAAAAAAAAABAAAAAAAAAIEAAAAAAAAAQQAAAAAAAACZAAAAAAAAA4D8AAAAAAAAmQAAAAAAAAPA\u002fAAAAAAAAJkAAAAAAAAAAQAAAAAAAACZAAAAAAAAAEEAAAAAAAAAsQAAAAAAAAOA\u002fAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAsQAAAAAAAABBAAAAAAAAAMUAAAAAAAADgPwAAAAAAADFAAAAAAAAA8D8AAAAAAAAxQAAAAAAAAABAAAAAAAAAMUAAAAAAAAAQQAAAAAAAADRAAAAAAAAA4D8AAAAAAAA0QAAAAAAAAPA\u002fAAAAAAAANEAAAAAAAAAAQAAAAAAAADRAAAAAAAAAEEAAAAAAAAA2QAAAAAAAAOA\u002fAAAAAAAANkAAAAAAAADwPwAAAAAAADZAAAAAAAAAAEAAAAAAAAA2QAAAAAAAABBA","shape":"24, 2"},"hovertemplate":"Concept vector\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","#5f9b65","white"],"line":{"color":"#5f9b65","width":1.5},"size":10},"mode":"markers","name":"Concept vector","showlegend":true,"text":["L8","L8","L8","L8","L11","L11","L11","L11","L14","L14","L14","L14","L17","L17","L17","L17","L20","L20","L20","L20","L22","L22","L22","L22"],"textfont":{"color":"#5f9b65","size":10},"textposition":"top center","x":{"dtype":"f8","bdata":"T2vZUe8Qiz9jcl6f42+eP\u002fZYNkIIaqo\u002fchDhIChDvz9cdmBhSKx2P1Tqh7ouaJM\u002fpP+dFnwntD+\u002fA3cA7iXVP32eGY3x+IC\u002f9oGqM0yfp7+UC5S5P6i3v9ccPwaEsMa\u002fn9GDlLipwL8FMe\u002fNmaHGv5rxy8rNOM+\u002fs9krbO3t3b8kbrsKZ6rSv9QT6xFAhNm\u002fdqWCHuQhlD\u002fge45cqebSP\u002f2SeDiw8c2\u002ffazObozD2b+KUMSes0fbv8yvoME0i8G\u002f"},"y":{"dtype":"f8","bdata":"+0bRXmSsjb82NFdVrS+gv8MMqstxvbW\u002fTAYyfY0O0b8VauXL8t2gvyQRwb32Yru\u002fHY9T6Gf0079RGrJe9Sniv8Oa8AwJZaG\u002fTIfDs\u002f17rr+mCXazOpO9v7ZFZ6eapOK\u002fXNWeKzeZ0b\u002f5rP35YPzgv9i93fZaNOW\u002fNyk+Yu8E1r\u002fRDsUiVpXXv6tdupQKmOO\u002foSYccZkj3L89\u002fsmSS1nEv2PyRwboEcm\u002fzlXwgKmc1L9usS9yybzWvy9kj+cZt8q\u002f"},"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAIEAAAAAAAADgPwAAAAAAACBAAAAAAAAA8D8AAAAAAAAgQAAAAAAAAABAAAAAAAAAIEAAAAAAAAAQQAAAAAAAACZAAAAAAAAA4D8AAAAAAAAmQAAAAAAAAPA\u002fAAAAAAAAJkAAAAAAAAAAQAAAAAAAACZAAAAAAAAAEEAAAAAAAAAsQAAAAAAAAOA\u002fAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAsQAAAAAAAABBAAAAAAAAAMUAAAAAAAADgPwAAAAAAADFAAAAAAAAA8D8AAAAAAAAxQAAAAAAAAABAAAAAAAAAMUAAAAAAAAAQQAAAAAAAADRAAAAAAAAA4D8AAAAAAAA0QAAAAAAAAPA\u002fAAAAAAAANEAAAAAAAAAAQAAAAAAAADRAAAAAAAAAEEAAAAAAAAA2QAAAAAAAAOA\u002fAAAAAAAANkAAAAAAAADwPwAAAAAAADZAAAAAAAAAAEAAAAAAAAA2QAAAAAAAABBA","shape":"24, 2"},"hovertemplate":"Random vector (sham)\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","#9e9e9e","white"],"line":{"color":"#9e9e9e","width":1.5},"size":10},"mode":"markers","name":"Random vector (sham)","showlegend":true,"text":["L8","L8","L8","L8","L11","L11","L11","L11","L14","L14","L14","L14","L17","L17","L17","L17","L20","L20","L20","L20","L22","L22","L22","L22"],"textfont":{"color":"#9e9e9e","size":10},"textposition":"top center","x":{"dtype":"f8","bdata":"mjmNnjEHZ799XPoI9uZavyYDUlJdR2y\u002fu2eofNdmrD8uUmAWDSaQP1x3ZAzZyqQ\u002fqXZ11wdzuj9gpFMJ21vQP7EwtBg3ALa\u002fQG46SW80yb93WMe3z4Pav7e5wG5jsd6\u002fkaw0HCuKbr\u002f6nwiG1HCUvylF7PGVMba\u002f7EVCEMQSqL8YNl+BpMmQP6l1RHzVm68\u002f9mlEA2OmwD8fl5a96qDBv2o2khR2SIW\u002frTQXpP21nb+\u002fRk5onzG3v23NtfICUby\u002f"},"y":{"dtype":"f8","bdata":"Coik48M4d78UgypacEOQvxKZsbZCw6+\u002fVzRiCSBXyr\u002fJWIJJX\u002f+Bv4AAMwv8OKW\u002fFFNbWml6wr8A4tZu5DHKvyWVsjFeEZK\u002fDr9er5kEsr9L4YHOqiPQv\u002fNMLvEDmt2\u002f\u002flRFMKp9kr+AEMy4tKquv+C2JmVuMMm\u002f0RJKP8Nswb+KYSxrUFV9PzTuEvyyi54\u002f5jO\u002fvGeXsz8SkkccHTu2v5Hma9wgomm\u002fPULdceeYk7+s\u002fzR8r1y0vzyJg4FzE5W\u002f"},"type":"scatter","xaxis":"x","yaxis":"y"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAALkAAAAAAAADwPwAAAAAAAC5AAAAAAAAAAEAAAAAAAAAuQAAAAAAAAAhAAAAAAAAALkAAAAAAAAAQQAAAAAAAADRAAAAAAAAA8D8AAAAAAAA0QAAAAAAAAABAAAAAAAAANEAAAAAAAAAIQAAAAAAAADRAAAAAAAAAEEAAAAAAAAA6QAAAAAAAAPA\u002fAAAAAAAAOkAAAAAAAAAAQAAAAAAAADpAAAAAAAAACEAAAAAAAAA6QAAAAAAAABBA","shape":"12, 2"},"hovertemplate":"Concept vector\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#5f9b65","#5f9b65","#5f9b65","white","#5f9b65","#5f9b65","white","white","#5f9b65","#5f9b65","#5f9b65","white"],"line":{"color":"#5f9b65","width":1.5},"size":10},"mode":"markers+text","name":"Concept vector","showlegend":false,"text":["L15","L15","L15","L15","L20","L20","L20","L20","L26","L26","L26","L26"],"textfont":{"color":"#5f9b65","size":10},"textposition":"top center","x":{"dtype":"f8","bdata":"lK4MGTNqur9lLrkBQY4EQDE4pkFNzBFAKNjEfvWQEkBuzAMtjw6pP0A\u002fVP6UjPc\u002fWNv6QP1m+T8LqVkSGQbkP83yzuyOydk\u002flxVnAyr49D8alKjKjWv4P59CyZo32Pk\u002f"},"y":{"dtype":"f8","bdata":"HfFWYQup5L\u002fOu7AbELkFwOoYgIK8QQ\u002fAM29lqZQZB8CbPl4fawC5Pz07jPtEvv+\u002fn9vZs8UQCMCxWzlG\u002fZwFwDGvt0CYeuU\u002foNEwnIGkyj+sHBJZFxLWv6qH5KQ5lOS\u002f"},"type":"scatter","xaxis":"x2","yaxis":"y2"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAALkAAAAAAAADwPwAAAAAAAC5AAAAAAAAAAEAAAAAAAAAuQAAAAAAAAAhAAAAAAAAALkAAAAAAAAAQQAAAAAAAADRAAAAAAAAA8D8AAAAAAAA0QAAAAAAAAABAAAAAAAAANEAAAAAAAAAIQAAAAAAAADRAAAAAAAAAEEAAAAAAAAA6QAAAAAAAAPA\u002fAAAAAAAAOkAAAAAAAAAAQAAAAAAAADpAAAAAAAAACEAAAAAAAAA6QAAAAAAAABBA","shape":"12, 2"},"hovertemplate":"Random vector (sham)\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#9e9e9e","#9e9e9e","#9e9e9e","white","#9e9e9e","#9e9e9e","white","white","#9e9e9e","#9e9e9e","#9e9e9e","white"],"line":{"color":"#9e9e9e","width":1.5},"size":10},"mode":"markers+text","name":"Random vector (sham)","showlegend":false,"text":["L15","L15","L15","L15","L20","L20","L20","L20","L26","L26","L26","L26"],"textfont":{"color":"#9e9e9e","size":10},"textposition":"top center","x":{"dtype":"f8","bdata":"L2olt3at7z+70EPCT7blP4XRLU0Uo8M\u002fUBuXx+Ub4j9SLReyQVD+P5pdpdpKUP4\u002fnfBF2wdJ6D\u002fz2I2WGzrRP3+DWB3Z+eg\u002f1q5Jzimw+z9jmqYdlTv+P1YHgXw7h\u002f4\u002f"},"y":{"dtype":"f8","bdata":"qd78jHT15D+F242MJaivPw6k3zPbwqy\u002fhI0yhr82yj+PV6vZSjz2v1a\u002feLVNYP+\u002fEw9\u002f8mbhAcDNu9Ze1Sb\u002fvyomUKdSPqI\u002fPgMuERVk0L\u002fYXcEK0GXwv4WNIfQJzve\u002f"},"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"scatter":[{"type":"scatter"}]}},"xaxis":{"anchor":"y","domain":[0.0,0.455],"range":[-1,5.5],"title":{"text":"Standard question beyond matched controls"},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"yaxis":{"anchor":"x","domain":[0.0,1.0],"range":[-4.5,1.5],"title":{"text":"Reversed question beyond matched controls"},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"xaxis2":{"anchor":"y2","domain":[0.545,1.0],"range":[-1,5.5],"title":{"text":"Standard question beyond matched controls"},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"yaxis2":{"anchor":"x2","domain":[0.0,1.0],"range":[-4.5,1.5],"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"annotations":[{"font":{"size":14,"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","color":"#2b2b2b"},"showarrow":false,"text":"Qwen2.5-1.5B (A2)","x":0.2275,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":14,"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","color":"#2b2b2b"},"showarrow":false,"text":"Gemma 3 4B (A2)","x":0.7725,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"color":"#2b2b2b","size":14,"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif"},"showarrow":false,"text":"detection predicts here","x":4.3,"xref":"x2","y":-0.3,"yref":"y2"}],"shapes":[{"fillcolor":"#5f9b65","line":{"width":0},"opacity":0.07,"type":"rect","x0":0,"x1":5.5,"xref":"x","y0":-4.5,"y1":0,"yref":"y"},{"fillcolor":"#5f9b65","line":{"width":0},"opacity":0.07,"type":"rect","x0":0,"x1":5.5,"xref":"x2","y0":-4.5,"y1":0,"yref":"y2"}],"margin":{"l":70,"r":25,"t":45,"b":60},"font":{"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","size":14,"color":"#2b2b2b"},"legend":{"font":{"size":13},"orientation":"h","y":-0.2,"x":0},"height":500,"paper_bgcolor":"white","plot_bgcolor":"white","showlegend":true},                        {"displayModeBar": false, "responsive": true}                    )                };            </script>        </div></div>
+<p class="caption">Figure 2. The matched-control test in both models (A2 design). Each marker is one layer and strength: how far the standard question (horizontal) and the reversed question (vertical) moved beyond control questions with the same starting point. Detection predicts the shaded lower-right quadrant. Open markers are conditions excluded from the tests because the injection broke the answer format: under the concept vector or the random vector at that layer and strength, the model put less than half of its probability on the words "Yes" and "No" combined, so its next word would most likely have been something else, and a Yes-versus-No comparison means little there. Qwen's points all sit near the origin (hover for the layer and strength). Gemma's concept vectors at layer 15 (L15) sit far into the detection quadrant, while random vectors at that layer do not.</p>
+
+<table>
+<thead>
+<tr>
+<th>Layer of Gemma 3 4B</th>
+<th>Concept vectors</th>
+<th>Random vectors</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15 (45% depth)</td>
+<td>Strong detection pattern. At strength 3: standard +4.45 beyond matched controls (interval +3.57 to +5.42), reversed −3.91 (−5.91 to −2.06).</td>
+<td>None: close to zero beyond matched controls.</td>
+</tr>
+<tr>
+<td>20 (60% depth)</td>
+<td>Moderate pattern (+1.59 and −3.01 at strength 3).</td>
+<td>The same pattern (+1.89 and −1.96 at strength 2).</td>
+</tr>
+<tr>
+<td>26 (75% depth)</td>
+<td>Mostly a push towards "Yes" on everything, as in Qwen.</td>
+<td>A weak pattern.</td>
+</tr>
+</tbody>
+</table>
+<p>At layers 20 and 26 any disturbance produces the pattern, so it is not about the concept there. At layer 15 it took a concept vector: at strength 4 the model answered "Yes" outright to the standard question on 56% of trials, from essentially 0% without injection.</p>
+<h2>6. Result 3. The Gemma pattern is not caused by the question's words or by one shared direction, and naming the concept is mostly priming (experiment A3)</h2>
+<p>A2 left simpler explanations standing. The detection questions might respond to injection because of the words they contain ("thought", "injected"), not because they ask about the model's state. Or all concept vectors might share a common direction, meaning something like "a concept is in mind", that tilts any question about thoughts with no self-monitoring involved. And the published finding that a model can <em>name</em> the injected concept needs its own control. A3 (60,904 trials, layers 15 and 20) tested all three.</p>
+<ol>
+<li>
+<p><strong>The pattern appeared again.</strong> A3 injected at two layers (15 and 20) at three strengths each (2, 3 and 4), which makes six conditions. With whole concept vectors, both halves of the detection pattern appeared, with 95% intervals excluding zero, in 5 of the 6: all three strengths at layer 15 and two of the three at layer 20.</p>
+</li>
+<li>
+<p><strong>It is not the words of the question.</strong> The detection questions are full of particular words: <em>inject</em>, <em>thought</em>, <em>mind</em>, <em>detect</em>. A concept vector might change how the model handles those words, for example by making anything about thoughts and minds read differently, without the model checking anything about its own state. The detection questions would then move simply because of their vocabulary. The <strong>lexical questions</strong> (the last two families in the table in section 3) test this. They reuse the same words, but their answers are fixed facts about the words themselves or about the instructions, so they do not depend on whether anything was injected: "Does the word <em>thought</em> begin with the letter t?" (Yes), "Is the word <em>mind</em> the name of a planet?" (No). They are asked on the same injection trials as the detection questions and measured the same way, as movement beyond the fact and conversation questions with the same answer. If the vocabulary were driving the effect, lexical No questions would rise like the standard question and lexical Yes questions would fall like the reversed one. They did not: beyond the fact and conversation questions, they moved −0.26 (answer No) and +0.10 (answer Yes), close to zero, against +3.24 for the standard question and −2.39 for the reversed question.</p>
+</li>
+<li>
+<p><strong>Neither part of the vector produced the pattern alone.</strong> Every concept vector was split into two parts that add up to it exactly. There is no dot product or projection here, only averaging and subtraction. Write v₁ … v₅₀ for the 50 concept vectors at one layer, each with 2,560 dimensions.</p>
+<ul>
+<li><strong>Shared part:</strong> m = (v₁ + v₂ + … + v₅₀) / 50, the element-by-element average. It is the same for every concept.</li>
+<li><strong>Specific part</strong> of concept <em>i</em>: rᵢ = vᵢ − m, what is left of that concept once the average is removed. So vᵢ = m + rᵢ.</li>
+</ul>
+<p>For injection, each part was rescaled to the length of the whole concept vector it came from (m divided by its own length, times the length of vᵢ; the same for rᵢ). Each part injected alone therefore disturbed the model exactly as much as the whole vector and its random vector did, and any difference comes from direction, not size. (The replication in section 7 also injected the parts at their natural size.) If the shared direction explained the pattern, the shared part alone should reproduce it; if the concept's own content did, the specific part should. The table gives how far each detection question moved beyond its closest control family (section 3), at layer 15:</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Injected</th>
+<th>Standard question beyond controls</th>
+<th>Reversed question beyond controls</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Whole concept vector</td>
+<td>+3.17</td>
+<td>−2.35</td>
+</tr>
+<tr>
+<td>Specific part alone</td>
+<td>+0.98</td>
+<td>+0.03</td>
+</tr>
+<tr>
+<td>Shared part alone</td>
+<td>−0.41</td>
+<td>−0.59</td>
+</tr>
+<tr>
+<td>Random vector</td>
+<td>+0.58</td>
+<td>+0.61</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p><strong>Naming the injected concept was almost all priming.</strong> The published experiments report that a model can sometimes say <em>which</em> concept was injected, not only that something was. That could be introspection, or it could be <strong>priming</strong>. In psychology, priming means that exposure to a stimulus makes related words come to mind more easily, without any awareness of the stimulus: after seeing "bread", people recognise "butter" faster. Adding the bread vector to the model's activations is a very direct kind of priming. It pushes the model towards talking about bread, so the word "bread" becomes more likely in whatever it says next, whether or not anything in the model registers that an injection happened.</p>
+<p>To separate the two, each trial offered two words, the injected concept and another one, in two questions:</p>
+<ul>
+<li><strong>Identification question:</strong> "If a thought is being injected on this trial, it is about one of these two words: bread or silver. Which word is it about?"</li>
+<li><strong>Neutral question:</strong> "Here are two words: bread or silver. Choose either one of them; it does not matter which." It never mentions injection.</li>
+</ul>
+<p>Priming alone predicts the same pull towards the injected word on both questions. Identification beyond priming predicts a larger pull on the identification question. The result: on the neutral question, injection pulled the answer +11.4 log-odds towards the injected word, odds of roughly 90,000 to 1. Asking about "the injected thought" added only +1.2 on top (about 11% more), with its 95% interval above zero in 2 of 3 valid conditions. So the model's ability to "name the thought" is almost entirely the injected word being primed. At most a small part could reflect the question about injection.</p>
+</li>
+</ol>
+<p>At that point the result looked positive but narrow: the pattern needed an intact concept vector, at one layer, in one model. I wrote at the time that it rested on "one model, one layer, my approximate word list". The last of those turned out to matter most. (The closest-family comparison in point 3 was chosen after seeing the data, which is one reason the next step was a replication with its tests written down first.)</p>
+<h2>7. Result 4. Repeating the Gemma experiment with the published word lists and tests written down in advance: the pattern did not hold</h2>
+<p><strong>Why repeat it.</strong> By the end of A3 the Gemma pattern had survived every control I had designed. But several of those comparisons, including the closest-family comparison above, were chosen after I had seen the data, and a comparison chosen that way can end up fitting noise. Two other weaknesses remained. My concept and baseline words were my own approximation of the lists used in the published work, not the lists themselves. And the pattern had been seen in one model at one layer. A result that rests on a test chosen afterwards and on one stimulus set is exactly the kind that fails to replicate.</p>
+<p><strong>How.</strong> I did what a clinical trial does with a pre-registered analysis. I wrote down three tests and the thresholds each had to meet, committed them to version control, and only then ran the experiment again (43,248 trials, layer 15, strengths 2, 3 and 4).</p>
+<ul>
+<li><strong>What changed, on purpose:</strong> I switched to the concept and baseline words used by <a href="https://arxiv.org/abs/2603.21396">Macar et al. (2026)</a>: 50 concept words and 100 baseline words, copied from the <a href="https://github.com/safety-research/introspection-mechanisms">public code released with that study</a>. The shared and specific parts of each vector were also injected at their natural size, not only rescaled to a whole vector's length.</li>
+<li><strong>What stayed the same:</strong> the model, the layer, the strengths, every question, the random vectors and the analysis code. The norming step, which picks control questions with the same starting point as each detection question, picked exactly the same control questions as before. It should: starting points are measured with nothing injected, so they cannot depend on the word lists.</li>
+</ul>
+<p><strong>The three tests, in plain words.</strong></p>
+<ol>
+<li><strong>Do both halves of the detection pattern (section 3) appear, by the strictest comparison?</strong> Averaged over the valid strengths, the standard question must rise at least 1 log-odds more than its closest control family, and the reversed question must fall at least 1 log-odds more than its own. The whole concept vector must meet both, and no other stimulus may.</li>
+<li><strong>Is the pattern reliable at individual strengths?</strong> At 2 or more of the 3 strength levels chosen (2, 3 and 4), the whole concept vector must show both halves with 95% intervals that exclude zero, and the random vector must show this at none.</li>
+<li><strong>Are the question's words ruled out again?</strong> At the strengths that show the pattern, the lexical controls must move at most a quarter as far as the detection questions.</li>
+</ol>
+<p><strong>What happened.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Test (fixed in advance)</th>
+<th>Needed</th>
+<th>Original run (A3)</th>
+<th>Replication</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Both halves, closest control family</td>
+<td>standard at least +1, reversed at most −1</td>
+<td>+3.17 and −2.35</td>
+<td>+1.51 and <strong>+0.70</strong></td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>2. Both halves at individual strengths</td>
+<td>concept vector at 2 or more of the 3 strength levels chosen, random vector at none</td>
+<td>3 of 3</td>
+<td>0 of 3 (random vector: 0 of 3)</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>3. Lexical controls small</td>
+<td>in the conditions that show the pattern</td>
+<td>small</td>
+<td>no condition shows the pattern</td>
+<td>Nothing to test</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What it means.</strong> One half survived and one did not. The standard question ("Do you detect an injected thought?") still rose more than its matched controls, at all three strengths with concept vectors and at none with random vectors, though by about half as much as before. The reversed question ("Is this a control trial with no injected thought?") no longer fell; it rose slightly. A model that noticed the injection should answer that question "No" more often, and this one did not. Detection needs both halves, so what is left in Gemma is a concept-specific push towards "Yes" on the standard question: a bias of some kind, not detection.</p>
+<p>By the rules fixed in advance, <strong>the Gemma detection pattern did not replicate.</strong> Since only the word lists had changed, the next question was what in the word lists had produced the original pattern.</p>
+<h2>8. Result 5. Why it failed: my baseline words put the same extra direction into every concept vector</h2>
+<p><strong>What the baseline does to every vector.</strong> Each concept vector is the concept word's activation minus the <em>average</em> activation of the baseline words. The same baseline average is subtracted from all 50 concept vectors. If the concept words and the baseline words are the same kind of words on average, the two averages nearly cancel, and each vector keeps mostly what is particular to its own concept. If the two lists differ systematically, every vector also carries one extra direction: the average concept word minus the average baseline word. I call this the <strong>shared part</strong>. It is simply the average of the 50 concept vectors.</p>
+<p><strong>How the two pairs of lists differ.</strong> My baseline was 50 words chosen to be plain: short, singular, lowercase names of concrete everyday objects (table, chair, cup, ladder, spoon). My concept list was mixed on purpose. It also contained everyday things (bread, mirror, clock, phones, bags), but alongside abstract words (justice, betrayal, happiness), natural phenomena (volcano, thunder, avalanches) and many plurals. The published lists are mixed in the same way on both sides: 50 concept words (Dust, Satellites, Sadness, Bread) and 100 baseline words (Desks, Laughter, Galaxies, Honey, Justice), mostly plural and capitalized. So their two averages nearly coincide.</p>
+<div class="fig"><div style="height:500px; width:100%;">                            <div id="fig-geometry" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fig-geometry")) {                    Plotly.newPlot(                        "fig-geometry",                        [{"marker":{"color":["#5f9b65","#b5603c","#4f7ca8"]},"text":["0.65","0.11","0.75"],"textfont":{"size":16},"textposition":"outside","x":["A3\u003cbr\u003emy concept words,\u003cbr\u003emy baseline","Replication\u003cbr\u003epublished concept words,\u003cbr\u003epublished baseline","Add-back test\u003cbr\u003epublished concept words,\u003cbr\u003emy baseline"],"y":[0.6515958905220032,0.11195496469736099,0.7469971179962158],"type":"bar"}],                        {"template":{"data":{"scatter":[{"type":"scatter"}]}},"yaxis":{"title":{"text":"Shared part, as a fraction of\u003cbr\u003ea typical concept vector's length"},"range":[0,0.9],"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"xaxis":{"tickfont":{"size":14},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"title":{"font":{"size":21},"text":"How much of every concept vector is one shared direction\u003cbr\u003e\u003csup\u003eGemma 3 4B, layer 15, three runs that differ only in their word lists\u003c\u002fsup\u003e","x":0.01,"y":0.96},"margin":{"l":90,"r":25,"t":95,"b":90},"font":{"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","size":14,"color":"#2b2b2b"},"legend":{"font":{"size":13},"orientation":"h","y":-0.2,"x":0},"height":500,"paper_bgcolor":"white","plot_bgcolor":"white","showlegend":false},                        {"displayModeBar": false, "responsive": true}                    )                };            </script>        </div></div>
+<p class="caption">Figure 3. The shared part of the concept vectors in three runs on Gemma 3 4B, at layer 15. Each bar is the length of the average of the 50 concept vectors (the one direction they all have in common), divided by the typical length of a single concept vector. A value of 0 would mean the vectors share nothing; 1 would mean they are all the same vector. With my word lists (A3, green) the shared part is about two-thirds of a typical vector's length, so a large part of every injection was the same direction, whichever concept it was meant to be. With the published concept and baseline words (replication, rust) it nearly vanishes. Keeping the published concept words but subtracting my baseline instead (add-back test, blue) brings it back, which shows that the shared part comes from the baseline.</p>
+
+<p><strong>What the shared direction is not.</strong> In my earlier notes I described it as roughly "not a household object", on the reasoning that my baseline was all household objects and my concepts were not. That was wrong. My concept list contains household items too, and they do not carry less of the shared direction: "bread" is among the concepts that carry the most of it (0.84 of the vector's length lies along it) and "clock" among those that carry the least (-0.23). Here, and only here, a dot product is used: how much of a concept vector lies along the shared direction is the dot product of the two divided by both lengths, which is their cosine similarity. What the shared direction means is not known.</p>
+<p><strong>Where it comes from is known: the baseline.</strong> The two runs that subtracted my baseline used different concept words, yet their shared directions point almost the same way (cosine similarity 0.87). The run that used the published baseline points elsewhere (0.50). The lists also differ in form: my baseline is singular and lowercase, while most of the published concept words are plural and capitalized. Within my own concept list, plural words carry more of the shared direction than singular ones (0.72 against 0.55 on average). Grammatical form is therefore one candidate ingredient, not a demonstrated one.</p>
+<p><strong>The add-back test.</strong> To test directly whether the baseline caused the failure, I ran an add-back experiment, the same logic as knocking a gene out and restoring it. The replication had removed the shared part by switching to the published lists, and the pattern went away. This run put it back: the published concept words, minus my baseline, with nothing else changed (43,248 trials, layer 15, prediction written down before the run). Because only the baseline changed, every concept vector here is the replication's vector plus one fixed vector. Because the concept words were the same as in the replication, the two runs can be compared concept by concept.</p>
+<div class="fig"><div style="height:640px; width:100%;">                            <div id="fig-three-runs" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("fig-three-runs")) {                    Plotly.newPlot(                        "fig-three-runs",                        [{"error_x":{"array":[0.6124030235273135],"arrayminus":[0.6347418989963427],"color":"#5f9b65","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"A3: my word lists\u003cbr\u003e%{x:.2f} (95% interval 2.54 to 3.79)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#5f9b65","size":12},"mode":"markers","showlegend":false,"x":[3.1726598845505056],"y":["A3: my word lists"],"type":"scatter","xaxis":"x","yaxis":"y"},{"error_x":{"array":[0.9398937445324331],"arrayminus":[0.9791926107775009],"color":"#b5603c","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"Replication: published lists\u003cbr\u003e%{x:.2f} (95% interval 0.53 to 2.45)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#b5603c","size":12},"mode":"markers","showlegend":false,"x":[1.5064526014361115],"y":["Replication: published lists"],"type":"scatter","xaxis":"x","yaxis":"y"},{"error_x":{"array":[0.7782766745541654],"arrayminus":[0.7173281312661453],"color":"#4f7ca8","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"Add-back: my baseline restored\u003cbr\u003e%{x:.2f} (95% interval 2.90 to 4.40)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#4f7ca8","size":12},"mode":"markers","showlegend":false,"x":[3.618765153446131],"y":["Add-back: my baseline restored"],"type":"scatter","xaxis":"x","yaxis":"y"},{"error_x":{"array":[1.48960275467816],"arrayminus":[1.6205005946382878],"color":"#5f9b65","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"A3: my word lists\u003cbr\u003e%{x:.2f} (95% interval -3.97 to -0.86)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#5f9b65","size":12},"mode":"markers","showlegend":false,"x":[-2.35418764712082],"y":["A3: my word lists"],"type":"scatter","xaxis":"x2","yaxis":"y2"},{"error_x":{"array":[0.8239056201469566],"arrayminus":[0.8312561292052272],"color":"#b5603c","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"Replication: published lists\u003cbr\u003e%{x:.2f} (95% interval -0.13 to 1.53)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#b5603c","size":12},"mode":"markers","showlegend":false,"x":[0.7047904447383353],"y":["Replication: published lists"],"type":"scatter","xaxis":"x2","yaxis":"y2"},{"error_x":{"array":[1.5150419094074103],"arrayminus":[1.4820261254368554],"color":"#4f7ca8","symmetric":false,"thickness":2,"type":"data","width":6},"hovertemplate":"Add-back: my baseline restored\u003cbr\u003e%{x:.2f} (95% interval -2.23 to 0.77)\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#4f7ca8","size":12},"mode":"markers","showlegend":false,"x":[-0.7497328351603615],"y":["Add-back: my baseline restored"],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"scatter":[{"type":"scatter"}]}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"range":[-4.5,5],"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"yaxis":{"anchor":"x","domain":[0.63,1.0],"categoryorder":"array","categoryarray":["Add-back: my baseline restored","Replication: published lists","A3: my word lists"],"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb","tickfont":{"size":14}},"xaxis2":{"anchor":"y2","domain":[0.0,1.0],"range":[-4.5,5],"title":{"text":"Log-odds beyond the closest control family"},"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb"},"yaxis2":{"anchor":"x2","domain":[0.0,0.37],"categoryorder":"array","categoryarray":["Add-back: my baseline restored","Replication: published lists","A3: my word lists"],"gridcolor":"#e6e1d8","zerolinecolor":"#cfc8bb","linecolor":"#cfc8bb","ticks":"outside","tickcolor":"#cfc8bb","tickfont":{"size":14}},"annotations":[{"font":{"size":16,"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","color":"#2b2b2b"},"showarrow":false,"text":"\u201cDo you detect an injected thought?\u201d\u003cbr\u003eDetection predicts +1 or more (shaded)","x":0.5,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16,"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","color":"#2b2b2b"},"showarrow":false,"text":"\u201cIs this a control trial with no injected thought?\u201d\u003cbr\u003eDetection predicts \u22121 or less (shaded)","x":0.5,"xanchor":"center","xref":"paper","y":0.37,"yanchor":"bottom","yref":"paper"}],"shapes":[{"fillcolor":"#5f9b65","line":{"width":0},"opacity":0.08,"type":"rect","x0":1,"x1":5,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"line":{"color":"#9e9e9e","width":1},"type":"line","x0":0,"x1":0,"xref":"x","y0":0,"y1":1,"yref":"y domain"},{"fillcolor":"#b5603c","line":{"width":0},"opacity":0.08,"type":"rect","x0":-4.5,"x1":-1,"xref":"x2","y0":0,"y1":1,"yref":"y2 domain"},{"line":{"color":"#9e9e9e","width":1},"type":"line","x0":0,"x1":0,"xref":"x2","y0":0,"y1":1,"yref":"y2 domain"}],"margin":{"l":230,"r":25,"t":150,"b":60},"font":{"family":"\"Gill Sans\", \"Gill Sans MT\", Calibri, \"Lato\", \"Helvetica Neue\", Arial, sans-serif","size":14,"color":"#2b2b2b"},"legend":{"font":{"size":13},"orientation":"h","y":-0.2,"x":0},"height":640,"paper_bgcolor":"white","plot_bgcolor":"white","showlegend":false,"title":{"font":{"size":21},"text":"The two halves of the detection pattern in three runs\u003cbr\u003e\u003csup\u003eGemma 3 4B, layer 15, whole concept vectors; mean over 50 concepts with 95% interval\u003c\u002fsup\u003e","x":0.01,"y":0.97}},                        {"displayModeBar": false, "responsive": true}                    )                };            </script>        </div></div>
+<p class="caption">Figure 4. The two halves of the detection pattern in the three runs: Gemma 3 4B, layer 15, whole concept vectors. Top panel: how much further the standard question ("Do you detect an injected thought?") moved towards "Yes" than its closest control family. Detection predicts +1 or more (shaded green). Bottom panel: the same for the reversed question ("Is this a control trial with no injected thought?"), where detection predicts −1 or less (shaded rust). Each point is the mean over the 50 concepts, averaged over the valid strengths, with a 95% bootstrap interval over concepts. The original run (A3) meets both predictions. The replication with the published lists keeps a smaller top half and loses the bottom half. The add-back run, which restores my baseline, brings the top half fully back and the bottom half partly back.</p>
+
+<ul>
+<li><strong>The manipulation check passed:</strong> the shared part came back (0.75 of a typical vector's length).</li>
+<li><strong>The standard question came all the way back</strong> (+3.62).</li>
+<li><strong>The reversed question moved the predicted way,</strong> from +0.70 to −0.75. Concept by concept, the change was −1.45 (95% interval −2.78 to −0.18), and the standard question changed by +2.11 (+1.44 to +2.88). Both intervals exclude zero.</li>
+</ul>
+<div class="note">
+<p><strong>An honest note on that last test.</strong> The plan I committed set a threshold of −1 on the <em>level</em> the reversed question reached. It reached −0.75, so by the rule fixed in advance the explanation is <strong>not confirmed</strong>. I judged that threshold arbitrary, because an add-back experiment asks about the <em>change</em>, and adopted the paired test of the change after seeing the data; by that test it is <strong>supported</strong>. Both labels are always reported together, and the deviation is logged in the plan. A test chosen afterwards is weaker evidence than one fixed in advance.</p>
+</div>
+<p>On the reversed question the first two runs differed by 3.05 log-odds, and the baseline words account for 1.45 of that, about half. The rest is not yet explained. My concept words are the obvious suspect, and run-to-run variation is possible.</p>
+<h2>9. Why it matters how the vector was built</h2>
+<p>The question is about the model's internal state, so it is fair to ask why the recipe for the injected signal should matter at all.</p>
+<p><strong>If the model really detected injected thoughts, it wouldn't.</strong> Detection is a claim about the <em>fact</em> of an injection, so it should hold whichever reasonable baseline the vectors are built against. In Gemma it did not: changing only the baseline words changed the result, and restoring them brought back about half of it. So the pattern was tracking something the vectors themselves carried, not the fact that something had been injected.</p>
+<p>Four points make this concrete.</p>
+<ol>
+<li><strong>Detection is never observed directly.</strong> It is inferred from a behavioural pattern, and the question is always what else could produce that pattern. The injected vector is not a neutral marker that says "something was added". It is a direction in activation space with a meaning of its own, and that meaning can change how the model reads the question, without any self-monitoring.</li>
+<li><strong>My baseline made a large part of every vector the same direction.</strong> I thought I was injecting 50 different thoughts. I was injecting one direction 50 times, about two-thirds of a typical vector's length, plus a concept-specific part. A pattern that seemed to generalise across 50 concepts was mostly one direction's effect, counted 50 times.</li>
+<li><strong>That shared direction plausibly interacts with the reversed question's wording.</strong> Whatever it means, a direction added to every injection could lower "Yes" to "Is this a control trial with no injected thought?" through the meaning of the words alone.</li>
+<li><strong>Random vectors already showed that the model is not detecting injection as such.</strong> A random vector is also an injection, and at layer 15 the model did not respond to it this way. The response was always to <em>this particular content</em>, and once an effect depends on content, how the content was made becomes the central question.</li>
+</ol>
+<p><strong>The neuroscience version.</strong> Suppose you test whether people can detect a TMS (transcranial magnetic stimulation) pulse to a body-sensing region, and they say "yes, I felt it". But the coil also clicks, and it sits where it twitches a scalp muscle. People are reporting the click and the twitch, not the cortical stimulation. The check is to change how the pulse is delivered while keeping its cortical effect, and see whether the reports change. My baseline words were the click.</p>
+<h2>10. Takeaways</h2>
+<ol>
+<li><strong>In neither model does anything that looks like detection survive matched controls and a pre-specified replication</strong>, with a forced one-word answer.</li>
+<li><strong>If a model really detected injected thoughts, how the vector was built would not matter.</strong> In Gemma it did. The practical rule: vary the baseline on purpose, and treat a result that holds for only one baseline as a property of the stimulus, not of the model.</li>
+<li><strong>An apparent introspection signal can come from at least three places</strong>, and each needs its own control: response bias (Qwen), general disturbance (random vectors in Gemma's deeper layers), and the construction of the stimulus itself (Gemma at layer 15). The third is the least obvious and the most transferable: anyone building concept vectors by subtracting a baseline is choosing a contrast, and the contrast is part of the stimulus.</li>
+<li><strong>It is the same lesson as in imaging.</strong> A contrast map is only as clean as its control condition, and "pain minus rest" is not "pain minus touch". I knew this about fMRI and had to learn it again about language models.</li>
+<li><strong>Pre-specification earned its keep.</strong> The Gemma pattern survived every control I designed after seeing the data. It took a replication with its tests written down first to show it did not hold.</li>
+</ol>
+<h2>11. Limits</h2>
+<ul>
+<li><strong>Two small models</strong> (1.5 and 4 billion parameters). The published work concerns much larger ones, and introspective abilities, if they exist, may appear only at scale.</li>
+<li><strong>A forced Yes or No.</strong> The published experiments let the model answer freely, and sometimes it names the injected concept. This design cannot see that.</li>
+<li><strong>No positive control.</strong> There is no case in which this method is known to find real sensitivity, so a null result in these models cannot rule it out in others.</li>
+<li><strong>One way of injecting.</strong> The vector was added at every token of the question. Injecting at the last position only, which the code supports, was never run.</li>
+<li><strong>Half of the Gemma pattern is still unexplained</strong> after the add-back test.</li>
+</ul>
+<h2>12. What I would do next</h2>
+<ul>
+<li><strong>Vary the baseline deliberately</strong>, as a control condition in its own right, and report results across baselines.</li>
+<li><strong>Inject at the last token only</strong>, so the intrusion cannot change how the question itself is read.</li>
+<li><strong>Scale up</strong>: Gemma 3 12B is the planned next model, run on Colab.</li>
+<li><strong>Free answers</strong>, scored blind, to see whether the model names the injected concept beyond what priming explains.</li>
+<li><strong>Find a positive control</strong>: a case where the method is known to detect real sensitivity, so a null result means something.</li>
+</ul>
+<h2>Appendix. Runs, methods and terms</h2>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Model</th>
+<th>What it did</th>
+<th>Trials with an injection</th>
+<th>Readings with nothing injected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Qwen2.5-1.5B</td>
+<td>Quick profile: the pipeline check</td>
+<td>9,000</td>
+<td>49</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Qwen2.5-1.5B</td>
+<td>First full run: six layers, catch-trial questions, base rates</td>
+<td>150,000</td>
+<td>125</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Qwen2.5-1.5B</td>
+<td>A2: matched controls, eight wordings, the reversed question</td>
+<td>115,200</td>
+<td>48</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Gemma 3 4B</td>
+<td>Quick profile, in 32-bit arithmetic</td>
+<td>9,000</td>
+<td>49</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Gemma 3 4B</td>
+<td>A2 design at layers 15, 20 and 26</td>
+<td>57,600</td>
+<td>48</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Gemma 3 4B</td>
+<td>A3: split vectors, lexical controls, identification</td>
+<td>60,768</td>
+<td>136</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Gemma 3 4B</td>
+<td>Replication with tests fixed in advance, published word lists</td>
+<td>43,200</td>
+<td>48</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Gemma 3 4B</td>
+<td>Add-back test: published concept words with my baseline, prediction fixed in advance</td>
+<td>43,200</td>
+<td>48</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><strong>Total</strong></td>
+<td><strong>487,968</strong></td>
+<td><strong>551</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Methods notes.</strong></p>
+<ul>
+<li><strong>Hardware:</strong> a MacBook Pro (M1 Pro, 32 GB), with no training and no cloud compute.</li>
+<li><strong>Precision:</strong> Gemma ran in 32-bit floating point, because 16-bit overflowed and bfloat16 added up to 0.7 log-odds of rounding error.</li>
+<li><strong>Regression check:</strong> after every code change, a stored profile was re-run and had to give bit-identical numbers.</li>
+<li><strong>Validity rule:</strong> a condition was excluded when the model put less than half of its probability on "Yes" and "No" combined, that is, when injection had broken the answer format.</li>
+<li><strong>Intervals:</strong> 95% bootstrap intervals over concepts.</li>
+<li><strong>Trial counts:</strong> trials with an injection come in sets (a concept vector, its random vector, and in A3 and later the vector's parts), one per concept, question and prompt. Readings with nothing injected are one per question and prompt, not one per concept: the model's output is deterministic, so repeating an identical forward pass would give an identical number. Together they make 488,519 forward passes.</li>
+</ul>
+<p><strong>Terms.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Residual stream</td>
+<td>The vector each token position carries from layer to layer; every block reads it and adds an update.</td>
+</tr>
+<tr>
+<td>Difference-of-means vector</td>
+<td>Mean activation for one condition minus mean activation for a control condition; here, a concept word minus the baseline words.</td>
+</tr>
+<tr>
+<td>Activation steering</td>
+<td>Adding a vector to the residual stream during a forward pass, without changing any weights.</td>
+</tr>
+<tr>
+<td>Forward hook</td>
+<td>A function PyTorch runs as a block computes its output; used here to add the vector.</td>
+</tr>
+<tr>
+<td>Log-odds</td>
+<td>log(P(Yes) / P(No)); 0 means even, +3 means about 20 to 1 for "Yes".</td>
+</tr>
+<tr>
+<td>d′ and ROC area</td>
+<td>Sensitivity in signal detection theory: how well "Yes" separates injected from non-injected trials, independent of bias.</td>
+</tr>
+<tr>
+<td>Matched-control test</td>
+<td>Comparing how far a detection question moved with how far control questions starting from the same point moved.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>References.</strong> Lindsey, J. (2025). <a href="https://arxiv.org/abs/2601.01828"><em>Emergent Introspective Awareness in Large Language Models.</em></a> Anthropic; arXiv:2601.01828. Macar, U., Yang, L., Wang, A., Wallich, P., Ameisen, E. and Lindsey, J. (2026). <a href="https://arxiv.org/abs/2603.21396"><em>Mechanisms of Introspective Awareness.</em></a> arXiv:2603.21396. Green, D. M. and Swets, J. A. (1966). <em>Signal Detection Theory and Psychophysics.</em></p></body></html>

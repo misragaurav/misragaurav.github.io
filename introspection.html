@@ -26,6 +26,8 @@
 
 <div class="note"><strong>Short version.</strong> In Qwen2.5-1.5B the “yes” is response bias: injection raises “Yes” just as much on unrelated questions, and the model also agrees that <em>no</em> thought was injected. In Gemma 3 4B a detection-like pattern survived matched controls, random vectors and lexical controls, then failed a replication whose tests I fixed in advance. A follow-up showed that about half of the original pattern came from my choice of baseline words. A model that really detected injected thoughts would not care how the vector was built, so this counts against detection. About 490,000 trials, two open-weights models, one laptop, no training.</div>
 
+<p class="report-link"><strong>Full report.</strong> <a href="reports/p1-final-report.html">Read Final Report Project 1</a>: every experiment in one place, with the methods, the control questions, the replication and the add-back test explained step by step, and interactive figures.</p>
+
 <h2 id="the-question-in-the-terms-i-used-to-work-in">The question, in the terms I used to work in</h2>
 <p>I spent four years measuring pain in people with EEG, fMRI and EMG. A patient who presses “I feel it” on every trial, including the catch trials where nothing was delivered, does not have a low pain threshold. They have a liberal criterion. Signal detection theory separates the two: how well an observer tells signal from noise (sensitivity, d′), and how ready the observer is to say “yes” at all (bias). See the <a href="signal-detection.html">concept page on signal detection</a>.</p>
 <p>The introspection experiments of Lindsey (2025) and Macar et al. (2026) report how often a model says it detects an injected thought. That number mixes sensitivity and bias. The test that separates them is the one every psychophysicist would run first: ask control questions that have nothing to do with injection, and see whether injection pushes those towards “Yes” too.</p>
@@ -105,16 +107,8 @@
 <li><strong>It is the same lesson as in imaging.</strong> A contrast map is only as clean as its control condition, and “pain minus rest” is not “pain minus touch”. I knew this about fMRI. I had to learn it again about language models.</li>
 </ol>
 <p><strong>Limits.</strong> Two small models (1.5 and 4 billion parameters); the published work concerns much larger ones. A forced Yes or No, while the published experiments let the model answer freely and sometimes it names the concept, which this design cannot see. No positive control yet: there is no case in which this method is known to find real sensitivity.</p>
-<h2 id="full-reports">Full reports</h2>
-<p>Every run has its own report, written by the analysis code with the figures, the predictions of each hypothesis, and the limits. Each sentence that states a conclusion is chosen by a rule from the numbers.</p>
-<ul>
-<li><a href="reports/p1-qwen-full.html">Qwen2.5-1.5B, first full run</a> (150,125 trials)</li>
-<li><a href="reports/p1-qwen-a2.html">Qwen2.5-1.5B, matched controls and the reversed question</a> (115,248 trials)</li>
-<li><a href="reports/p1-gemma-a2.html">Gemma 3 4B, matched controls</a> (57,648 trials)</li>
-<li><a href="reports/p1-gemma-a3.html">Gemma 3 4B, split vectors, lexical controls, identification</a> (60,904 trials)</li>
-<li><a href="reports/p1-gemma-replication.html">Gemma 3 4B, pre-specified replication</a> (43,248 trials)</li>
-<li><a href="reports/p1-gemma-wordlist.html">Gemma 3 4B, word-list test</a> (43,248 trials)</li>
-</ul>
+<h2 id="full-report">Full report</h2>
+<p>Every run, the methods and every number are in <a href="reports/p1-final-report.html">Final Report Project 1</a>.</p>
 <p><em>Method notes.</em> Gemma ran in 32-bit arithmetic, because 16-bit overflowed and bfloat16 added up to 0.7 log-odds of rounding error. All runs used a MacBook Pro (M1 Pro, 32 GB). A regression check re-ran a stored profile after every code change and required bit-identical numbers.</p>
 </div>
 </main>
