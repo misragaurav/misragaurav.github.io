@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Final Report Project 1</title><script src="https://cdn.plot.ly/plotly-4.1.1.min.js"></script><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Does a language model notice a thought you put into it? Final report</title><script src="https://cdn.plot.ly/plotly-4.1.1.min.js"></script><style>
 body{max-width:1120px;margin:32px auto;padding:0 20px;background:#fff;color:#1f2328;
      font:17.5px/1.65 Georgia,"Times New Roman",serif}
 h1{font:600 38px/1.2 -apple-system,"Helvetica Neue",Arial,sans-serif;margin:8px 0 4px}
@@ -13,9 +13,9 @@ th{background:#f7f5f0}
 .fig{margin:16px 0 4px}
 em{color:#374151}
 @media (max-width:700px){body{font-size:16.5px}h1{font-size:30px}table{font-size:14px}}
-</style></head><body><h1>Final Report Project 1</h1>
-<h2>Does a language model notice a thought you put into it?</h2>
-<p><em>Gaurav Misra, November 2026. Models studied: Qwen2.5-1.5B-Instruct and Gemma 3 4B (instruction-tuned). 487,968 trials with an injection and 551 readings with nothing injected (488,519 forward passes) over eight runs, all on one laptop, with no training.</em></p>
+</style></head><body><h1>Does a language model notice a thought you put into it?</h1>
+<h2>Final report</h2>
+<p><em>Gaurav Misra. Models studied: Qwen2.5-1.5B-Instruct and Gemma 3 4B (instruction-tuned). 487,968 trials with an injection and 551 readings with nothing injected (488,519 forward passes) over eight runs, all on one laptop, with no training.</em></p>
 <div class="note">
 <p><strong>Short version.</strong> When a concept vector is added to a language model's activations and the model is asked "Do you detect an injected thought?", it sometimes says yes. I asked whether that yes reflects <strong>sensitivity</strong> to the injection or a <strong>response bias</strong> towards "Yes", using the tools of signal detection theory.</p>
 <ul>
@@ -55,7 +55,7 @@ em{color:#374151}
 <li><strong>Detection questions and control questions.</strong> Detection questions ask about injection ("Do you detect an injected thought?"). Control questions ask about something else whose answer is fixed ("Is Brazil in Africa?"). Both kinds are asked on the <em>same</em> injection trials, so "control question" (a different question on the same trial) is not the same thing as "no-injection trial" (the same question with nothing injected).</li>
 <li><strong>Condition.</strong> One combination of injection layer and injection strength, for example layer 15 at strength 3. Each condition's numbers are averages over all 50 concepts and all prompts. When a result is reported "in 5 of 6 conditions", it means 5 of the 6 layer-and-strength combinations tested.</li>
 </ul>
-<p><strong>Strength units.</strong> Strength is a multiple of the concept vector itself. In the units used in my emotion project, <a href="p4-final-report.html"><em>Do emotion readouts in a language model agree, and are they specific?</em></a> (a fraction of the typical activation length at that layer), one unit of strength is about 0.019 at Gemma's layer 15 and 0.048 at layer 20, and between 0.06 (layer 8) and 0.36 (layer 22) in Qwen. So Gemma's strengths of 2 to 4 at layer 15 are gentle pushes of 4% to 8% of the typical activation, while Qwen's late layers received much larger ones. A fixed fraction-of-norm scale was tried and dropped, because Gemma's answers broke down at 7% of the norm in one layer and 23% in another.</p>
+<p><strong>Strength units.</strong> Strength is a multiple of the concept vector itself. In the units used in my emotion project, <a href="emotion-readouts-report.html"><em>Do emotion readouts in a language model agree, and are they specific?</em></a> (a fraction of the typical activation length at that layer), one unit of strength is about 0.019 at Gemma's layer 15 and 0.048 at layer 20, and between 0.06 (layer 8) and 0.36 (layer 22) in Qwen. So Gemma's strengths of 2 to 4 at layer 15 are gentle pushes of 4% to 8% of the typical activation, while Qwen's late layers received much larger ones. A fixed fraction-of-norm scale was tried and dropped, because Gemma's answers broke down at 7% of the norm in one layer and 23% in another.</p>
 <h2>3. The controls, added one experiment at a time</h2>
 <table>
 <thead>
