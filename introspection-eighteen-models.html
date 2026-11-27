@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Does a language model notice a thought you put into it? Eighteen models · Gaurav Misra</title>
+<meta name="description" content="I ran my concept-injection test, with its matched controls and random-vector sham, on eighteen small open models. None showed a detection pattern that passed the tests I fixed before the first trial. Four showed response bias; in seven, injection moved the answer a lot but moved matched control questions just as much.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="index.html">Gaurav Misra</a>
+  <span class="brand-tag">Measuring subjective states, in brains and in language models</span>
+  <nav class="top-links"><a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a><a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Scholar</a></nav>
+</header>
+<div class="layout">
+<nav class="sidebar" aria-label="Sections"><a class="nav-item" href="index.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>Home</span></a><a class="nav-item active" href="research.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7.5 15h9"/></svg><span>Research</span></a><a class="nav-item" href="concepts.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7"/></svg><span>Concepts</span></a><a class="nav-item" href="notes.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg><span>Notes</span></a><a class="nav-item" href="papers.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h7M9 16h7"/></svg><span>Papers</span></a><a class="nav-item" href="links.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span>Links</span></a><a class="nav-item" href="about.html"><svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>About</span></a></nav>
+<main class="post">
+<header class="post-header"><h1>Does a language model notice a thought you put into it? Eighteen models</h1><p class="post-sub">The same signal-detection test, fixed in advance, on eighteen open-weights models from seven families</p><p class="post-meta">3 min read</p></header>
+<div class="content">
+<p class="lead">My <a href="introspection.html">first introspection study</a> tested two models. One said “Yes, I detect an injected thought” because injection pushes it towards “Yes” on every question; the other showed a detection-like pattern that failed a replication. Two models cannot tell you what is typical. So I wrote the test and its pass rules down before running anything, and applied them unchanged to eighteen open-weights models, from 0.27 to 7 billion weights.</p>
+
+<div class="note"><strong>Short version.</strong> No model passes all three tests. Four show response bias: injection raises “Yes” to “Was a thought injected?” <em>and</em> to “Was no thought injected?”. In seven, injection moves the answer by up to 16 log-odds, but control questions that start from the same point move about as much, so the effect is not about detection. In four, injection barely moves the answer at all, and three models could not be tested because they do not answer plain factual Yes/No questions cleanly enough to serve as controls. Larger models move more under injection, but not specifically on the detection question.</div>
+
+<p class="report-link"><strong>Full report.</strong> <a href="reports/introspection-eighteen-models-report.html">Read the report</a>: the protocol, the three tests, a verdict for every model, every model and layer in one table, and interactive figures.</p>
+
+<h2 id="what-was-the-same-for-every-model">What was the same for every model</h2>
+<ul>
+<li><strong>The words.</strong> Concept vectors built from the published concept and baseline word lists, because my first study found that my own baseline list had created most of one model&rsquo;s apparent detection.</li>
+<li><strong>The injection.</strong> Three depths (30%, 45% and 60% of the way through the model) and three strengths, with a random vector of the same length as a sham at every one.</li>
+<li><strong>The questions.</strong> The standard detection question, a reversed one (“Is this a control trial with no injected thought?”), control questions chosen per model to start from the same point as the detection questions, and lexical controls that reuse the detection questions&rsquo; words.</li>
+<li><strong>The tests.</strong> The ones from my first study&rsquo;s replication: the detection question must beat its closest control family by at least 1 log-odds and the reversed question must fall by at least as much; the pattern must hold at two or more strengths with the concept and at none with the sham; and the lexical controls must move at most a quarter as far as the detection questions.</li>
+</ul>
+<h2 id="the-results">The results</h2>
+<table>
+<thead>
+<tr>
+<th>Verdict</th>
+<th>Models</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passes all three tests</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Response bias</td>
+<td>Gemma 3 1B, OLMo-2 1B, Qwen2.5 3B, Gemma 4 E2B</td>
+</tr>
+<tr>
+<td>Moves a lot, but controls move as much</td>
+<td>Granite 3.3 2B, Gemma 2 2B, Phi-4 mini, Qwen3 4B, Gemma 3 4B, Mistral 7B, OLMo-2 7B</td>
+</tr>
+<tr>
+<td>Barely moves</td>
+<td>Gemma 3 270M, Qwen2.5 0.5B, Qwen2.5 1.5B, Gemma 1.1 2B</td>
+</tr>
+<tr>
+<td>Could not be tested</td>
+<td>SmolLM2 1.7B, Qwen3 1.7B, Gemma 1 2B</td>
+</tr>
+</tbody>
+</table>
+<p>The trap the controls exist for shows up clearly here. Qwen3 4B and Gemma 3 4B start out very sure that no thought was injected. When injection makes them less sure of everything, their answer to the standard question rises and their answer to the reversed question falls, which is exactly what detection predicts. Only the comparison with control questions that start from the same point shows that the movement is general, not about the injection.</p>
+<p>The closest call is Granite 3.3 2B at its middle layer: the pattern holds at all three strengths and never with the sham, but by less than the threshold, and the lexical controls move too.</p>
+<h2 id="what-it-does-and-does-not-show">What it does and does not show</h2>
+<p>It does not show that no language model can introspect: the original reports used far larger models. It shows that in eighteen small open models, a “Yes, I detect an injected thought” is not evidence of introspection unless it beats matched controls and a random vector, and none did.</p>
+</div>
+</main>
+</div>
+<footer class="footer">
+  <p>Gaurav Misra · Fort Collins, Colorado · <a href="https://www.linkedin.com/in/gaurav-misra-phd">LinkedIn</a> · <a href="https://scholar.google.com/citations?user=2LgEQ30AAAAJ">Google Scholar</a></p>
+  <p>Experiments run on open-weights models on a laptop. Code and pages written with Claude; questions, design and judgements are mine.</p>
+</footer>
+</body>
+</html>

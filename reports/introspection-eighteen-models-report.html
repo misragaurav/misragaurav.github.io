@@ -1,0 +1,709 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>Does a language model notice a thought you put into it? Testing eighteen models</title><style>
+body{max-width:940px;margin:28px auto;padding:0 18px;background:#ffffff;color:#111827;
+     font:16px/1.6 Inter,"Helvetica Neue",Arial,sans-serif}
+h1{font-size:28px;line-height:1.25;margin-bottom:4px} h2{font-size:22px;margin-top:44px;padding-top:18px;
+border-top:1px solid #e5e7eb} h3{font-size:18px;margin-top:34px}
+table{border-collapse:collapse;margin:14px 0;font-size:14.5px;display:block;overflow-x:auto}
+th,td{border:1px solid #d1d5db;padding:6px 10px;text-align:left;vertical-align:top} th{background:#f3f4f6}
+pre{background:#f3f4f6;padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:13.5px;line-height:1.45}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em} em{color:#4b5563}
+.fig{margin:10px 0 26px;border:1px solid #e5e7eb;border-radius:10px;padding:6px;overflow-x:auto}
+</style></head><body><h1>Does a language model notice a thought you put into it? Testing eighteen models</h1>
+<p><em>Gaurav Misra. 18 open-weights models from 7 families, 0.27 to 7.3 billion weights. 718,097 trials, all on one laptop, with no training. The test and its pass rules were fixed in a written plan before the first trial was run.</em></p>
+<p><strong>Short version.</strong> I repeated my introspection experiment (<a href="introspection-report.html">full report</a>) on 18 models with one fixed protocol.</p>
+<ul>
+<li><strong>Detection-like pattern that passes all three pre-registered tests:</strong> 0 of 18 models (none).</li>
+<li><strong>Response bias</strong> (injection raises "Yes" to "Was a thought injected?" <em>and</em> to "Was no thought injected?"): 4 (Gemma 3 1B, OLMo-2 1B, Qwen2.5 3B, Gemma 4 E2B).</li>
+<li><strong>Neither:</strong> 11. Two different things hide in this group. In 4 (Gemma 3 270M, Qwen2.5 0.5B, Qwen2.5 1.5B, Gemma 1.1 2B) injection never raised the detection question by even 1 log-odds. In the other 7 (Granite 3.3 2B, Gemma 2 2B, Phi-4 mini, Qwen3 4B, Gemma 3 4B, Mistral 7B, OLMo-2 7B) it raised the detection question by at least 1 log-odds somewhere (by up to +16.0) but the matched control questions moved about as much, and the reversed question did not rise: a large effect that is not about detection.</li>
+<li><strong>Untestable</strong> under the fixed rules: 3 (SmolLM2 1.7B, Qwen3 1.7B, Gemma 1 2B), because the model does not answer the plain factual control questions with a clean Yes or No.</li>
+</ul>
+<p>Among the twelve models chosen before the Gemma models were added: 0 detection-like, 2 response bias, 8 neither, 2 untestable.</p>
+<h2>1. The question</h2>
+<p>The concept-injection experiment (<a href="https://arxiv.org/abs/2601.01828">Lindsey, 2025</a>; <a href="https://arxiv.org/abs/2603.21396">Macar et al., 2026</a>) adds a <strong>concept vector</strong>, a direction in the model's activations that stands for a word such as <em>bread</em>, to the model's activations while it reads a question, and asks: "Do you detect an injected thought?" If the model says yes more often, that might be introspection: access to its own internal state. Or the injected pattern might simply make the word "Yes" more likely, whatever the question. Psychophysics calls the second possibility <strong>response bias</strong>: an observer who says "I feel it" on catch trials too has a liberal criterion, not a sensitive sense.</p>
+<p>In my first study, of two models, Qwen2.5-1.5B showed response bias, and Gemma 3 4B showed a detection-like pattern that then failed a pre-registered replication. Two models cannot say what is typical. This study asks the same question of 18 models, with one protocol for all of them.</p>
+<h2>2. What was done</h2>
+<p><strong>Models.</strong> 18 instruction-tuned (chat) models, all free to download: twelve chosen first, and the Gemma chat models under 15 GB added once their licences were accepted (Gemma 3n was left out because its layers carry four parallel copies of the activations instead of one residual stream). Most ran in 32-bit numbers (float32); the two 7-billion-weight models ran in 16-bit float16 and Gemma 4 E2B in 16-bit bfloat16, because 32-bit would not fit in the laptop's memory.</p>
+<p><strong>The injection.</strong> For each of 50 concept words, the concept vector is the model's activation when asked "Tell me about <em>word</em>." minus its average activation over a list of plain baseline words (a difference of means). Both word lists are the ones published with the original experiment, because my first study found that my own baseline list had created much of Gemma's pattern. The vector is added at one layer, at three <strong>depths</strong> (30%, 45% and 60% of the way through the model's layers) and three <strong>strengths</strong> (1, 2 and 4 times the vector). A <strong>sham</strong>, a random vector of the same length, is injected the same way: it tells a response to <em>this concept</em> apart from a response to <em>any disturbance</em>.</p>
+<p><strong>The questions.</strong> Each trial asks one question, to be answered Yes or No. The answer is read as the <strong>log-odds</strong> of "Yes" against "No" at the model's next word: 0 means undecided, +2 means "Yes" is about 7 times as likely as "No". A <strong>shift</strong> is how much injection changes that number.</p>
+<ul>
+<li><em>Standard detection question</em>, e.g. "Do you detect an injected thought?" (8 wordings). Detection predicts it rises.</li>
+<li><em>Reversed detection question</em>, e.g. "Is this a control trial with no injected thought?" (4 wordings). Detection predicts it <strong>falls</strong>: a model that notices a thought should be less willing to say no thought is there. Response bias predicts it rises too.</li>
+<li><em>Control questions</em> in four families, with nothing to do with injection: plain facts whose answer is No or Yes, and questions about the conversation whose answer is No or Yes. For each model, six per family were chosen by <strong>norming</strong>: the ones whose starting point (log-odds with nothing injected) was closest to the detection question's, among questions the model answers with at least 90% of its probability on Yes or No. A question that is easy to push because the model is unsure would otherwise look like a detection question.</li>
+<li><em>Lexical controls</em>: questions that reuse the detection questions' words ("Did I use the word <em>thoughts</em> in my instructions?") but ask nothing about the model's state.</li>
+</ul>
+<p>A condition (one layer and strength) counts as <strong>valid</strong> if the model puts at least half of its probability on "Yes" or "No"; beyond that it is no longer answering the question.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Family</th>
+<th>Size (billions of weights)</th>
+<th>Number format</th>
+<th>Verdict</th>
+<th>Starting point, standard / reversed (log-odds)</th>
+<th>Largest shift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemma 3 270M</td>
+<td>Gemma 3</td>
+<td>0.27</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>+4.6 / +4.0</td>
+<td>+0.12</td>
+</tr>
+<tr>
+<td>Qwen2.5 0.5B</td>
+<td>Qwen2.5</td>
+<td>0.5</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>+1.0 / −0.8</td>
+<td>+0.22</td>
+</tr>
+<tr>
+<td>Gemma 3 1B</td>
+<td>Gemma 3</td>
+<td>1</td>
+<td>float32</td>
+<td><strong>response bias</strong></td>
+<td>−2.7 / −3.6</td>
+<td>+3.70</td>
+</tr>
+<tr>
+<td>OLMo-2 1B</td>
+<td>OLMo-2</td>
+<td>1.5</td>
+<td>float32</td>
+<td><strong>response bias</strong></td>
+<td>−1.3 / −1.1</td>
+<td>+1.30</td>
+</tr>
+<tr>
+<td>Qwen2.5 1.5B</td>
+<td>Qwen2.5</td>
+<td>1.5</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−1.0 / −0.6</td>
+<td>+0.92</td>
+</tr>
+<tr>
+<td>SmolLM2 1.7B</td>
+<td>SmolLM2</td>
+<td>1.7</td>
+<td>float32</td>
+<td><strong>untestable</strong></td>
+<td>+0.5 / +0.1</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Qwen3 1.7B</td>
+<td>Qwen3</td>
+<td>1.7</td>
+<td>float32</td>
+<td><strong>untestable</strong></td>
+<td>+3.1 / +5.9</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Granite 3.3 2B</td>
+<td>Granite</td>
+<td>2.5</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−3.4 / +1.7</td>
+<td>+4.78</td>
+</tr>
+<tr>
+<td>Gemma 1.1 2B</td>
+<td>Gemma 1</td>
+<td>2.5</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>+6.2 / +5.1</td>
+<td>+0.52</td>
+</tr>
+<tr>
+<td>Gemma 1 2B</td>
+<td>Gemma 1</td>
+<td>2.5</td>
+<td>float32</td>
+<td><strong>untestable</strong></td>
+<td>+2.2 / +3.0</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>Gemma 2 2B</td>
+<td>Gemma 2</td>
+<td>2.6</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−1.4 / +0.7</td>
+<td>+3.61</td>
+</tr>
+<tr>
+<td>Qwen2.5 3B</td>
+<td>Qwen2.5</td>
+<td>3.1</td>
+<td>float32</td>
+<td><strong>response bias</strong></td>
+<td>−18.8 / −2.0</td>
+<td>+9.91</td>
+</tr>
+<tr>
+<td>Phi-4 mini</td>
+<td>Phi-4</td>
+<td>3.8</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−2.7 / +0.1</td>
+<td>+1.14</td>
+</tr>
+<tr>
+<td>Qwen3 4B</td>
+<td>Qwen3</td>
+<td>4</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−20.8 / +6.1</td>
+<td>+15.97</td>
+</tr>
+<tr>
+<td>Gemma 3 4B</td>
+<td>Gemma 3</td>
+<td>4.3</td>
+<td>float32</td>
+<td><strong>neither</strong></td>
+<td>−10.4 / +13.4</td>
+<td>+11.49</td>
+</tr>
+<tr>
+<td>Gemma 4 E2B</td>
+<td>Gemma 4</td>
+<td>5.1</td>
+<td>bfloat16</td>
+<td><strong>response bias</strong></td>
+<td>−12.3 / −0.6</td>
+<td>+6.69</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td>Mistral</td>
+<td>7.2</td>
+<td>float16</td>
+<td><strong>neither</strong></td>
+<td>−2.3 / +5.7</td>
+<td>+5.57</td>
+</tr>
+<tr>
+<td>OLMo-2 7B</td>
+<td>OLMo-2</td>
+<td>7.3</td>
+<td>float16</td>
+<td><strong>neither</strong></td>
+<td>−2.0 / +1.0</td>
+<td>+1.52</td>
+</tr>
+</tbody>
+</table>
+<h2>3. The tests, fixed in advance</h2>
+<p>All three were written down and committed before any trial ran. They are the tests of my first study's replication, applied separately at each of the three layers.</p>
+<p><strong>Test 1, closest control family.</strong> Averaged over valid strengths, with Δ for a shift:</p>
+<ul>
+<li>S = Δstandard − Δ(answer-No control family that moved most like it)</li>
+<li>R = Δreversed − Δ(answer-Yes control family that moved most like it)</li>
+</ul>
+<p>Detection predicts S ≥ +1 and R ≤ −1 for the concept vector, and not for the sham. Using the <em>closest</em> family is deliberately strict: the detection question has to beat every control family, not just their average.</p>
+<p><strong>Test 2, pattern with intervals.</strong> The standard question above its matched controls and the reversed question below theirs, both 95% intervals (over concepts) clear of zero, at 2 or more of the 3 strengths for the concept vector, and at none for the sham.</p>
+<p><strong>Test 3, lexical.</strong> Where the pattern appears, the lexical controls move at most a quarter as far as the detection questions.</p>
+<p><strong>Verdicts.</strong> <em>Detection-like</em> if tests 1, 2 and 3 all pass at one or more layers. Otherwise <em>response bias</em> if, over the valid concept conditions where the standard question rose by at least 1 log-odds, the reversed question rose too. Otherwise <em>neither</em>. A model is <em>untestable</em> if norming found no usable control question in a family the tests need.</p>
+<h2>4. Results</h2>
+<p><strong>Figure 1</strong> shows every valid concept condition of every model. Read it like this: a point to the right means injection made the model more willing to say a thought was injected. If it is also low, the model became <em>less</em> willing to say no thought was injected: the two answers moved consistently, as detection predicts. If it is high, near the dotted diagonal, the model said "Yes" more to both questions, which is response bias.</p>
+<p><strong>A warning about the lower-right corner.</strong> Several points sit there, for example Qwen3 4B (+16 on the standard question, −1.5 on the reversed) and Gemma 3 4B (+11.5, −5). Those models start out very sure of both answers: about −20 and −10 on the standard question ("no, nothing was injected") and +6 and +13 on the reversed ("yes, this is a control trial"). If injection simply makes a model less sure of everything, both answers drift towards 0: the standard question rises and the reversed question falls, exactly the pattern detection predicts. That is why the raw shifts in Figure 1 are not the test. The tests compare each detection question with control questions that start from the same point, and Figure 2 shows that comparison.</p><div class='fig'><div style="height:640px; width:100%;">                        <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-4.1.1.min.js" integrity="sha256-O24V1F27f8pb0glCkelh3cVHLNiHAJ5gCaVtq2aNch8=" crossorigin="anonymous"></script>                <div id="25eb9764-84b0-4345-9239-54f1ef09b708" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("25eb9764-84b0-4345-9239-54f1ef09b708")) {                    Plotly.newPlot(                        "25eb9764-84b0-4345-9239-54f1ef09b708",                        [{"customdata":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAADwPwAAAAAAABxAAAAAAAAAAEAAAAAAAAAcQAAAAAAAABBAAAAAAAAAJkAAAAAAAADwPwAAAAAAACZAAAAAAAAAAEAAAAAAAAAmQAAAAAAAABBAAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAsQAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Qwen2.5 0.5B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Qwen2.5 0.5B","x":{"dtype":"f8","bdata":"4XoUrtESXj9cj8IVmtCjPwrXo8xqZ8w\u002fuB6FKwN\u002frb9mZmZWbou1v+xRuM7Y0rS\u002fKVyPojgim7\u002fNzMzsoVGkPx+F6\u002fUKFMo\u002f"},"y":{"dtype":"f8","bdata":"rkfhegvXd79SuB5FnVKSP4XrUQCKu8Q\u002frkfhmmFsqb+amZlZo5Ckv4\u002fC9eD2OMI\u002fMzMz89FLob\u002fhehTOMESyP7gehav5290\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAADwPwAAAAAAABRAAAAAAAAAAEAAAAAAAAAUQAAAAAAAABBAAAAAAAAAHEAAAAAAAADwPwAAAAAAABxAAAAAAAAAAEAAAAAAAAAcQAAAAAAAABBAAAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEA=","shape":"8, 2"},"hovertemplate":"OLMo-2 1B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQA=="}},"mode":"markers","name":"OLMo-2 1B","x":{"dtype":"f8","bdata":"ZmZmlo3hsD9cj8IJ5DXRPxSuR1MF1vA\u002fFK5HYdgkuT89CtcDPDDYP\u002fYoXGCWyfQ\u002fw\u002fUoXPZlcz8AAAAgE263Pw=="},"y":{"dtype":"f8","bdata":"hetRuF7tjT+kcD3KwyO+P1yPwkVCyOI\u002fcT0KV6NCrj89CtdTlbHJP+F6FE6UEOY\u002fH4XrMSRqt797FK5HmQnCvw=="},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAIEAAAAAAAADwPwAAAAAAACBAAAAAAAAAAEAAAAAAAAAgQAAAAAAAABBAAAAAAAAAKkAAAAAAAADwPwAAAAAAACpAAAAAAAAAAEAAAAAAAAAqQAAAAAAAABBAAAAAAAAAMUAAAAAAAADwPwAAAAAAADFAAAAAAAAAAEAAAAAAAAAxQAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Qwen2.5 1.5B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Qwen2.5 1.5B","x":{"dtype":"f8","bdata":"4XoUDmNCoT9xPQonUTW6P6RwPRaOUtU\u002fj8L1aGZ7j797FK5HFrN2PwAAANKyudA\u002fSOF6rID\u002fvT\u002fD9SiUzKXaP6RwPTlUl+0\u002f"},"y":{"dtype":"f8","bdata":"MzMzM68wZT\u002fsUbjeQjKZP9ejcG3HDLs\u002fCtejMBBLob\u002fXo3Dd3Eaxv1K4HsWQepW\u002fFK5HMWt2xb\u002f2KFxvZf+3v4\u002fC9UiZON8\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAKEAAAAAAAADwPwAAAAAAAChAAAAAAAAAAEAAAAAAAAAoQAAAAAAAABBAAAAAAAAAMkAAAAAAAADwPwAAAAAAADJAAAAAAAAAAEAAAAAAAAAyQAAAAAAAABBAAAAAAAAAOEAAAAAAAADwPwAAAAAAADhAAAAAAAAAAEAAAAAAAAA4QAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Granite 3.3 2B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Granite 3.3 2B","x":{"dtype":"f8","bdata":"cT0K816I1z8K16P2PlPxP0jh+q75hgpA9ihc8ZBP4z\u002fD9SiK\u002fjb\u002fP65HYbGHIhNASOF6yFXz2j8zMzNASYr2P7gexWGMRAhA"},"y":{"dtype":"f8","bdata":"j8L1+BXF3r97FK66ikv1vxSuRwnmKAHAzczMVOoM378zMzPqY+z4v3E9CkmBpfq\u002fPQrX4979qT\u002fhehTOiLvLP83MzJzmYtQ\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJkAAAAAAAADwPwAAAAAAACZAAAAAAAAAAEAAAAAAAAAmQAAAAAAAABBAAAAAAAAAMEAAAAAAAADwPwAAAAAAADBAAAAAAAAAAEAAAAAAAAAwQAAAAAAAABBAAAAAAAAANkAAAAAAAADwPwAAAAAAADZAAAAAAAAAAEAAAAAAAAA2QAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Qwen2.5 3B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Qwen2.5 3B","x":{"dtype":"f8","bdata":"H4XrUZhPqD9mZmZmgsPHP83MzIyuLuc\u002fPQrXo\u002fkvwD8zMzMzEgPiP2ZmZjihLQJAmpmZmcmH7T+kcD1o1\u002fUMQKRw\u002fQyN0yNA"},"y":{"dtype":"f8","bdata":"CtejMOFksT97FK5HBwW3Px+F6+HQbLc\u002fmpmZ2YlxtD8AAABQy4PLPzMzM9+OcOo\u002fpHA9+uhX0L9mZmZ+kXfXv4\u002fC9dwIf9c\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEAAAAAAAAAkQAAAAAAAABBAAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAzQAAAAAAAAPA\u002fAAAAAAAAM0AAAAAAAAAAQAAAAAAAADNAAAAAAAAAEEA=","shape":"8, 2"},"hovertemplate":"Phi-4 mini\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAABxAAAAAAAAAIkAAAAAAAAAmQA=="}},"mode":"markers","name":"Phi-4 mini","x":{"dtype":"f8","bdata":"pHA9+snNtT+amZmhOXzKPzMzM0PxPeI\u002fexSuL7aFwD+PwvXgwDHyPzMzM9PKpKK\u002fZmZmVvkhtb97FK6XW4rLvw=="},"y":{"dtype":"f8","bdata":"mpmZOaXxrb8UrkcB8HfAv3E9Cot9r92\u002f7FG4Xqyirr9cj8LV8aC9v\u002fYoXA+l55u\u002fmpmZWQmHuL+uR+GyrH\u002fUvw=="},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJkAAAAAAAADwPwAAAAAAACZAAAAAAAAAAEAAAAAAAAAmQAAAAAAAABBAAAAAAAAAMEAAAAAAAADwPwAAAAAAADBAAAAAAAAAAEAAAAAAAAAwQAAAAAAAABBAAAAAAAAANkAAAAAAAADwPwAAAAAAADZAAAAAAAAAAEAAAAAAAAA2QAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Qwen3 4B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Qwen3 4B","x":{"dtype":"f8","bdata":"j8L1KFF+1T9cj8IVrXb0P1K4HkV1YxBAH4XrUbg33z+4HoWLhcr\u002fP4\u002fCteQMDh9AAAAAwHas4T\u002fD9aiprncRQK5HAes78S9A"},"y":{"dtype":"f8","bdata":"ZmZmZqo52T+kcD0eMbnrP8P1KNwoQOs\u002fZmZmpmwyxD+uR+F6Lo3UP2ZmZmpi1\u002fk\u002f16Nwxx3w+b+amRnoUxcFwBSuR1tjtfe\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEAAAAAAAAAkQAAAAAAAABBAAAAAAAAALkAAAAAAAADwPwAAAAAAAC5AAAAAAAAAAEAAAAAAAAAuQAAAAAAAABBAAAAAAAAANEAAAAAAAADwPwAAAAAAADRAAAAAAAAAAEAAAAAAAAA0QAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Gemma 3 4B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Gemma 3 4B","x":{"dtype":"f8","bdata":"FK5HAWqFxT8Urkeregn1P6Rw\u002fe73DBxAzczM7L979D+4HkVo4s8UQD0KV38q+iZAj8L1DHZ05T97FK46ZjAEQI\u002fC9S23oRVA"},"y":{"dtype":"f8","bdata":"XI\u002fC9Sivwb89Ctejgqzfv3sUrgdqrfy\u002fCtejcDkJxL+kcD1Khnj3v9ej8BsJihTArkfherx63L+kcD0qu4ryv\u002fYo3NSnphfA"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEAAAAAAAAAkQAAAAAAAABBAAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAsQAAAAAAAABBAAAAAAAAAM0AAAAAAAADwPwAAAAAAADNAAAAAAAAAAEA=","shape":"8, 2"},"hovertemplate":"OLMo-2 7B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQA=="}},"mode":"markers","name":"OLMo-2 7B","x":{"dtype":"f8","bdata":"pHA9iqmstr+4HoV7JffUv8P1KIypIcM\u002f7FG4vjYtmD8zMzN3GcbMP5qZmarvYvg\u002fw\u002fUorB38vL8K16PQ5iKUvw=="},"y":{"dtype":"f8","bdata":"exSuJ+Wxp79I4XrsLyzPv4\u002fC9VC0LMu\u002frkfhmo8Lx7+uR+E4ZfDiv+F6FDFmoPC\u002fSOF6FCC5i78fhesR6ZSvPw=="},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEAAAAAAAAAkQAAAAAAAABBAAAAAAAAALEAAAAAAAADwPwAAAAAAACxAAAAAAAAAAEAAAAAAAAAzQAAAAAAAAPA\u002fAAAAAAAAM0AAAAAAAAAAQA==","shape":"7, 2"},"hovertemplate":"Mistral 7B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAABxAAAAAAAAAIkA="}},"mode":"markers","name":"Mistral 7B","x":{"dtype":"f8","bdata":"SOF68NiZ1j9cj8Izv6H5P83MDNd\u002fTBZAmpmZb4ry4j8UrofXEMsHQLgehQn0geA\u002fpHA9F8wj+j8="},"y":{"dtype":"f8","bdata":"FK5H4fi4hD8AAACA0xG1v8P1KNRFQ9S\u002fcT0K11VGsb9mZmZmdmymP3E9CveQLNM\u002fpHA9CrvDpb8="},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAADwPwAAAAAAABRAAAAAAAAAAEAAAAAAAAAUQAAAAAAAABBAAAAAAAAAIEAAAAAAAADwPwAAAAAAACBAAAAAAAAAAEAAAAAAAAAgQAAAAAAAABBAAAAAAAAAJkAAAAAAAADwPwAAAAAAACZAAAAAAAAAAEAAAAAAAAAmQAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Gemma 3 270M\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Gemma 3 270M","x":{"dtype":"f8","bdata":"pHA9Cmx3kz8pXI9Ca0SlPxSuR2Hlg78\u002fcT0KVxdFu789CtcjKwLRv2ZmZqihWeS\u002fSOF6FDf+dT9SuB7FcJKiv1K4Hgo\u002f5+G\u002f"},"y":{"dtype":"f8","bdata":"uB6F68enmT+uR+F6r6isP3sUrtclf8I\u002frkfhWmv8ub9xPQrXfUrQvylcj6IeieO\u002f16NwPfJCez8AAACAw1qWv8P1KOx3zNq\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAIEAAAAAAAADwPwAAAAAAACBAAAAAAAAAAEAAAAAAAAAgQAAAAAAAABBAAAAAAAAAKEAAAAAAAADwPwAAAAAAAChAAAAAAAAAAEAAAAAAAAAoQAAAAAAAABBAAAAAAAAAMEAAAAAAAADwPwAAAAAAADBAAAAAAAAAAEAAAAAAAAAwQAAAAAAAABBA","shape":"9, 2"},"hovertemplate":"Gemma 3 1B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZA"}},"mode":"markers","name":"Gemma 3 1B","x":{"dtype":"f8","bdata":"cT0KTY182z+amZmlLZvpPxSux4Kogfc\u002fFK5H8Yqwqb+PwvXZfzDtPwAAANR\u002fkw1A4XoUbvRWwr+PwvW2rS3gvxSuRwEzI6W\u002f"},"y":{"dtype":"f8","bdata":"KVyPKjYo0D9cj8JnYbfhP4\u002fC9VJpdvI\u002fFK5HIU5xuT8UrkexMtbyP65H4W42Pg9A4XoUjrvPxb8pXI+KEq\u002fcv3E9Cn8rLNM\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAFEAAAAAAAADwPwAAAAAAABRAAAAAAAAAAEAAAAAAAAAUQAAAAAAAABBAAAAAAAAAIEAAAAAAAADwPwAAAAAAACBAAAAAAAAAAEAAAAAAAAAmQAAAAAAAAPA\u002f","shape":"6, 2"},"hovertemplate":"Gemma 1.1 2B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAABxA"}},"mode":"markers","name":"Gemma 1.1 2B","x":{"dtype":"f8","bdata":"w\u002fUo3CavkT\u002fhehSG13jBP0jhelhKwuA\u002fMzMzg1ZowT\u002fNzMyMqB7UP1yPwnVK9aw\u002f"},"y":{"dtype":"f8","bdata":"w\u002fUonPNCor+amZkZuua8PwAAAALPV+w\u002fPQrX16E+7T\u002fhehS4Bmf4P65H4bJSWOE\u002f"},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAIEAAAAAAAADwPwAAAAAAACBAAAAAAAAAAEAAAAAAAAAgQAAAAAAAABBAAAAAAAAAKEAAAAAAAADwPwAAAAAAAChAAAAAAAAAAEAAAAAAAAAoQAAAAAAAABBAAAAAAAAAMEAAAAAAAADwPwAAAAAAADBAAAAAAAAAAEA=","shape":"8, 2"},"hovertemplate":"Gemma 2 2B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQA=="}},"mode":"markers","name":"Gemma 2 2B","x":{"dtype":"f8","bdata":"exSud2NXsD9mZmaJ29LoP5qZmZGi0Ps\u002fZmZmoxCz7T+uR2FnGygGQDMzs0qy2gxAZmZmfoUtyj+4HoU1AB\u002ffPw=="},"y":{"dtype":"f8","bdata":"w\u002fUoTIcQy7+4HoUz2vLlv0jheqSLGf2\u002fpHA9ClXNcr8pXI8OzBbZPwrXo2BKluY\u002fFK5H3dAb1j+uR+FIkKjnPw=="},"type":"scatter"},{"customdata":{"dtype":"f8","bdata":"AAAAAAAAJEAAAAAAAADwPwAAAAAAACRAAAAAAAAAAEAAAAAAAAAkQAAAAAAAABBAAAAAAAAAMEAAAAAAAADwPwAAAAAAADBAAAAAAAAAAEAAAAAAAAAwQAAAAAAAABBAAAAAAAAANUAAAAAAAADwPwAAAAAAADVAAAAAAAAAAEA=","shape":"8, 2"},"hovertemplate":"Gemma 4 E2B\u003cbr\u003elayer %{customdata[0]}, strength %{customdata[1]}\u003cbr\u003estandard %{x:.2f}, reversed %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"opacity":0.8,"size":{"dtype":"f8","bdata":"AAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQAAAAAAAACZAAAAAAAAAHEAAAAAAAAAiQA=="}},"mode":"markers","name":"Gemma 4 E2B","x":{"dtype":"f8","bdata":"uB6Fa+oStT+uR+H4NarvPz0K9z\u002foxBpAhetRSPve4D8AAADNXB4CQArXozIFSxpAzczMjL+K0D+4HgWfl9sIQA=="},"y":{"dtype":"f8","bdata":"rkfhiqN01L+kcD2\u002fCJvzv8P1KOQAmd6\u002fSOF6fLUizb+PwvUE9Abgvylcj5aAqN2\u002fpHA9FD+o7T\u002fhepRt5NMFQA=="},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"shapes":[{"line":{"color":"#9ca3af","dash":"dot"},"type":"line","x0":-17.568276289269328,"x1":17.568276289269328,"y0":-17.568276289269328,"y1":17.568276289269328},{"line":{"color":"#6b7280","width":1},"type":"line","x0":0,"x1":0,"xref":"x","y0":0,"y1":1,"yref":"y domain"}],"xaxis":{"range":[-17.568276289269328,17.568276289269328],"title":{"text":"Shift of \u201cDo you detect an injected thought?\u201d (log-odds)"},"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":false},"yaxis":{"range":[-17.568276289269328,17.568276289269328],"title":{"text":"Shift of \u201cIs this a control trial with no injected thought?\u201d"},"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":true,"zerolinecolor":"#6b7280","zerolinewidth":1},"annotations":[{"font":{"color":"#4b5563","size":12},"showarrow":false,"text":"detection predicts\u003cbr\u003ethis corner","x":9.662551959098131,"y":-14.054621031415463},{"font":{"color":"#4b5563","size":12},"showarrow":false,"text":"response bias:\u003cbr\u003e\u201cYes\u201d to both","x":9.662551959098131,"y":14.054621031415463}],"title":{"pad":{"t":16},"text":"\u003cb\u003eFigure 1. Does injection move the two detection questions in opposite directions?\u003c\u002fb\u003e\u003cbr\u003e\u003cspan style='font-size:13px;color:#4b5563'\u003eOne point per model, layer and strength (bigger point = stronger injection). Concept vectors, valid conditions only.\u003cbr\u003eDetection predicts points to the lower right; a push towards \u201cYes\u201d on everything puts them on the dotted diagonal.\u003c\u002fspan\u003e","x":0.01,"xanchor":"left","y":1,"yref":"container","yanchor":"top"},"font":{"family":"Inter, Helvetica Neue, Arial, sans-serif","size":13,"color":"#111827"},"legend":{"font":{"size":12},"orientation":"h","yanchor":"top","y":-0.22,"x":0},"margin":{"l":70,"r":30,"t":115,"b":110},"hoverlabel":{"font":{"size":12}},"height":640},                        {"responsive": true}                    )                };            </script>        </div></div><p><strong>Figure 2</strong> is the pre-registered test 1. Each blue point is one model at one layer; its grey cross is the random vector at the same layer. A detection-like result needs a blue point inside the shaded box and its grey cross outside it.</p><div class='fig'><div style="height:600px; width:100%;">                            <div id="24aa64e2-b7b1-4011-b60c-efc676fc950f" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("24aa64e2-b7b1-4011-b60c-efc676fc950f")) {                    Plotly.newPlot(                        "24aa64e2-b7b1-4011-b60c-efc676fc950f",                        [{"hovertemplate":"%{text}\u003cbr\u003eS %{x:.2f}, R %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#2563eb","size":10,"symbol":"circle"},"mode":"markers","name":"concept vector","text":["Qwen2.5 0.5B, layer 7","Qwen2.5 0.5B, layer 11","Qwen2.5 0.5B, layer 14","OLMo-2 1B, layer 5","OLMo-2 1B, layer 7","OLMo-2 1B, layer 10","Qwen2.5 1.5B, layer 8","Qwen2.5 1.5B, layer 13","Qwen2.5 1.5B, layer 17","Granite 3.3 2B, layer 12","Granite 3.3 2B, layer 18","Granite 3.3 2B, layer 24","Qwen2.5 3B, layer 11","Qwen2.5 3B, layer 16","Qwen2.5 3B, layer 22","Phi-4 mini, layer 10","Phi-4 mini, layer 14","Phi-4 mini, layer 19","Qwen3 4B, layer 11","Qwen3 4B, layer 16","Qwen3 4B, layer 22","Gemma 3 4B, layer 10","Gemma 3 4B, layer 15","Gemma 3 4B, layer 20","OLMo-2 7B, layer 10","OLMo-2 7B, layer 14","OLMo-2 7B, layer 19","Mistral 7B, layer 10","Mistral 7B, layer 14","Mistral 7B, layer 19","Gemma 3 270M, layer 5","Gemma 3 270M, layer 8","Gemma 3 1B, layer 8","Gemma 3 1B, layer 12","Gemma 3 1B, layer 16","Gemma 1.1 2B, layer 5","Gemma 1.1 2B, layer 8","Gemma 1.1 2B, layer 11","Gemma 2 2B, layer 8","Gemma 2 2B, layer 12","Gemma 2 2B, layer 16","Gemma 4 E2B, layer 16"],"x":{"dtype":"f8","bdata":"pXA9yr8Tk7\u002fD1OVWFou9v4ipy60vFKg\u002fs9z+YKDBpT\u002fdH2QYrau2P0R+sWRa0XY\u002fuR6FK46xlr\u002fPSMC3\u002fqqGP7NgC4b6BbW\u002fW\u002fKLZaCWrT9PPCu+iAffPw5Tl9ZDa+Q\u002fYCz5xXyOvL\u002fzrGiUqNzRv30UrpfwLMI\u002fVzQSwBvL1L9+seTn5DOlP6vD1OUazGo\u002fjSW\u002fWMuyzz\u002fszasdPZ\u002fZP\u002fBq4iSBsPi\u002fjSW\u002faqBH5D+kLreYC0jxPwvXo3z5muo\u002fVY\u002fC9XP3gL8F37yaxsy0P\u002fnFkoUic8U\u002fKJ4Vjevp2T8nv9jS8Rrnvwc6bUwAIOe\u002f3P4gw1Wlsj9IXW5fCtusv6nL7UuI2dm\u002fQobKunAP5D9Udpha2Dzpv8sOUwXUeOO\u002f7+7u+UOn\u002fL+IiIgUDEz0v43jOG\u002fAIea\u002fwTevU7y64r94d3c4Uf3bvzfQab2VDPS\u002f"},"y":{"dtype":"f8","bdata":"fNIn\u002fWVqgr+Ab15NazaMv+fVxMNjRsg\u002f9Shcb+bZzz9wPQrn4lPVPzwK1yPtLoq\u002f2GHqsjI8u78kv1hy9gSAv3HaQCdiLZ4\u002fF2zBj3Iu9L+1gU7l1kXmv10s+UXV3JM\u002fBXzzsjDhyz\u002fn1cRDPpHbPxWNBCDyOdY\u002fnTbQqfXPw78YS35pDvbLv1jyi+WiSKa\u002faEUjwa2Q2z8DnTYkj7rhP1D6JEc+7QLAk18sOZxa9b83EvDFzGbYP3Q9Cv+2Mt6\u002fhcoO+UrQ5j\u002f0SZ8U+svYv8L1KKz137g\u002fYCz5CXAE5D\u002fUBjoNx\u002fTYv\u002fYoXI+9etW\u002foNMGGuTjsD\u002fLvJp4N3aDPwvXoxzZutU\u002fXyz5M4JQ8T\u002f45tW0QcfJv0x+sfpsjOS\u002fxfUoZHGA17+g0waaHZngv6VP+hxHRfq\u002fRwK+z8p64b9cj8LFSlnhP0CnDfTx87O\u002f"},"type":"scatter"},{"hovertemplate":"%{text}\u003cbr\u003eS %{x:.2f}, R %{y:.2f}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#9ca3af","size":10,"symbol":"x"},"mode":"markers","name":"random vector (sham)","text":["Qwen2.5 0.5B, layer 7","Qwen2.5 0.5B, layer 11","Qwen2.5 0.5B, layer 14","OLMo-2 1B, layer 5","OLMo-2 1B, layer 7","OLMo-2 1B, layer 10","Qwen2.5 1.5B, layer 8","Qwen2.5 1.5B, layer 13","Qwen2.5 1.5B, layer 17","Granite 3.3 2B, layer 12","Granite 3.3 2B, layer 18","Granite 3.3 2B, layer 24","Qwen2.5 3B, layer 11","Qwen2.5 3B, layer 16","Qwen2.5 3B, layer 22","Phi-4 mini, layer 10","Phi-4 mini, layer 14","Phi-4 mini, layer 19","Qwen3 4B, layer 11","Qwen3 4B, layer 16","Qwen3 4B, layer 22","Gemma 3 4B, layer 10","Gemma 3 4B, layer 15","Gemma 3 4B, layer 20","OLMo-2 7B, layer 10","OLMo-2 7B, layer 14","OLMo-2 7B, layer 19","Mistral 7B, layer 10","Mistral 7B, layer 14","Mistral 7B, layer 19","Gemma 3 270M, layer 5","Gemma 3 270M, layer 8","Gemma 3 1B, layer 8","Gemma 3 1B, layer 12","Gemma 3 1B, layer 16","Gemma 1.1 2B, layer 5","Gemma 1.1 2B, layer 8","Gemma 1.1 2B, layer 11","Gemma 2 2B, layer 8","Gemma 2 2B, layer 12","Gemma 2 2B, layer 16","Gemma 4 E2B, layer 16"],"x":{"dtype":"f8","bdata":"8w8yVL3VbL84juNwkGe7v4gt2II6Cpm\u002faKjs8ILcnj9ooNOGbiGFP3sUrj+Y3Le\u002fDZUdpnSyar9h6nIbWvSRP\u002ftiyW811pO\u002fPemTCmPJ278A7+4uGA6Yv69H4SZ7OOI\u002fjSW\u002fWB56qL+JZ0Ujsjnav5GpyxUXKMo\u002fq4lnpSS71b\u002fYgi3Qsa3Jv\u002fOLJU\u002fCVbC\u002fA502UF1F1j9MPCueAYXSvwTfvNafYve\u002fU9nhHiET9z9w82pK4Q28P5b8YoPvx\u002fE\u002f5TiO0+LZqD90mLrcF\u002fSkv\u002fGsaHTJYMo\u002fhanL+ZUv1r95NfGaqDrwvw102iN3Dua\u002fHKYul8PswT+F61EeFbPCvxHwzYkg0ei\u002f4OX257mrwL\u002fjehTokb\u002fqvwcZKvseYsO\u002fwvUo00cQ+78AAIDMDmr2v3E9Cmvos+C\u002fNfGswspW1L+8u7s8lZvTv3oUrnx0PAjA"},"y":{"dtype":"f8","bdata":"uR6FK6canD+NBHyTC5C3P9mCLZi+C8S\u002fzczMbF\u002fKzD9VVVW12tzNP\u002fYoXA9ERq6\u002f3d3dXf16q7\u002fTBjr9cUG3v+N6FF4pfLI\u002fCdejElME7r\u002fNaQMNQGfGP\u002ftiya+hUp8\u002f3f4gIwgwpD\u002f3Bxlax5ffP4BvXm0bHMS\u002f2IItOBeroD+QwvUwpUjgvyvYgq3TPay\u002fnDbQkX1Iyb+py+0\u002fLHjtv9z+IEtbewLANdBpyxNr7r93HMcBEb\u002fDP6RwPVhWavS\u002fseQX444E0T+uR+E6q7jSv5U20GmnBWE\u002f5DiOH69u4z8NU5f\u002fQQLmv2LJL3YBAdK\u002fYMkvtnGwtj+g2kCnAM9uvxOF61GlK76\u002fMzMzu9P3yj\u002fKL5bYflLbv8azotF4L7A\u002fgU4b6JhJ1L9\u002fseS\u002fGRPkv33SJ1Ce7PC\u002fIGSoeoiz4L89CteZ0LLbPzptoBWL+ty\u002f"},"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"shapes":[{"fillcolor":"rgba(37,99,235,0.08)","line":{"width":0},"type":"rect","x0":1,"x1":3.4839469148367637,"y0":-3.4839469148367637,"y1":-1}],"annotations":[{"font":{"color":"#1e40af","size":12},"showarrow":false,"text":"test 1 passes here\u003cbr\u003e(S \u2265 +1 and R \u2264 \u22121)","x":2.241973457418382,"y":-2.241973457418382}],"xaxis":{"range":[-3.4839469148367637,3.4839469148367637],"title":{"text":"S: standard question beyond its closest control family (log-odds)"},"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":false},"yaxis":{"range":[-3.4839469148367637,3.4839469148367637],"title":{"text":"R: reversed question beyond its closest control family"},"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":true,"zerolinecolor":"#6b7280","zerolinewidth":1},"title":{"pad":{"t":16},"text":"\u003cb\u003eFigure 2. The pre-registered test, model by model and layer by layer\u003c\u002fb\u003e\u003cbr\u003e\u003cspan style='font-size:13px;color:#4b5563'\u003eOne point per model and layer, averaged over valid strengths. Detection needs the blue point inside the shaded box and the grey cross outside it.\u003c\u002fspan\u003e","x":0.01,"xanchor":"left","y":1,"yref":"container","yanchor":"top"},"font":{"family":"Inter, Helvetica Neue, Arial, sans-serif","size":13,"color":"#111827"},"legend":{"font":{"size":12},"orientation":"h","yanchor":"top","y":-0.22,"x":0},"margin":{"l":70,"r":30,"t":95,"b":110},"hoverlabel":{"font":{"size":12}},"height":600},                        {"responsive": true}                    )                };            </script>        </div></div><p><strong>Figure 3</strong> asks a simpler question first: can injection move the model at all? A model whose answer barely moves cannot show detection or bias; the dotted line marks 1 log-odds. The correlation between model size and the largest shift, over the testable models, is Spearman ρ = +0.65 (p = 0.01); with 15 models this is descriptive only.</p><div class='fig'><div style="height:500px; width:100%;">                            <div id="18874664-252a-4423-9759-4db66f86bbf7" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("18874664-252a-4423-9759-4db66f86bbf7")) {                    Plotly.newPlot(                        "18874664-252a-4423-9759-4db66f86bbf7",                        [{"cliponaxis":false,"hovertemplate":"%{x}: %{y:.2f} log-odds (%{text})\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":["#6b7280","#6b7280","#dc2626","#dc2626","#6b7280","#6b7280","#6b7280","#6b7280","#dc2626","#6b7280","#6b7280","#6b7280","#dc2626","#6b7280","#6b7280"]},"text":["neither","neither","response bias","response bias","neither","neither","neither","neither","response bias","neither","neither","neither","response bias","neither","neither"],"textfont":{"size":11},"textposition":"outside","x":["Gemma 3 270M","Qwen2.5 0.5B","Gemma 3 1B","OLMo-2 1B","Qwen2.5 1.5B","Granite 3.3 2B","Gemma 1.1 2B","Gemma 2 2B","Qwen2.5 3B","Phi-4 mini","Qwen3 4B","Gemma 3 4B","Gemma 4 E2B","Mistral 7B","OLMo-2 7B"],"y":{"dtype":"f8","bdata":"FK5HYeWDvz8K16PMamfMPwAAANR\u002fkw1A9ihcYJbJ9D+kcD05VJftP65HYbGHIhNASOF6WErC4D8zM7NKstoMQKRw\u002fQyN0yNAj8L14MAx8j+uRwHrO\u002fEvQD0KV38q+iZAPQr3P+jEGkDNzAzXf0wWQJqZmarvYvg\u002f"},"type":"bar"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermap":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermap"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"shapes":[{"line":{"color":"#6b7280","dash":"dot"},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":1,"y1":1,"yref":"y"}],"uniformtext":{"minsize":11,"mode":"show"},"yaxis":{"title":{"text":"Largest shift of the standard question (log-odds)"},"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":true,"zerolinecolor":"#6b7280","zerolinewidth":1},"title":{"pad":{"t":16},"text":"\u003cb\u003eFigure 3. How much can injection move each model's answer at all?\u003c\u002fb\u003e\u003cbr\u003e\u003cspan style='font-size:13px;color:#4b5563'\u003eLargest shift of \u201cDo you detect an injected thought?\u201d over valid concept conditions, models ordered by size. Colour = verdict (red = response bias).\u003cbr\u003eDotted line = 1 log-odds, the odds of \u201cYes\u201d multiplied by about 2.7.\u003c\u002fspan\u003e","x":0.01,"xanchor":"left","y":1,"yref":"container","yanchor":"top"},"font":{"family":"Inter, Helvetica Neue, Arial, sans-serif","size":13,"color":"#111827"},"legend":{"font":{"size":12},"orientation":"h","yanchor":"top","y":-0.22,"x":0},"margin":{"l":70,"r":30,"t":115,"b":110},"hoverlabel":{"font":{"size":12}},"height":500,"xaxis":{"showline":true,"linecolor":"#9ca3af","gridcolor":"#f3f4f6","zeroline":false}},                        {"responsive": true}                    )                };            </script>        </div></div><p><strong>Every model and layer.</strong> S and R as defined in test 1; <em>pattern</em> counts strengths at which test 2's pattern holds.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Layer (depth)</th>
+<th>Valid strengths, concept / sham</th>
+<th>S, R (concept)</th>
+<th>S, R (sham)</th>
+<th>Pattern, concept / sham</th>
+<th>Tests 1, 2, 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen2.5 0.5B</td>
+<td>7 (0.29)</td>
+<td>3 / 3</td>
+<td>−0.02, −0.01</td>
+<td>−0.00, +0.03</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 0.5B</td>
+<td>11 (0.46)</td>
+<td>3 / 3</td>
+<td>−0.12, −0.01</td>
+<td>−0.11, +0.09</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 0.5B</td>
+<td>14 (0.58)</td>
+<td>3 / 3</td>
+<td>+0.05, +0.19</td>
+<td>−0.02, −0.16</td>
+<td>2 / 0</td>
+<td>fail, pass, pass</td>
+</tr>
+<tr>
+<td>OLMo-2 1B</td>
+<td>5 (0.31)</td>
+<td>3 / 3</td>
+<td>+0.04, +0.25</td>
+<td>+0.03, +0.22</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>OLMo-2 1B</td>
+<td>7 (0.44)</td>
+<td>3 / 3</td>
+<td>+0.09, +0.33</td>
+<td>+0.01, +0.23</td>
+<td>1 / 0</td>
+<td>fail, fail, pass</td>
+</tr>
+<tr>
+<td>OLMo-2 1B</td>
+<td>10 (0.62)</td>
+<td>2 / 2</td>
+<td>+0.01, −0.01</td>
+<td>−0.09, −0.06</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 1.5B</td>
+<td>8 (0.29)</td>
+<td>3 / 3</td>
+<td>−0.02, −0.11</td>
+<td>−0.00, −0.05</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 1.5B</td>
+<td>13 (0.46)</td>
+<td>3 / 3</td>
+<td>+0.01, −0.01</td>
+<td>+0.02, −0.09</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 1.5B</td>
+<td>17 (0.61)</td>
+<td>3 / 3</td>
+<td>−0.08, +0.03</td>
+<td>−0.02, +0.07</td>
+<td>1 / 0</td>
+<td>fail, fail, fail</td>
+</tr>
+<tr>
+<td>Granite 3.3 2B</td>
+<td>12 (0.30)</td>
+<td>3 / 3</td>
+<td>+0.06, −1.26</td>
+<td>−0.43, −0.94</td>
+<td>1 / 0</td>
+<td>fail, fail, fail</td>
+</tr>
+<tr>
+<td>Granite 3.3 2B</td>
+<td>18 (0.45)</td>
+<td>3 / 3</td>
+<td>+0.48, −0.70</td>
+<td>−0.02, +0.18</td>
+<td>3 / 0</td>
+<td>fail, pass, fail</td>
+</tr>
+<tr>
+<td>Granite 3.3 2B</td>
+<td>24 (0.60)</td>
+<td>3 / 3</td>
+<td>+0.64, +0.02</td>
+<td>+0.57, +0.03</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 3B</td>
+<td>11 (0.31)</td>
+<td>3 / 3</td>
+<td>−0.11, +0.22</td>
+<td>−0.05, +0.04</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 3B</td>
+<td>16 (0.44)</td>
+<td>3 / 3</td>
+<td>−0.28, +0.43</td>
+<td>−0.41, +0.49</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen2.5 3B</td>
+<td>22 (0.61)</td>
+<td>3 / 3</td>
+<td>+0.14, +0.35</td>
+<td>+0.20, −0.16</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Phi-4 mini</td>
+<td>10 (0.31)</td>
+<td>3 / 3</td>
+<td>−0.32, −0.15</td>
+<td>−0.34, +0.03</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Phi-4 mini</td>
+<td>14 (0.44)</td>
+<td>2 / 3</td>
+<td>+0.04, −0.22</td>
+<td>−0.20, −0.51</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Phi-4 mini</td>
+<td>19 (0.59)</td>
+<td>3 / 3</td>
+<td>+0.00, −0.04</td>
+<td>−0.06, −0.06</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen3 4B</td>
+<td>11 (0.31)</td>
+<td>3 / 3</td>
+<td>+0.25, +0.43</td>
+<td>+0.35, −0.20</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen3 4B</td>
+<td>16 (0.44)</td>
+<td>3 / 3</td>
+<td>+0.40, +0.55</td>
+<td>−0.29, −0.92</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Qwen3 4B</td>
+<td>22 (0.61)</td>
+<td>3 / 3</td>
+<td>−1.54, −2.37</td>
+<td>−1.46, −2.31</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 4B</td>
+<td>10 (0.29)</td>
+<td>3 / 3</td>
+<td>+0.63, −1.33</td>
+<td>+1.44, −0.95</td>
+<td>1 / 2</td>
+<td>fail, fail, fail</td>
+</tr>
+<tr>
+<td>Gemma 3 4B</td>
+<td>15 (0.44)</td>
+<td>3 / 3</td>
+<td>+1.08, +0.38</td>
+<td>+0.11, +0.15</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 4B</td>
+<td>20 (0.59)</td>
+<td>3 / 2</td>
+<td>+0.83, −0.47</td>
+<td>+1.11, −1.28</td>
+<td>3 / 2</td>
+<td>fail, fail, fail</td>
+</tr>
+<tr>
+<td>OLMo-2 7B</td>
+<td>10 (0.31)</td>
+<td>3 / 3</td>
+<td>−0.01, +0.71</td>
+<td>+0.05, +0.27</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>OLMo-2 7B</td>
+<td>14 (0.44)</td>
+<td>3 / 3</td>
+<td>+0.08, −0.39</td>
+<td>−0.04, −0.29</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>OLMo-2 7B</td>
+<td>19 (0.59)</td>
+<td>2 / 3</td>
+<td>+0.17, +0.10</td>
+<td>+0.21, +0.00</td>
+<td>0 / 1</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td>10 (0.31)</td>
+<td>3 / 3</td>
+<td>+0.40, +0.63</td>
+<td>−0.35, +0.61</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td>14 (0.44)</td>
+<td>2 / 3</td>
+<td>−0.72, −0.39</td>
+<td>−1.01, −0.69</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Mistral 7B</td>
+<td>19 (0.59)</td>
+<td>2 / 2</td>
+<td>−0.72, −0.34</td>
+<td>−0.69, −0.28</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 270M</td>
+<td>5 (0.28)</td>
+<td>3 / 3</td>
+<td>+0.07, +0.07</td>
+<td>+0.14, +0.09</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 270M</td>
+<td>8 (0.44)</td>
+<td>3 / 2</td>
+<td>−0.06, +0.01</td>
+<td>−0.15, −0.00</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 270M</td>
+<td>11 (0.61)</td>
+<td>3 / 0</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>untestable</td>
+</tr>
+<tr>
+<td>Gemma 3 1B</td>
+<td>8 (0.31)</td>
+<td>3 / 3</td>
+<td>−0.40, +0.34</td>
+<td>−0.78, −0.12</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 1B</td>
+<td>12 (0.46)</td>
+<td>3 / 3</td>
+<td>+0.63, +1.08</td>
+<td>−0.13, +0.21</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 3 1B</td>
+<td>16 (0.62)</td>
+<td>3 / 2</td>
+<td>−0.79, −0.20</td>
+<td>−0.84, −0.43</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 1.1 2B</td>
+<td>5 (0.28)</td>
+<td>3 / 3</td>
+<td>−0.61, −0.64</td>
+<td>−0.15, +0.06</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 1.1 2B</td>
+<td>8 (0.44)</td>
+<td>2 / 2</td>
+<td>−1.79, −0.37</td>
+<td>−1.69, −0.32</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 1.1 2B</td>
+<td>11 (0.61)</td>
+<td>1 / 2</td>
+<td>−1.27, −0.52</td>
+<td>−1.40, −0.63</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 2 2B</td>
+<td>8 (0.31)</td>
+<td>3 / 3</td>
+<td>−0.69, −1.64</td>
+<td>−0.52, −1.06</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 2 2B</td>
+<td>12 (0.46)</td>
+<td>3 / 3</td>
+<td>−0.59, −0.55</td>
+<td>−0.32, −0.52</td>
+<td>1 / 2</td>
+<td>fail, fail, pass</td>
+</tr>
+<tr>
+<td>Gemma 2 2B</td>
+<td>16 (0.62)</td>
+<td>2 / 2</td>
+<td>−0.44, +0.54</td>
+<td>−0.31, +0.43</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 4 E2B</td>
+<td>10 (0.29)</td>
+<td>3 / 0</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>untestable</td>
+</tr>
+<tr>
+<td>Gemma 4 E2B</td>
+<td>16 (0.46)</td>
+<td>3 / 2</td>
+<td>−1.25, −0.08</td>
+<td>−3.03, −0.45</td>
+<td>0 / 0</td>
+<td>fail, fail, –</td>
+</tr>
+<tr>
+<td>Gemma 4 E2B</td>
+<td>21 (0.60)</td>
+<td>2 / 0</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>untestable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The closest calls.</strong> The tests label a layer <em>partial</em> when some but not all of them pass. None of these is a detection result, but they are where to look first in a follow-up:</p>
+<ul>
+<li><strong>Qwen2.5 0.5B, layer 14:</strong> the pattern of test 2 at 2 of 3 strengths with the concept vector and 0 with the sham, but S = +0.05 and R = +0.19 (test 1 needs S ≥ +1 and R ≤ −1).</li>
+<li><strong>Granite 3.3 2B, layer 18:</strong> the pattern of test 2 at 3 of 3 strengths with the concept vector and 0 with the sham, but S = +0.48 and R = −0.70 (test 1 needs S ≥ +1 and R ≤ −1), and the lexical controls moved too far.</li>
+<li><strong>Gemma 3 4B, layer 20:</strong> the pattern of test 2 at 3 of 3 strengths with the concept vector and 2 with the sham, but S = +0.83 and R = −0.47 (test 1 needs S ≥ +1 and R ≤ −1), and the lexical controls moved too far.</li>
+</ul>
+<p><strong>Layers where the random vector broke the model.</strong> Gemma 3 270M layer 11; Gemma 4 E2B layer 10; Gemma 4 E2B layer 21: at every strength the sham left less than half of the model's probability on Yes or No, so there is no valid sham condition to compare with, and the layer is untestable. At these layers a random vector disturbs the model more than a concept vector of the same length does.</p>
+<h2>5. Departures from the plan and limitations</h2>
+<ul>
+<li><strong>Untestable models.</strong> SmolLM2 1.7B, Qwen3 1.7B, Gemma 1 2B: norming found no factual control question that the model answers with at least 90% of its probability on Yes or No, so the closest-family test has nothing to compare with. This follows the plan's rule; the models' raw shifts are still in their run folders.</li>
+<li><strong>One question in two families.</strong> In 12 model(s) (Qwen2.5 0.5B, OLMo-2 1B, Qwen2.5 1.5B, SmolLM2 1.7B, Qwen3 1.7B, Qwen2.5 3B, Phi-4 mini, Qwen3 4B, OLMo-2 7B, Mistral 7B, Gemma 1.1 2B, Gemma 2 2B), norming chose the same question ("Did I use the word <em>thoughts</em> in my instructions?") for both a conversation control family and the lexical family. It is kept in both, as the norming rule chose it; the analysis labels each trial with its family so that the two copies are not confused.</li>
+<li><strong>Strength is relative to each model's own concept vector.</strong> With the published word lists, concept vectors are smaller relative to the model's ordinary activity than with my first study's lists. In Qwen2.5-1.5B at 60% depth, strength 2 moved the standard question by about +3.5 log-odds in the first study and by about +0.4 here. Some "neither" verdicts may therefore mean "the injection was too weak to matter" rather than "the model ignores injected concepts"; Figure 3 shows which.</li>
+<li><strong>A readout bug, found and fixed during the runs.</strong> Granite divides its output scores by 8, and Gemma 2 and Gemma 4 cap them smoothly at ±30, as a last step that the shared readout first left out. Granite's first run therefore had log-odds about 8 times too large (shifts up to 38) and appeared to pass all three tests at its middle layer. The readout was corrected (it now reproduces each model's own scores to within 0.0001), that run was discarded, and Granite was run again; Gemma 2 and Gemma 4 ran only after the fix. The other models have neither step, and a rerun of the regression check reproduced all 9,049 stored trials exactly.</li>
+<li><strong>Three layers per model.</strong> A model could show detection at a depth not tested here. The plan fixed the depths in advance so that the number of chances to pass was the same for every model.</li>
+<li><strong>Number format.</strong> The two 7B models ran in float16 and Gemma 4 E2B in bfloat16; the others in float32. Neither 16-bit format changes the readout's scale (the readout is computed in 32-bit numbers), but rounding inside the model is coarser.</li>
+</ul>
+<h2>6. What it means</h2>
+<p>None of the 15 testable models shows a detection-like pattern that survives the matched controls, the random vector and the lexical controls.</p>
+<p>Injection does change these models' answers, and it changes the larger ones more (Figure 3). But in no model does the detection question move far enough beyond control questions that start from the same point, in the direction detection predicts, to pass the tests fixed in advance. The nearest is Granite 3.3 2B at its middle layer (section 4, closest calls), where the detection questions do sit beyond the control line at every strength, but by less than test 1 requires and with the lexical controls moving too. In 4 models it pushes "Yes" on both detection questions, the signature of response bias. In 7 others it moves the detection question a lot, and the matched controls move about as much: the injection disturbs the model's answers in general, not its answer about being injected. That agrees with my first study, where Qwen2.5-1.5B showed response bias and Gemma 3 4B's pattern did not survive a replication with the published word lists. Under those same word lists here, Gemma 3 4B again shows no detection-like pattern.</p>
+<p>This does not show that no language model can introspect. The original reports used much larger models than any here, and detection may need scale. What it shows is that, in eighteen small open models, a "Yes, I detect an injected thought" is not evidence of introspection unless it beats matched controls and a random vector, and none did.</p>
+<h2>Glossary</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activation, residual stream</td>
+<td>The vector of numbers each token position carries from layer to layer inside the model</td>
+</tr>
+<tr>
+<td>Concept vector</td>
+<td>Activation for "Tell me about <em>word</em>." minus the average over baseline words</td>
+</tr>
+<tr>
+<td>Sham</td>
+<td>A random vector of the same length as a concept vector</td>
+</tr>
+<tr>
+<td>Log-odds</td>
+<td>log P("Yes") − log P("No") at the model's next word</td>
+</tr>
+<tr>
+<td>Shift</td>
+<td>Change in log-odds caused by injection</td>
+</tr>
+<tr>
+<td>Valid condition</td>
+<td>At least half of the model's probability on "Yes" or "No"</td>
+</tr>
+<tr>
+<td>Norming</td>
+<td>Choosing control questions whose starting point matches the detection question's</td>
+</tr>
+<tr>
+<td>S, R</td>
+<td>Standard (S) and reversed (R) detection question's shift beyond the closest control family</td>
+</tr>
+</tbody>
+</table></body></html>
